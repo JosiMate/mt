@@ -1,6 +1,8 @@
 # Matematyka techniczna – Wektory
 
-Strona: **Warunek prostopadłości i równoległości wektorów** (teoria, przykłady, interaktywny kalkulator, zadania z rozwiązaniami).
+- `index.html` – **strona główna działu Wektory**: lista tematów lekcji i materiały przed pracą klasową.
+- `prostopadlosc-rownoleglosc.html` – **Warunek prostopadłości i równoległości wektorów** (teoria, przykłady, interaktywny kalkulator, zadania z rozwiązaniami).
+- `powtorka.html` – **Opracowanie całego działu przed pracą klasową** (wymagania z checklistą, teoria z rysunkami, zadania z parametrem, dowody, ściąga, próbny sprawdzian, generator zadań).
 
 ## Publikacja na GitHub Pages
 

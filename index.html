@@ -3,344 +3,79 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wektory – prostopadłość i równoległość</title>
-<meta name="description" content="Matematyka techniczna, dział Wektory: warunek prostopadłości i równoległości wektorów – teoria, przykłady, kalkulator i zadania.">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
-  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});"></script>
+<title>Wektory – matematyka techniczna</title>
+<meta name="description" content="Matematyka techniczna, dział Wektory: tematy lekcji, opracowanie wymagań, ściąga, próbny sprawdzian i generator zadań.">
 <style>
   :root{
     --bg:#f7f8fa; --card:#ffffff; --text:#1d2330; --muted:#5b6475; --line:#dde1e8;
-    --accent:#2563eb; --accent-soft:#e8efff; --a:#2563eb; --b:#dc2626;
-    --ok:#15803d; --ok-soft:#e7f6ec; --warn:#b45309; --warn-soft:#fdf3e3;
+    --accent:#2563eb; --accent-soft:#e8efff; --ok:#15803d; --ok-soft:#e7f6ec; --warn:#b45309; --warn-soft:#fdf3e3;
   }
   @media (prefers-color-scheme: dark){
     :root{
       --bg:#12151b; --card:#1b1f27; --text:#e6e9ef; --muted:#9aa3b2; --line:#2c323d;
-      --accent:#7aa2ff; --accent-soft:#1e2a44; --a:#7aa2ff; --b:#ff7a7a;
-      --ok:#4ade80; --ok-soft:#163323; --warn:#fbbf24; --warn-soft:#3a2d12;
+      --accent:#7aa2ff; --accent-soft:#1e2a44; --ok:#4ade80; --ok-soft:#163323; --warn:#fbbf24; --warn-soft:#3a2d12;
     }
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);
-    font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-  header{background:var(--accent);color:#fff;padding:2rem 1rem}
-  header .wrap{max-width:900px;margin:auto}
-  header p{margin:.2rem 0;opacity:.9}
-  header h1{margin:.3rem 0;font-size:1.9rem;line-height:1.25}
-  nav{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
-  nav .wrap{max-width:900px;margin:auto;display:flex;gap:.3rem 1rem;flex-wrap:wrap;padding:.6rem 1rem}
-  nav a{color:var(--accent);text-decoration:none;font-size:.95rem}
-  nav a:hover{text-decoration:underline}
-  main{max-width:900px;margin:auto;padding:1rem}
-  section{background:var(--card);border:1px solid var(--line);border-radius:10px;
-    padding:1.2rem 1.4rem;margin:1.2rem 0}
-  h2{margin-top:0;font-size:1.4rem;border-bottom:2px solid var(--accent-soft);padding-bottom:.3rem}
-  h3{font-size:1.1rem;margin-bottom:.3rem}
-  .box{border-left:4px solid var(--accent);background:var(--accent-soft);padding:.6rem 1rem;border-radius:6px;margin:1rem 0}
-  .box.ok{border-color:var(--ok);background:var(--ok-soft)}
-  .box.warn{border-color:var(--warn);background:var(--warn-soft)}
-  .box strong:first-child{display:block}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-  @media (max-width:700px){.grid2{grid-template-columns:1fr}}
-  table{border-collapse:collapse;width:100%;font-size:.95rem}
-  th,td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
-  th{background:var(--accent-soft)}
-  .table-wrap{overflow-x:auto}
-  details{border:1px solid var(--line);border-radius:6px;padding:.4rem .8rem;margin:.5rem 0}
-  summary{cursor:pointer;color:var(--accent);font-weight:600}
-  ol.tasks>li{margin-bottom:1rem}
-  .katex-display{overflow-x:auto;overflow-y:hidden;padding:.2rem 0}
-  /* kalkulator */
-  .calc{display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start}
-  @media (max-width:700px){.calc{grid-template-columns:1fr}}
-  .inputs label{display:block;font-weight:600;margin:.5rem 0 .2rem}
-  .inputs .row{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
-  .inputs input{width:5rem;padding:.35rem;font-size:1rem;border:1px solid var(--line);
-    border-radius:6px;background:var(--bg);color:var(--text)}
-  .va{color:var(--a)} .vb{color:var(--b)}
-  canvas{width:100%;aspect-ratio:1/1;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
-  #wynik{margin-top:.8rem}
-  #wynik p{margin:.3rem 0}
-  .badge{display:inline-block;padding:.2rem .6rem;border-radius:999px;font-weight:700}
-  .badge.ok{background:var(--ok-soft);color:var(--ok)}
-  .badge.warn{background:var(--warn-soft);color:var(--warn)}
-  .badge.none{background:var(--accent-soft);color:var(--muted)}
-  .presets button{margin:.2rem .2rem 0 0;padding:.3rem .6rem;border:1px solid var(--line);
-    border-radius:6px;background:var(--card);color:var(--text);cursor:pointer;font-size:.9rem}
-  .presets button:hover{border-color:var(--accent)}
-  footer{max-width:900px;margin:auto;padding:1rem;color:var(--muted);font-size:.9rem;text-align:center}
+  body{margin:0;background:var(--bg);color:var(--text);font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  header{background:var(--accent);color:#fff;padding:2.2rem 1rem}
+  header .wrap,main,footer{max-width:920px;margin:auto}
+  header p{margin:.2rem 0;opacity:.92}
+  header h1{margin:.3rem 0;font-size:2.1rem;line-height:1.2}
+  main{padding:1rem}
+  h2{font-size:1.3rem;margin:1.6rem 0 .6rem}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:.8rem}
+  a.card{display:flex;gap:.8rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);
+    border-radius:10px;padding:.9rem 1rem;text-decoration:none;color:var(--text);transition:border-color .15s,transform .15s}
+  a.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .num{flex:none;width:2rem;height:2rem;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-weight:700}
+  .card strong{display:block;line-height:1.3}
+  .card span.d{display:block;color:var(--muted);font-size:.9rem;margin-top:.2rem;line-height:1.4}
+  .tag{display:inline-block;font-size:.75rem;font-weight:700;padding:.05rem .5rem;border-radius:99px;
+    background:var(--ok-soft);color:var(--ok);margin-top:.35rem}
+  .exam a.card .num{background:var(--warn-soft);color:var(--warn)}
+  .intro{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1rem 1.2rem;margin-top:1rem}
+  .intro p{margin:.3rem 0}
+  footer{padding:1.5rem 1rem;color:var(--muted);font-size:.9rem;text-align:center}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="wrap">
-    <p>Matematyka techniczna · Dział: Wektory</p>
-    <h1>Warunek prostopadłości i równoległości wektorów</h1>
-    <p>Jak w kilka sekund sprawdzić, czy dwa wektory są prostopadłe albo równoległe.</p>
-    <p style="margin-top:.6rem"><a href="powtorka.html" style="color:#fff">→ Cały dział Wektory: opracowanie przed pracą klasową</a></p>
-  </div>
-</header>
-
-<nav><div class="wrap">
-  <a href="#przypomnienie">Przypomnienie</a>
-  <a href="#prostopadlosc">Prostopadłość</a>
-  <a href="#rownoleglosc">Równoległość</a>
-  <a href="#przyklady">Przykłady</a>
-  <a href="#kalkulator">Kalkulator</a>
-  <a href="#technika">W technice</a>
-  <a href="#zadania">Zadania</a>
-  <a href="powtorka.html"><strong>Powtórka całego działu →</strong></a>
-</div></nav>
+<header><div class="wrap">
+  <p>Matematyka techniczna</p>
+  <h1>Dział: Wektory</h1>
+  <p>Wybierz temat lekcji albo przejdź do materiałów przed pracą klasową.</p>
+</div></header>
 
 <main>
-
-<section id="przypomnienie">
-  <h2>1. Przypomnienie</h2>
-  <p>Wektor na płaszczyźnie zapisujemy za pomocą współrzędnych:</p>
-  $$\vec a = [a_x,\ a_y], \qquad \vec b = [b_x,\ b_y]$$
-  <p>Jeśli znamy początek \(A(x_A, y_A)\) i koniec \(B(x_B, y_B)\) wektora, to</p>
-  $$\overrightarrow{AB} = [x_B - x_A,\ y_B - y_A].$$
-  <p><strong>Iloczyn skalarny</strong> dwóch wektorów to liczba:</p>
-  $$\vec a \circ \vec b = a_x b_x + a_y b_y = |\vec a|\cdot|\vec b|\cdot\cos\alpha,$$
-  <p>gdzie \(\alpha\) to kąt między wektorami. Z tego wzoru wynika warunek prostopadłości.</p>
-</section>
-
-<section id="prostopadlosc">
-  <h2>2. Warunek prostopadłości</h2>
-  <p>Wektory są prostopadłe, gdy kąt między nimi wynosi \(90^\circ\). Wtedy \(\cos 90^\circ = 0\), więc iloczyn skalarny jest równy zeru.</p>
-  <div class="box ok">
-    <strong>Twierdzenie</strong>
-    Niezerowe wektory \(\vec a\) i \(\vec b\) są prostopadłe wtedy i tylko wtedy, gdy ich iloczyn skalarny jest równy 0:
-    $$\vec a \perp \vec b \iff a_x b_x + a_y b_y = 0$$
-  </div>
-  <p><strong>Jak to zapamiętać:</strong> mnożymy „iksy z iksami”, „igreki z igrekami” i dodajemy. Wynik 0 oznacza kąt prosty.</p>
-  <p><strong>Przydatny trik:</strong> wektor prostopadły do \([a_x,\ a_y]\) łatwo utworzyć, zamieniając współrzędne miejscami i zmieniając znak jednej z nich:</p>
-  $$[a_x,\ a_y] \perp [-a_y,\ a_x] \qquad\text{np.}\quad [3,\ 5] \perp [-5,\ 3]$$
-</section>
-
-<section id="rownoleglosc">
-  <h2>3. Warunek równoległości</h2>
-  <p>Wektory są równoległe, gdy leżą na prostych równoległych, czyli jeden jest wielokrotnością drugiego:</p>
-  $$\vec b = k\cdot\vec a, \qquad k \in \mathbb{R},\ k\neq 0.$$
-  <p>Dla \(k&gt;0\) wektory mają <em>ten sam zwrot</em>, dla \(k&lt;0\) mają <em>zwroty przeciwne</em>.</p>
-  <div class="box warn">
-    <strong>Twierdzenie</strong>
-    Niezerowe wektory \(\vec a\) i \(\vec b\) są równoległe wtedy i tylko wtedy, gdy wyznacznik utworzony z ich współrzędnych jest równy 0:
-    $$\vec a \parallel \vec b \iff \det(\vec a,\vec b)=\begin{vmatrix} a_x & a_y\\ b_x & b_y\end{vmatrix} = a_x b_y - a_y b_x = 0$$
-  </div>
-  <p><strong>Jak to zapamiętać:</strong> mnożymy „na krzyż” i odejmujemy. Gdy żadna współrzędna nie jest zerem, warunek można zapisać jako równość proporcji:</p>
-  $$\frac{b_x}{a_x} = \frac{b_y}{a_y} = k.$$
-
-  <h3>Zestawienie</h3>
-  <div class="table-wrap">
-  <table>
-    <tr><th>Położenie</th><th>Warunek</th><th>Co liczymy</th></tr>
-    <tr><td>prostopadłe \(\vec a\perp\vec b\)</td><td>\(a_x b_x + a_y b_y = 0\)</td><td>iloczyn skalarny</td></tr>
-    <tr><td>równoległe \(\vec a\parallel\vec b\)</td><td>\(a_x b_y - a_y b_x = 0\)</td><td>wyznacznik (mnożenie „na krzyż”)</td></tr>
-    <tr><td>ani jedno, ani drugie</td><td>oba wyniki \(\neq 0\)</td><td>–</td></tr>
-  </table>
+  <div class="intro">
+    <p><strong>Jak korzystać?</strong> Tematy są ułożone w kolejności lekcji. Każdy zawiera teorię, rysunki i przykłady z rozwiązaniami. Przed sprawdzianem zacznij od listy wymagań, a na koniec rozwiąż próbny sprawdzian.</p>
   </div>
 
-  <h3>Wektory w przestrzeni (3D)</h3>
-  <p>Dla \(\vec a=[a_x,a_y,a_z]\) i \(\vec b=[b_x,b_y,b_z]\):</p>
-  $$\vec a\perp\vec b \iff a_xb_x+a_yb_y+a_zb_z=0, \qquad \vec a\parallel\vec b \iff \vec b = k\cdot\vec a\ \ (\text{czyli } \vec a\times\vec b=\vec 0).$$
-</section>
-
-<section id="przyklady">
-  <h2>4. Przykłady rozwiązane</h2>
-
-  <h3>Przykład 1. Czy wektory są prostopadłe?</h3>
-  <p>\(\vec a=[2,\ 3]\), \(\vec b=[-6,\ 4]\)</p>
-  $$\vec a\circ\vec b = 2\cdot(-6) + 3\cdot 4 = -12 + 12 = 0$$
-  <p>Odpowiedź: iloczyn skalarny jest równy 0, więc \(\vec a\perp\vec b\).</p>
-
-  <h3>Przykład 2. Czy wektory są równoległe?</h3>
-  <p>\(\vec a=[2,\ -1]\), \(\vec b=[-4,\ 2]\)</p>
-  $$a_xb_y - a_yb_x = 2\cdot 2 - (-1)\cdot(-4) = 4 - 4 = 0$$
-  <p>Odpowiedź: \(\vec a\parallel\vec b\). Ponieważ \(\vec b = -2\cdot\vec a\), wektory mają przeciwne zwroty.</p>
-
-  <h3>Przykład 3. Wyznacz parametr \(m\)</h3>
-  <p>Dla jakiej wartości \(m\) wektory \(\vec a=[m,\ 2]\) i \(\vec b=[3,\ -6]\) są a) prostopadłe, b) równoległe?</p>
-  <div class="grid2">
-    <div>
-      <p><strong>a) prostopadłość</strong></p>
-      $$3m + 2\cdot(-6) = 0$$
-      $$3m = 12 \;\Rightarrow\; m = 4$$
-    </div>
-    <div>
-      <p><strong>b) równoległość</strong></p>
-      $$m\cdot(-6) - 2\cdot 3 = 0$$
-      $$-6m = 6 \;\Rightarrow\; m = -1$$
-    </div>
+  <h2>Tematy lekcji</h2>
+  <div class="cards">
+    <a class="card" href="powtorka.html#pojecie"><span class="num">1</span><span><strong>Pojęcie wektora</strong><span class="d">Wektor zaczepiony i swobodny, kierunek, zwrot, długość, wektor zerowy.</span></span></a>
+    <a class="card" href="powtorka.html#rowne"><span class="num">2</span><span><strong>Wektory równe i wektor przeciwny</strong><span class="d">Kiedy wektory są równe, jak wyznaczyć wektor przeciwny.</span></span></a>
+    <a class="card" href="powtorka.html#dzialania-geom"><span class="num">3</span><span><strong>Działania na wektorach – rysunek</strong><span class="d">Suma (reguła trójkąta i równoległoboku), różnica, mnożenie przez liczbę.</span></span></a>
+    <a class="card" href="powtorka.html#uklad"><span class="num">4</span><span><strong>Wektor w układzie współrzędnych</strong><span class="d">Współrzędne wektora z punktów, zaznaczanie wektora, brakujący punkt.</span></span></a>
+    <a class="card" href="powtorka.html#dlugosc"><span class="num">5</span><span><strong>Długość wektora</strong><span class="d">Wzór na długość, upraszczanie pierwiastków, typowe błędy.</span></span></a>
+    <a class="card" href="powtorka.html#dzialania-wsp"><span class="num">6</span><span><strong>Działania na współrzędnych</strong><span class="d">Suma, różnica, iloczyn przez liczbę, kombinacje wektorów, równania wektorowe.</span></span></a>
+    <a class="card" href="prostopadlosc-rownoleglosc.html"><span class="num">7</span><span><strong>Warunek prostopadłości i równoległości</strong><span class="d">Iloczyn skalarny, wyznacznik, zastosowania techniczne.</span><span class="tag">z kalkulatorem</span></span></a>
+    <a class="card" href="powtorka.html#parametr"><span class="num">8</span><span><strong>Zadania z parametrem</strong><span class="d">Długość, prostopadłość i równoległość z parametrem <em>m</em>.</span></span></a>
+    <a class="card" href="powtorka.html#dowody"><span class="num">9</span><span><strong>Wektory w dowodach</strong><span class="d">Równoległobok, trójkąt prostokątny, odcinek łączący środki boków, romb.</span></span></a>
   </div>
 
-  <h3>Przykład 4. Wektory wyznaczone przez punkty</h3>
-  <p>Dane są punkty \(A(1,2)\), \(B(4,6)\), \(C(0,0)\), \(D(-4,3)\). Czy \(\overrightarrow{AB}\perp\overrightarrow{CD}\)?</p>
-  $$\overrightarrow{AB}=[4-1,\ 6-2]=[3,\ 4], \qquad \overrightarrow{CD}=[-4-0,\ 3-0]=[-4,\ 3]$$
-  $$\overrightarrow{AB}\circ\overrightarrow{CD} = 3\cdot(-4)+4\cdot 3 = 0$$
-  <p>Odpowiedź: tak, odcinki \(AB\) i \(CD\) są prostopadłe.</p>
-
-  <h3>Przykład 5. Wektory w przestrzeni</h3>
-  <p>\(\vec u=[1,\ 2,\ -2]\), \(\vec v=[2,\ 1,\ 2]\)</p>
-  $$\vec u\circ\vec v = 1\cdot 2 + 2\cdot 1 + (-2)\cdot 2 = 2+2-4 = 0 \;\Rightarrow\; \vec u\perp\vec v$$
-</section>
-
-<section id="kalkulator">
-  <h2>5. Kalkulator – sprawdź sam</h2>
-  <p>Wpisz współrzędne dwóch wektorów. Strona policzy iloczyn skalarny, wyznacznik i narysuje wektory.</p>
-  <div class="calc">
-    <div class="inputs">
-      <label class="va">Wektor \(\vec a\)</label>
-      <div class="row">[ <input id="ax" type="number" step="any" value="2" aria-label="a x"> ,
-        <input id="ay" type="number" step="any" value="3" aria-label="a y"> ]</div>
-      <label class="vb">Wektor \(\vec b\)</label>
-      <div class="row">[ <input id="bx" type="number" step="any" value="-6" aria-label="b x"> ,
-        <input id="by" type="number" step="any" value="4" aria-label="b y"> ]</div>
-      <div class="presets" style="margin-top:.8rem">
-        <span style="color:var(--muted);font-size:.9rem">Gotowe przykłady:</span><br>
-        <button data-v="2,3,-6,4">prostopadłe</button>
-        <button data-v="2,-1,-4,2">równoległe</button>
-        <button data-v="1,2,3,6">równoległe (ten sam zwrot)</button>
-        <button data-v="5,1,1,2">ani to, ani to</button>
-      </div>
-      <div id="wynik"></div>
-    </div>
-    <canvas id="plot" width="600" height="600" aria-label="Rysunek wektorów"></canvas>
+  <h2>Przed pracą klasową</h2>
+  <div class="cards exam">
+    <a class="card" href="powtorka.html#wymagania"><span class="num">✓</span><span><strong>Wymagania</strong><span class="d">Lista tego, co trzeba umieć, z zaznaczaniem postępu.</span></span></a>
+    <a class="card" href="powtorka.html"><span class="num">≡</span><span><strong>Cały dział na jednej stronie</strong><span class="d">Pełne opracowanie – wygodne do powtórki i wydruku.</span></span></a>
+    <a class="card" href="powtorka.html#sciaga"><span class="num">Σ</span><span><strong>Ściąga</strong><span class="d">Wszystkie wzory w jednej tabeli.</span></span></a>
+    <a class="card" href="powtorka.html#sprawdzian"><span class="num">?</span><span><strong>Próbny sprawdzian</strong><span class="d">11 zadań z rozwiązaniami.</span></span></a>
+    <a class="card" href="powtorka.html#generator"><span class="num">∞</span><span><strong>Generator zadań</strong><span class="d">Losowe zadania z rozwiązaniem – ćwicz ile chcesz.</span></span></a>
   </div>
-</section>
-
-<section id="technika">
-  <h2>6. Gdzie to się przydaje w technice?</h2>
-  <ul>
-    <li><strong>Praca mechaniczna</strong> \(W=\vec F\circ\vec s\). Siła prostopadła do przemieszczenia (np. ciężar wózka jadącego po poziomej szynie) nie wykonuje pracy, bo iloczyn skalarny wynosi 0.</li>
-    <li><strong>Rysunek techniczny i CAD</strong> – programy sprawdzają, czy krawędzie są prostopadłe lub równoległe, właśnie licząc iloczyn skalarny i wyznacznik.</li>
-    <li><strong>Konstrukcje i montaż</strong> – kontrola prostopadłości ścian, słupów, profili; równoległość prowadnic, szyn, osi wałów.</li>
-    <li><strong>Grafika komputerowa i gry</strong> – wektor normalny (prostopadły do powierzchni) służy do obliczania oświetlenia i odbić.</li>
-    <li><strong>Elektrotechnika</strong> – na wykresach wskazowych napięcie i prąd w idealnym kondensatorze lub cewce są przesunięte o \(90^\circ\) (wskazy prostopadłe).</li>
-  </ul>
-</section>
-
-<section id="zadania">
-  <h2>7. Zadania do samodzielnego rozwiązania</h2>
-  <ol class="tasks">
-    <li>Sprawdź, czy wektory \(\vec a=[3,\ -2]\) i \(\vec b=[4,\ 6]\) są prostopadłe.
-      <details><summary>Rozwiązanie</summary>
-        \(3\cdot4+(-2)\cdot6 = 12-12 = 0\) → wektory są prostopadłe.</details></li>
-    <li>Sprawdź, czy wektory \(\vec a=[-1,\ 3]\) i \(\vec b=[2,\ -6]\) są równoległe. Jeśli tak, podaj \(k\).
-      <details><summary>Rozwiązanie</summary>
-        \((-1)\cdot(-6) - 3\cdot 2 = 6-6=0\) → równoległe, \(\vec b=-2\cdot\vec a\) (zwroty przeciwne).</details></li>
-    <li>Określ wzajemne położenie wektorów \(\vec a=[5,\ 1]\) i \(\vec b=[1,\ 2]\).
-      <details><summary>Rozwiązanie</summary>
-        Iloczyn skalarny: \(5\cdot1+1\cdot2=7\neq0\). Wyznacznik: \(5\cdot2-1\cdot1=9\neq0\). Wektory nie są ani prostopadłe, ani równoległe.</details></li>
-    <li>Wyznacz \(m\), dla którego wektory \(\vec a=[m,\ 2]\) i \(\vec b=[8,\ m]\) są a) równoległe, b) prostopadłe.
-      <details><summary>Rozwiązanie</summary>
-        a) \(m\cdot m - 2\cdot 8 = 0 \Rightarrow m^2=16 \Rightarrow m=4\) lub \(m=-4\).<br>
-        b) \(8m+2m=0 \Rightarrow 10m=0 \Rightarrow m=0\).</details></li>
-    <li>Podaj dowolny wektor prostopadły do \(\vec a=[7,\ -3]\).
-      <details><summary>Rozwiązanie</summary>
-        Np. \([3,\ 7]\), bo \(7\cdot3+(-3)\cdot7=0\). Każdy wektor \([3k,\ 7k]\), \(k\neq0\), też jest dobry.</details></li>
-    <li>Wykaż, że trójkąt o wierzchołkach \(A(0,0)\), \(B(4,2)\), \(C(3,-6)\) jest prostokątny.
-      <details><summary>Rozwiązanie</summary>
-        \(\overrightarrow{AB}=[4,2]\), \(\overrightarrow{AC}=[3,-6]\), \(\overrightarrow{AB}\circ\overrightarrow{AC}=12-12=0\) → kąt prosty przy wierzchołku \(A\).</details></li>
-    <li>Czy wektory \(\vec a=[2,\ -1,\ 3]\) i \(\vec b=[-4,\ 2,\ -6]\) są równoległe?
-      <details><summary>Rozwiązanie</summary>
-        Tak: \(\vec b=-2\cdot\vec a\) (każda współrzędna pomnożona przez \(-2\)).</details></li>
-    <li><em>Zadanie techniczne.</em> Wózek przesuwa się o \(\vec s=[5,\ 0]\) m pod działaniem siły \(\vec F=[0,\ 120]\) N. Oblicz pracę tej siły i wyjaśnij wynik.
-      <details><summary>Rozwiązanie</summary>
-        \(W=\vec F\circ\vec s = 0\cdot5+120\cdot0 = 0\) J. Siła jest prostopadła do przemieszczenia, więc nie wykonuje pracy.</details></li>
-  </ol>
-</section>
-
 </main>
 
 <footer>Matematyka techniczna · Wektory · materiały dla uczniów</footer>
-
-<script>
-(function(){
-  const ids=['ax','ay','bx','by'];
-  const el=Object.fromEntries(ids.map(i=>[i,document.getElementById(i)]));
-  const out=document.getElementById('wynik');
-  const cv=document.getElementById('plot'), ctx=cv.getContext('2d');
-  const EPS=1e-9;
-  const fmt=n=>{const r=Math.round(n*1000)/1000;return (r<0?'−':'')+Math.abs(r).toString().replace('.',',');};
-  const par=n=>n<0?'('+fmt(n)+')':fmt(n);
-
-  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
-
-  function arrow(x0,y0,x1,y1,color){
-    ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=4;
-    ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();
-    const ang=Math.atan2(y1-y0,x1-x0),h=18;
-    ctx.beginPath();ctx.moveTo(x1,y1);
-    ctx.lineTo(x1-h*Math.cos(ang-0.4),y1-h*Math.sin(ang-0.4));
-    ctx.lineTo(x1-h*Math.cos(ang+0.4),y1-h*Math.sin(ang+0.4));
-    ctx.closePath();ctx.fill();
-  }
-
-  function draw(a,b,perp){
-    const W=cv.width,c=W/2;
-    const m=Math.max(1,Math.abs(a[0]),Math.abs(a[1]),Math.abs(b[0]),Math.abs(b[1]));
-    let step=1; while(m/step>8) step*=2;
-    const range=Math.ceil(m/step+1)*step, s=(c-20)/range;
-    ctx.clearRect(0,0,W,W);
-    ctx.lineWidth=1;ctx.strokeStyle=css('--line');
-    ctx.fillStyle=css('--muted');ctx.font='16px system-ui';
-    for(let v=-range;v<=range;v+=step){
-      const p=c+v*s;
-      ctx.beginPath();ctx.moveTo(p,0);ctx.lineTo(p,W);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(0,p);ctx.lineTo(W,p);ctx.stroke();
-    }
-    ctx.strokeStyle=css('--muted');ctx.lineWidth=2;
-    ctx.beginPath();ctx.moveTo(0,c);ctx.lineTo(W,c);ctx.moveTo(c,0);ctx.lineTo(c,W);ctx.stroke();
-    ctx.fillText('x',W-18,c-8);ctx.fillText('y',c+8,16);
-    ctx.fillText(String(step),c+step*s-4,c+20);
-    if(perp){ // znaczek kąta prostego
-      const ua=[a[0]/Math.hypot(...a),a[1]/Math.hypot(...a)], ub=[b[0]/Math.hypot(...b),b[1]/Math.hypot(...b)], r=22;
-      ctx.strokeStyle=css('--ok');ctx.lineWidth=2;ctx.beginPath();
-      ctx.moveTo(c+ua[0]*r,c-ua[1]*r);
-      ctx.lineTo(c+(ua[0]+ub[0])*r,c-(ua[1]+ub[1])*r);
-      ctx.lineTo(c+ub[0]*r,c-ub[1]*r);ctx.stroke();
-    }
-    ctx.font='bold 20px system-ui';
-    [[a,css('--a'),'a'],[b,css('--b'),'b']].forEach(([v,col,name])=>{
-      if(Math.hypot(...v)<EPS) return;
-      const x=c+v[0]*s,y=c-v[1]*s;
-      arrow(c,c,x,y,col);
-      ctx.fillStyle=col;ctx.fillText(name,x+(v[0]>=0?8:-20),y+(v[1]>=0?-8:20));
-    });
-  }
-
-  function update(){
-    const [ax,ay,bx,by]=ids.map(i=>parseFloat(el[i].value.replace(',','.')));
-    if([ax,ay,bx,by].some(isNaN)){out.innerHTML='<p>Uzupełnij wszystkie współrzędne.</p>';return;}
-    const a=[ax,ay],b=[bx,by];
-    const dot=ax*bx+ay*by, det=ax*by-ay*bx;
-    const zero=Math.hypot(ax,ay)<EPS||Math.hypot(bx,by)<EPS;
-    const perp=!zero&&Math.abs(dot)<EPS, para=!zero&&Math.abs(det)<EPS;
-    let verdict;
-    if(zero) verdict='<span class="badge none">Jeden z wektorów jest zerowy – warunki nie mają sensu</span>';
-    else if(perp) verdict='<span class="badge ok">Wektory są prostopadłe ⟂</span>';
-    else if(para){
-      const k=Math.abs(ax)>EPS?bx/ax:by/ay;
-      verdict='<span class="badge warn">Wektory są równoległe ∥</span><p>b = '+fmt(k)+' · a ('+(k>0?'ten sam zwrot':'zwroty przeciwne')+')</p>';
-    } else verdict='<span class="badge none">Ani prostopadłe, ani równoległe</span>';
-    out.innerHTML=
-      '<p><strong>Iloczyn skalarny:</strong> '+par(ax)+'·'+par(bx)+' + '+par(ay)+'·'+par(by)+' = <strong>'+fmt(dot)+'</strong></p>'+
-      '<p><strong>Wyznacznik:</strong> '+par(ax)+'·'+par(by)+' − '+par(ay)+'·'+par(bx)+' = <strong>'+fmt(det)+'</strong></p>'+
-      verdict;
-    draw(a,b,perp);
-  }
-
-  ids.forEach(i=>el[i].addEventListener('input',update));
-  document.querySelectorAll('.presets button').forEach(btn=>btn.addEventListener('click',()=>{
-    btn.dataset.v.split(',').forEach((v,i)=>el[ids[i]].value=v);update();
-  }));
-  if(window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',update);
-  update();
-})();
-</script>
 </body>
 </html>

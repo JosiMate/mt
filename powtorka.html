@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wektory – powtórka przed pracą klasową</title>
+<meta name="description" content="Matematyka techniczna, dział Wektory: pełne opracowanie wymagań przed pracą klasową – teoria, przykłady, zadania z parametrem, dowody, przykładowy sprawdzian i generator zadań.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
+  onload="window.renderMath=function(el){renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});};renderMath(document.body);"></script>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --text:#1d2330; --muted:#5b6475; --line:#dde1e8;
+    --accent:#2563eb; --accent-soft:#e8efff; --a:#2563eb; --b:#dc2626; --c:#7c3aed;
+    --ok:#15803d; --ok-soft:#e7f6ec; --warn:#b45309; --warn-soft:#fdf3e3;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12151b; --card:#1b1f27; --text:#e6e9ef; --muted:#9aa3b2; --line:#2c323d;
+      --accent:#7aa2ff; --accent-soft:#1e2a44; --a:#7aa2ff; --b:#ff7a7a; --c:#c4a1ff;
+      --ok:#4ade80; --ok-soft:#163323; --warn:#fbbf24; --warn-soft:#3a2d12;
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-padding-top:4rem}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  a{color:var(--accent)}
+  header{background:var(--accent);color:#fff;padding:2rem 1rem}
+  header .wrap{max-width:920px;margin:auto}
+  header p{margin:.2rem 0;opacity:.92}
+  header a{color:#fff}
+  header h1{margin:.3rem 0;font-size:1.9rem;line-height:1.25}
+  nav{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+  nav .wrap{max-width:920px;margin:auto;display:flex;gap:.2rem .9rem;flex-wrap:wrap;padding:.5rem 1rem}
+  nav a{text-decoration:none;font-size:.9rem}
+  nav a:hover{text-decoration:underline}
+  main{max-width:920px;margin:auto;padding:1rem;overflow-x:clip}
+  section{background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:1.2rem 1.4rem;margin:1.2rem 0}
+  @media (max-width:600px){section{padding:1rem}}
+  h2{margin-top:0;font-size:1.4rem;border-bottom:2px solid var(--accent-soft);padding-bottom:.3rem}
+  h3{font-size:1.1rem;margin:1.2rem 0 .3rem}
+  .box{border-left:4px solid var(--accent);background:var(--accent-soft);padding:.6rem 1rem;border-radius:6px;margin:1rem 0}
+  .box.ok{border-color:var(--ok);background:var(--ok-soft)}
+  .box.warn{border-color:var(--warn);background:var(--warn-soft)}
+  .box>strong:first-child{display:block}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+  @media (max-width:700px){.grid2,.grid4{grid-template-columns:1fr}}
+  figure{margin:0;text-align:center}
+  figure svg{width:100%;max-width:340px;height:auto}
+  figcaption{font-size:.9rem;color:var(--muted)}
+  table{border-collapse:collapse;width:100%;font-size:.95rem}
+  th,td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
+  th{background:var(--accent-soft)}
+  .table-wrap{overflow-x:auto}
+  details{border:1px solid var(--line);border-radius:6px;padding:.4rem .8rem;margin:.5rem 0}
+  summary{cursor:pointer;color:var(--accent);font-weight:600}
+  ol.tasks>li{margin-bottom:1rem}
+  .katex-display{overflow-x:auto;overflow-y:hidden;padding:.2rem 0}
+  .tip{color:var(--muted);font-size:.95rem}
+  .err{color:var(--b)}
+  /* checklista */
+  .check{list-style:none;padding:0;margin:0}
+  .check li{display:flex;gap:.6rem;align-items:flex-start;padding:.35rem 0;border-bottom:1px dashed var(--line)}
+  .check input{margin-top:.35rem;width:1.1rem;height:1.1rem;accent-color:var(--ok);flex:none}
+  .check a{margin-left:auto;white-space:nowrap;font-size:.9rem;padding-left:.5rem}
+  .progress{height:10px;background:var(--accent-soft);border-radius:99px;overflow:hidden;margin:.6rem 0}
+  .progress div{height:100%;background:var(--ok);width:0;transition:width .3s}
+  /* generator */
+  .gen-controls{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+  select,button.btn{padding:.45rem .7rem;font-size:1rem;border:1px solid var(--line);border-radius:6px;
+    background:var(--bg);color:var(--text)}
+  button.btn{cursor:pointer;background:var(--accent);color:#fff;border-color:var(--accent)}
+  button.btn.sec{background:var(--card);color:var(--accent)}
+  #gen-task{margin-top:1rem;padding:.8rem 1rem;border:1px solid var(--line);border-radius:8px;min-height:3rem}
+  #gen-sol{margin-top:.6rem}
+  /* svg */
+  svg .va{stroke:var(--a)} svg .vb{stroke:var(--b)} svg .vc{stroke:var(--c)}
+  svg line,svg path.v{stroke-width:3;fill:none}
+  svg .dash{fill:none;stroke:var(--muted);stroke-width:1.5;stroke-dasharray:5 4}
+  svg text{font:italic 600 16px system-ui;fill:var(--text)}
+  svg text.ta{fill:var(--a)} svg text.tb{fill:var(--b)} svg text.tc{fill:var(--c)}
+  svg .grid line{stroke:var(--line);stroke-width:1}
+  svg .axis{stroke:var(--muted);stroke-width:1.5}
+  svg circle{fill:var(--text)}
+  footer{max-width:920px;margin:auto;padding:1rem;color:var(--muted);font-size:.9rem;text-align:center}
+  @media print{nav,.gen-controls,#generator,.progress{display:none}details{border:none}details>*{display:block}
+    section{break-inside:avoid;border:none}header{background:none;color:#000}header a{color:#000}}
+</style>
+</head>
+<body>
+
+<!-- wspólne groty strzałek -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="ha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--a)"/></marker>
+    <marker id="hb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--b)"/></marker>
+    <marker id="hc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--c)"/></marker>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap">
+    <p>Matematyka techniczna · Dział: Wektory</p>
+    <h1>Wektory – opracowanie przed pracą klasową</h1>
+    <p>Wszystkie wymagania w jednym miejscu: teoria, przykłady, zadania z parametrem, dowody i próbny sprawdzian.</p>
+    <p style="margin-top:.6rem"><a href="index.html">→ Osobna lekcja: warunek prostopadłości i równoległości (z kalkulatorem)</a></p>
+  </div>
+</header>
+
+<nav><div class="wrap">
+  <a href="#wymagania">Wymagania</a>
+  <a href="#pojecie">Pojęcie wektora</a>
+  <a href="#rowne">Równe i przeciwne</a>
+  <a href="#dzialania-geom">Działania (rysunek)</a>
+  <a href="#uklad">Układ współrzędnych</a>
+  <a href="#dlugosc">Długość</a>
+  <a href="#dzialania-wsp">Działania (współrzędne)</a>
+  <a href="#prost-row">Prostopadłość i równoległość</a>
+  <a href="#parametr">Zadania z parametrem</a>
+  <a href="#dowody">Dowody</a>
+  <a href="#sciaga">Ściąga</a>
+  <a href="#sprawdzian">Próbny sprawdzian</a>
+  <a href="#generator">Generator zadań</a>
+</div></nav>
+
+<main>
+
+<!-- ============ WYMAGANIA ============ -->
+<section id="wymagania">
+  <h2>Wymagania – co musisz umieć</h2>
+  <p class="tip">Zaznacz to, co już umiesz. Postęp zapisuje się w tej przeglądarce. Link obok każdego punktu prowadzi do odpowiedniej części opracowania.</p>
+  <div class="progress"><div id="bar"></div></div>
+  <p id="bar-txt" class="tip"></p>
+  <ul class="check" id="checklist">
+    <li><input type="checkbox"><span>Znam pojęcie wektora swobodnego i zaczepionego.</span><a href="#pojecie">→ 1</a></li>
+    <li><input type="checkbox"><span>Znam pojęcie wektorów równych.</span><a href="#rowne">→ 2</a></li>
+    <li><input type="checkbox"><span>Wyznaczam wektor przeciwny.</span><a href="#rowne">→ 2</a></li>
+    <li><input type="checkbox"><span>Wyznaczam wektor będący sumą i różnicą innych wektorów.</span><a href="#dzialania-geom">→ 3</a></li>
+    <li><input type="checkbox"><span>Wyznaczam wektor będący iloczynem liczby i wektora.</span><a href="#dzialania-geom">→ 3</a></li>
+    <li><input type="checkbox"><span>Znam pojęcie wektora i potrafię go zaznaczyć w układzie współrzędnych.</span><a href="#uklad">→ 4</a></li>
+    <li><input type="checkbox"><span>Obliczam długość wektora, mając jego współrzędne.</span><a href="#dlugosc">→ 5</a></li>
+    <li><input type="checkbox"><span>Wykonuję działania na wektorach w układzie współrzędnych.</span><a href="#dzialania-wsp">→ 6</a></li>
+    <li><input type="checkbox"><span>Znam warunek prostopadłości wektorów i potrafię go zastosować.</span><a href="#prost-row">→ 7</a></li>
+    <li><input type="checkbox"><span>Znam warunek równoległości wektorów i potrafię go zastosować.</span><a href="#prost-row">→ 7</a></li>
+    <li><input type="checkbox"><span>Rozwiązuję proste zadania, również z parametrem.</span><a href="#parametr">→ 8</a></li>
+    <li><input type="checkbox"><span>Stosuję własności wektorów w prostych dowodach.</span><a href="#dowody">→ 9</a></li>
+  </ul>
+</section>
+
+<!-- ============ 1. POJĘCIE ============ -->
+<section id="pojecie">
+  <h2>1. Pojęcie wektora. Wektor zaczepiony i swobodny</h2>
+  <p><strong>Wektor</strong> to odcinek skierowany, czyli odcinek, w którym wiemy, który koniec jest początkiem, a który końcem. Wektor o początku \(A\) i końcu \(B\) oznaczamy \(\overrightarrow{AB}\). Wektory oznacza się też małymi literami ze strzałką: \(\vec a,\ \vec b,\ \vec u\).</p>
+  <p>Każdy niezerowy wektor ma cztery cechy:</p>
+  <div class="table-wrap"><table>
+    <tr><th>Cecha</th><th>Co oznacza</th></tr>
+    <tr><td><strong>kierunek</strong></td><td>prosta, na której leży wektor (lub każda do niej równoległa)</td></tr>
+    <tr><td><strong>zwrot</strong></td><td>„w którą stronę” wskazuje strzałka na tej prostej</td></tr>
+    <tr><td><strong>długość (moduł)</strong></td><td>długość odcinka \(AB\), oznaczamy \(|\overrightarrow{AB}|\) lub \(|\vec a|\)</td></tr>
+    <tr><td><strong>punkt zaczepienia</strong></td><td>początek wektora, punkt \(A\)</td></tr>
+  </table></div>
+
+  <div class="grid2">
+    <div>
+      <div class="box">
+        <strong>Wektor zaczepiony</strong>
+        Ma ustalony punkt początkowy. Liczy się wszystkie 4 cechy, także <em>gdzie</em> wektor leży. Przykład: siła przyłożona w konkretnym punkcie belki, \(\overrightarrow{AB}\) dla danych punktów \(A\) i \(B\).
+      </div>
+      <div class="box">
+        <strong>Wektor swobodny</strong>
+        Nie ma ustalonego punktu zaczepienia – liczą się tylko kierunek, zwrot i długość. Wektor swobodny to cała „rodzina” równych wektorów zaczepionych, które możemy dowolnie przesuwać (bez obracania i zmiany długości). Przykład: przesunięcie, prędkość ciała w ruchu postępowym.
+      </div>
+      <p><strong>Wektor zerowy</strong> \(\vec 0\) – początek i koniec są tym samym punktem (\(\overrightarrow{AA}\)). Ma długość 0 i nie ma kierunku ani zwrotu.</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 300 200" role="img" aria-label="Kilka równych wektorów zaczepionych w różnych punktach">
+        <line class="va" x1="30" y1="160" x2="110" y2="110" marker-end="url(#ha)"/>
+        <line class="va" x1="150" y1="180" x2="230" y2="130" marker-end="url(#ha)"/>
+        <line class="va" x1="60" y1="80" x2="140" y2="30" marker-end="url(#ha)"/>
+        <line class="va" x1="180" y1="90" x2="260" y2="40" marker-end="url(#ha)"/>
+        <circle cx="30" cy="160" r="3.5"/><text x="12" y="178">A</text><text x="108" y="104">B</text>
+        <text class="ta" x="200" y="155">u</text>
+      </svg>
+      <figcaption>Cztery wektory zaczepione w różnych punktach, ale o tym samym kierunku, zwrocie i długości. Wszystkie przedstawiają <em>ten sam</em> wektor swobodny \(\vec u\).</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 2. RÓWNE I PRZECIWNE ============ -->
+<section id="rowne">
+  <h2>2. Wektory równe i wektor przeciwny</h2>
+  <div class="box ok">
+    <strong>Wektory równe</strong>
+    Dwa niezerowe wektory są równe, gdy mają <em>ten sam kierunek, ten sam zwrot i tę samą długość</em>. W układzie współrzędnych: gdy mają <em>równe odpowiednie współrzędne</em>:
+    $$[a_x,\ a_y] = [b_x,\ b_y] \iff a_x = b_x \ \text{ i } \ a_y = b_y$$
+  </div>
+  <div class="box warn">
+    <strong>Wektor przeciwny</strong>
+    Wektor przeciwny do \(\vec a\) oznaczamy \(-\vec a\). Ma <em>ten sam kierunek i długość, ale przeciwny zwrot</em>. Zmieniamy znaki obu współrzędnych:
+    $$-\vec a = [-a_x,\ -a_y], \qquad \overrightarrow{BA} = -\overrightarrow{AB}, \qquad \vec a + (-\vec a) = \vec 0$$
+  </div>
+
+  <div class="grid2">
+    <figure>
+      <svg viewBox="0 0 300 190" role="img" aria-label="Równoległobok ABCD, wektory AB i DC są równe">
+        <path class="dash" d="M40,150 L200,150 L260,50 L100,50 Z"/>
+        <line class="va" x1="40" y1="150" x2="200" y2="150" marker-end="url(#ha)"/>
+        <line class="va" x1="100" y1="50" x2="260" y2="50" marker-end="url(#ha)"/>
+        <line class="vb" x1="40" y1="150" x2="100" y2="50" marker-end="url(#hb)"/>
+        <line class="vb" x1="200" y1="150" x2="260" y2="50" marker-end="url(#hb)"/>
+        <text x="22" y="172">A</text><text x="200" y="172">B</text><text x="264" y="44">C</text><text x="86" y="42">D</text>
+      </svg>
+      <figcaption>W równoległoboku \(ABCD\): \(\overrightarrow{AB}=\overrightarrow{DC}\) oraz \(\overrightarrow{AD}=\overrightarrow{BC}\).<br>Uwaga: \(\overrightarrow{AB}\neq\overrightarrow{CD}\), bo \(\overrightarrow{CD}=-\overrightarrow{AB}\).</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 300 190" role="img" aria-label="Wektor a i wektor przeciwny minus a">
+        <line class="va" x1="40" y1="140" x2="160" y2="60" marker-end="url(#ha)"/>
+        <line class="vb" x1="260" y1="80" x2="140" y2="160" marker-end="url(#hb)"/>
+        <text class="ta" x="80" y="88">a</text><text class="tb" x="210" y="140">−a</text>
+      </svg>
+      <figcaption>\(\vec a\) i \(-\vec a\): ten sam kierunek i długość, przeciwne zwroty.</figcaption>
+    </figure>
+  </div>
+
+  <h3>Przykład</h3>
+  <p>Wyznacz \(m\) i \(n\), dla których wektory \(\vec a = [2m+1,\ 4]\) i \(\vec b = [7,\ n-1]\) są równe.</p>
+  $$2m+1 = 7 \Rightarrow m = 3, \qquad 4 = n-1 \Rightarrow n = 5$$
+  <h3>Przykład</h3>
+  <p>Dla jakich \(m\) i \(n\) wektor \(\vec a=[m+2,\ 6]\) jest przeciwny do \(\vec b=[5,\ 2n]\)?</p>
+  $$\vec a = -\vec b:\quad m+2=-5 \Rightarrow m=-7,\qquad 6=-2n \Rightarrow n=-3$$
+</section>
+
+<!-- ============ 3. DZIAŁANIA GEOMETRYCZNIE ============ -->
+<section id="dzialania-geom">
+  <h2>3. Działania na wektorach – metoda graficzna</h2>
+  <div class="grid4">
+    <figure>
+      <svg viewBox="0 0 300 190" role="img" aria-label="Reguła trójkąta">
+        <line class="va" x1="30" y1="160" x2="170" y2="130" marker-end="url(#ha)"/>
+        <line class="vb" x1="170" y1="130" x2="250" y2="40" marker-end="url(#hb)"/>
+        <line class="vc" x1="30" y1="160" x2="250" y2="40" marker-end="url(#hc)"/>
+        <text class="ta" x="95" y="165">a</text><text class="tb" x="220" y="100">b</text><text class="tc" x="110" y="90">a + b</text>
+      </svg>
+      <figcaption><strong>Suma – reguła trójkąta.</strong> Początek \(\vec b\) dokładamy do końca \(\vec a\). Suma prowadzi od początku \(\vec a\) do końca \(\vec b\).</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 300 190" role="img" aria-label="Reguła równoległoboku">
+        <line class="dash" x1="170" y1="150" x2="240" y2="50"/>
+        <line class="dash" x1="100" y1="60" x2="240" y2="50"/>
+        <line class="va" x1="30" y1="160" x2="170" y2="150" marker-end="url(#ha)"/>
+        <line class="vb" x1="30" y1="160" x2="100" y2="60" marker-end="url(#hb)"/>
+        <line class="vc" x1="30" y1="160" x2="240" y2="50" marker-end="url(#hc)"/>
+        <text class="ta" x="95" y="178">a</text><text class="tb" x="45" y="100">b</text><text class="tc" x="150" y="95">a + b</text>
+      </svg>
+      <figcaption><strong>Suma – reguła równoległoboku.</strong> Oba wektory zaczepiamy w jednym punkcie. Suma to przekątna równoległoboku wychodząca z tego punktu.</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 300 190" role="img" aria-label="Różnica wektorów">
+        <line class="va" x1="30" y1="160" x2="220" y2="120" marker-end="url(#ha)"/>
+        <line class="vb" x1="30" y1="160" x2="110" y2="40" marker-end="url(#hb)"/>
+        <line class="vc" x1="110" y1="40" x2="220" y2="120" marker-end="url(#hc)"/>
+        <text class="ta" x="120" y="165">a</text><text class="tb" x="45" y="95">b</text><text class="tc" x="175" y="70">a − b</text>
+      </svg>
+      <figcaption><strong>Różnica</strong> \(\vec a - \vec b = \vec a + (-\vec b)\). Gdy oba wektory wychodzą z jednego punktu, \(\vec a-\vec b\) prowadzi <em>od końca \(\vec b\) do końca \(\vec a\)</em>.</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 300 190" role="img" aria-label="Mnożenie wektora przez liczbę">
+        <line class="va" x1="30" y1="40" x2="100" y2="40" marker-end="url(#ha)"/><text class="ta" x="110" y="46">a</text>
+        <line class="vc" x1="30" y1="80" x2="170" y2="80" marker-end="url(#hc)"/><text class="tc" x="180" y="86">2a</text>
+        <line class="vc" x1="30" y1="120" x2="65" y2="120" marker-end="url(#hc)"/><text class="tc" x="75" y="126">½a</text>
+        <line class="vb" x1="135" y1="160" x2="30" y2="160" marker-end="url(#hb)"/><text class="tb" x="145" y="166">−1,5a</text>
+      </svg>
+      <figcaption><strong>Iloczyn liczby i wektora</strong> \(k\cdot\vec a\): ten sam kierunek, długość \(|k|\cdot|\vec a|\). Dla \(k&gt;0\) zwrot zgodny, dla \(k&lt;0\) przeciwny.</figcaption>
+    </figure>
+  </div>
+  <div class="box">
+    <strong>Własności działań</strong>
+    \(\vec a+\vec b=\vec b+\vec a\) (przemienność), \((\vec a+\vec b)+\vec c=\vec a+(\vec b+\vec c)\) (łączność), \(\vec a+\vec 0=\vec a\), \(k(\vec a+\vec b)=k\vec a+k\vec b\).<br>
+    Przydatna <strong>reguła łańcucha</strong>: \(\overrightarrow{AB}+\overrightarrow{BC}=\overrightarrow{AC}\) (koniec jednego = początek drugiego).
+  </div>
+  <h3>Przykład</h3>
+  <p>W równoległoboku \(ABCD\) oznaczmy \(\overrightarrow{AB}=\vec a\), \(\overrightarrow{AD}=\vec b\). Wyraź przez \(\vec a\) i \(\vec b\) wektory \(\overrightarrow{AC}\), \(\overrightarrow{BD}\) i \(\overrightarrow{CA}\).</p>
+  $$\overrightarrow{AC}=\overrightarrow{AB}+\overrightarrow{BC}=\vec a+\vec b,\qquad \overrightarrow{BD}=\overrightarrow{BA}+\overrightarrow{AD}=-\vec a+\vec b=\vec b-\vec a,\qquad \overrightarrow{CA}=-(\vec a+\vec b)$$
+</section>
+
+<!-- ============ 4. UKŁAD WSPÓŁRZĘDNYCH ============ -->
+<section id="uklad">
+  <h2>4. Wektor w układzie współrzędnych</h2>
+  <div class="box ok">
+    <strong>Współrzędne wektora</strong>
+    Dla \(A(x_A,\ y_A)\) i \(B(x_B,\ y_B)\):
+    $$\overrightarrow{AB} = [x_B - x_A,\ \ y_B - y_A]$$
+    Zawsze <strong>koniec minus początek</strong>. Współrzędne wektora piszemy w nawiasach kwadratowych, punktu – w okrągłych.
+  </div>
+  <div class="grid2">
+    <div>
+      <p><strong>Jak zaznaczyć wektor \(\vec v=[4,\ 3]\)?</strong></p>
+      <ol>
+        <li>Wybierz punkt początkowy, np. \(A(-2,\ -1)\).</li>
+        <li>Przesuń się o \(4\) jednostki w <em>prawo</em> (pierwsza współrzędna; ujemna → w lewo).</li>
+        <li>Przesuń się o \(3\) jednostki w <em>górę</em> (druga współrzędna; ujemna → w dół).</li>
+        <li>Otrzymujesz koniec \(B(2,\ 2)\). Narysuj strzałkę od \(A\) do \(B\).</li>
+      </ol>
+      <p>Wektor swobodny \([4,3]\) można zaczepić w dowolnym punkcie, np. w \((0,0)\) – wtedy jego koniec to \((4,3)\).</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 240 200" role="img" aria-label="Wektor od A(-2,-1) do B(2,2) w układzie współrzędnych">
+        <g class="grid">
+          <line x1="20" y1="10" x2="20" y2="190"/><line x1="50" y1="10" x2="50" y2="190"/><line x1="80" y1="10" x2="80" y2="190"/><line x1="110" y1="10" x2="110" y2="190"/><line x1="140" y1="10" x2="140" y2="190"/><line x1="170" y1="10" x2="170" y2="190"/><line x1="200" y1="10" x2="200" y2="190"/><line x1="230" y1="10" x2="230" y2="190"/>
+          <line x1="10" y1="20" x2="235" y2="20"/><line x1="10" y1="50" x2="235" y2="50"/><line x1="10" y1="80" x2="235" y2="80"/><line x1="10" y1="110" x2="235" y2="110"/><line x1="10" y1="140" x2="235" y2="140"/><line x1="10" y1="170" x2="235" y2="170"/>
+        </g>
+        <line class="axis" x1="10" y1="140" x2="235" y2="140"/><line class="axis" x1="80" y1="190" x2="80" y2="10"/>
+        <text x="225" y="133" style="font-style:normal;font-size:13px">x</text><text x="86" y="20" style="font-style:normal;font-size:13px">y</text>
+        <line class="dash" x1="20" y1="170" x2="140" y2="170"/><line class="dash" x1="140" y1="170" x2="140" y2="80"/>
+        <text x="65" y="186" style="font-size:13px">4 w prawo</text><text x="146" y="130" style="font-size:13px">3 w górę</text>
+        <line class="va" x1="20" y1="170" x2="140" y2="80" marker-end="url(#ha)"/>
+        <circle cx="20" cy="170" r="3.5"/><text x="24" y="164">A</text><text x="146" y="78">B</text>
+      </svg>
+      <figcaption>Jedna kratka = 1 jednostka. \(\overrightarrow{AB}=[2-(-2),\ 2-(-1)]=[4,\ 3]\).</figcaption>
+    </figure>
+  </div>
+  <h3>Przykłady</h3>
+  <p><strong>a)</strong> \(A(-2,\ 1)\), \(B(3,\ -3)\): \(\ \overrightarrow{AB}=[3-(-2),\ -3-1]=[5,\ -4]\), \(\ \overrightarrow{BA}=[-5,\ 4]\).</p>
+  <p><strong>b)</strong> Znajdź koniec \(B\) wektora \(\overrightarrow{AB}=[4,\ 3]\), jeśli \(A(1,\ -2)\): \(\ B=(1+4,\ -2+3)=(5,\ 1)\).</p>
+  <p><strong>c)</strong> Znajdź początek \(A\) wektora \(\overrightarrow{AB}=[-2,\ 5]\), jeśli \(B(0,\ 4)\): \(\ A=(0-(-2),\ 4-5)=(2,\ -1)\).</p>
+  <p class="tip">Sprawdzenie w c): \(\overrightarrow{AB}=[0-2,\ 4-(-1)]=[-2,\ 5]\) ✓</p>
+</section>
+
+<!-- ============ 5. DŁUGOŚĆ ============ -->
+<section id="dlugosc">
+  <h2>5. Długość wektora</h2>
+  <div class="box ok">
+    <strong>Wzór (twierdzenie Pitagorasa)</strong>
+    $$|\vec a| = \sqrt{a_x^2 + a_y^2}, \qquad |\overrightarrow{AB}| = \sqrt{(x_B-x_A)^2 + (y_B-y_A)^2}$$
+  </div>
+  <p>Współrzędne \(a_x\) i \(a_y\) to przyprostokątne trójkąta prostokątnego, a wektor jest jego przeciwprostokątną.</p>
+  <h3>Przykłady</h3>
+  <p><strong>a)</strong> \(\vec a=[3,\ -4]\): \(\ |\vec a|=\sqrt{9+16}=\sqrt{25}=5\).</p>
+  <p><strong>b)</strong> \(A(-2,\ 1)\), \(B(3,\ -3)\): \(\ |\overrightarrow{AB}|=\sqrt{5^2+(-4)^2}=\sqrt{41}\).</p>
+  <p><strong>c)</strong> \(\vec u=[2,\ -6]\): \(\ |\vec u|=\sqrt{4+36}=\sqrt{40}=\sqrt{4\cdot10}=2\sqrt{10}\).</p>
+  <div class="box warn">
+    <strong>Częste błędy</strong>
+    • \((-4)^2 = 16\), a nie \(-16\) – kwadrat liczby ujemnej jest dodatni.<br>
+    • \(\sqrt{9+16}\neq 3+4\) – nie wolno „rozbijać” pierwiastka sumy.<br>
+    • Długość jest zawsze \(\ge 0\). Długość \(|k\vec a| = |k|\cdot|\vec a|\), np. \(|-3\vec a| = 3|\vec a|\).
+  </div>
+</section>
+
+<!-- ============ 6. DZIAŁANIA NA WSPÓŁRZĘDNYCH ============ -->
+<section id="dzialania-wsp">
+  <h2>6. Działania na wektorach w układzie współrzędnych</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Działanie</th><th>Wzór</th><th>Przykład dla \(\vec a=[2,-1]\), \(\vec b=[-3,4]\)</th></tr>
+    <tr><td>suma</td><td>\(\vec a+\vec b=[a_x+b_x,\ a_y+b_y]\)</td><td>\([2+(-3),\ -1+4]=[-1,\ 3]\)</td></tr>
+    <tr><td>różnica</td><td>\(\vec a-\vec b=[a_x-b_x,\ a_y-b_y]\)</td><td>\([2-(-3),\ -1-4]=[5,\ -5]\)</td></tr>
+    <tr><td>wektor przeciwny</td><td>\(-\vec a=[-a_x,\ -a_y]\)</td><td>\(-\vec a=[-2,\ 1]\)</td></tr>
+    <tr><td>iloczyn przez liczbę</td><td>\(k\vec a=[k a_x,\ k a_y]\)</td><td>\(3\vec a=[6,\ -3]\)</td></tr>
+  </table></div>
+  <h3>Przykład – kombinacja wektorów</h3>
+  <p>Oblicz \(2\vec a - 3\vec b\) oraz \(|2\vec a-3\vec b|\) dla \(\vec a=[2,\ -1]\), \(\vec b=[-3,\ 4]\).</p>
+  $$2\vec a=[4,\ -2],\qquad 3\vec b=[-9,\ 12]$$
+  $$2\vec a-3\vec b=[4-(-9),\ -2-12]=[13,\ -14],\qquad |2\vec a-3\vec b|=\sqrt{169+196}=\sqrt{365}$$
+  <h3>Przykład – brakujący wierzchołek równoległoboku</h3>
+  <p>Punkty \(A(1,1)\), \(B(5,2)\), \(C(6,5)\) są kolejnymi wierzchołkami równoległoboku \(ABCD\). Wyznacz \(D\).</p>
+  <p>W równoległoboku \(\overrightarrow{AD}=\overrightarrow{BC}=[6-5,\ 5-2]=[1,\ 3]\), więc \(D=(1+1,\ 1+3)=(2,\ 4)\).</p>
+  <p class="tip">Sprawdzenie: \(\overrightarrow{AB}=[4,1]\), \(\overrightarrow{DC}=[6-2,\ 5-4]=[4,1]\) ✓</p>
+  <h3>Przykład – równanie wektorowe</h3>
+  <p>Wyznacz wektor \(\vec x\), jeśli \(2\vec x + \vec a = \vec b\), \(\vec a=[1,\ 5]\), \(\vec b=[7,\ -1]\).</p>
+  $$2\vec x = \vec b - \vec a = [6,\ -6] \;\Rightarrow\; \vec x = [3,\ -3]$$
+</section>
+
+<!-- ============ 7. PROSTOPADŁOŚĆ I RÓWNOLEGŁOŚĆ ============ -->
+<section id="prost-row">
+  <h2>7. Warunek prostopadłości i równoległości</h2>
+  <div class="grid2">
+    <div class="box ok">
+      <strong>Prostopadłość</strong>
+      $$\vec a\perp\vec b \iff a_xb_x + a_yb_y = 0$$
+      Mnożymy „iksy z iksami, igreki z igrekami” i dodajemy (iloczyn skalarny \(\vec a\circ\vec b\)).
+    </div>
+    <div class="box warn">
+      <strong>Równoległość</strong>
+      $$\vec a\parallel\vec b \iff a_xb_y - a_yb_x = 0$$
+      Mnożymy „na krzyż” i odejmujemy. Równoważnie: \(\vec b = k\cdot\vec a\).
+    </div>
+  </div>
+  <p class="tip">Oba warunki dotyczą wektorów niezerowych. Uwaga: to są <em>dwa różne</em> warunki – prostopadłości nie sprawdzamy warunkiem równoległości i odwrotnie.</p>
+  <h3>Przykłady</h3>
+  <p><strong>a)</strong> \(\vec a=[6,\ -4]\), \(\vec b=[2,\ 3]\): \(\ 6\cdot2+(-4)\cdot3=12-12=0\) → prostopadłe.</p>
+  <p><strong>b)</strong> \(\vec a=[-2,\ 5]\), \(\vec b=[4,\ -10]\): \(\ (-2)(-10)-5\cdot4=20-20=0\) → równoległe, \(\vec b=-2\vec a\) (zwroty przeciwne).</p>
+  <p><strong>c)</strong> \(\vec a=[5,\ 1]\), \(\vec b=[1,\ 2]\): iloczyn skalarny \(7\neq0\), wyznacznik \(9\neq0\) → ani prostopadłe, ani równoległe.</p>
+  <h3>Typowe zadania</h3>
+  <p><strong>Wektor prostopadły o danej długości.</strong> Znajdź wektor prostopadły do \(\vec a=[3,\ 4]\) o długości 10.</p>
+  <p>Wektor \([-4,\ 3]\) jest prostopadły do \([3,4]\) (zamiana współrzędnych + zmiana znaku jednej) i ma długość 5. Mnożymy przez 2: \([-8,\ 6]\) albo \([8,\ -6]\).</p>
+  <p><strong>Wektor równoległy o danej długości.</strong> Znajdź wektor o zwrocie zgodnym z \(\vec a=[3,\ -4]\) i długości 15.</p>
+  <p>\(|\vec a|=5\), potrzebujemy 3 razy dłuższego, więc \(3\vec a=[9,\ -12]\).</p>
+  <p><strong>Współliniowość punktów.</strong> Czy \(A(1,2)\), \(B(3,5)\), \(C(7,11)\) leżą na jednej prostej?</p>
+  <p>\(\overrightarrow{AB}=[2,\ 3]\), \(\overrightarrow{AC}=[6,\ 9]\), \(\ 2\cdot9-3\cdot6=0\) → \(\overrightarrow{AB}\parallel\overrightarrow{AC}\), a mają wspólny punkt \(A\), więc punkty są współliniowe.</p>
+  <p><a href="index.html">Więcej przykładów i kalkulator rysujący wektory →</a></p>
+</section>
+
+<!-- ============ 8. PARAMETR ============ -->
+<section id="parametr">
+  <h2>8. Zadania z parametrem</h2>
+  <div class="box">
+    <strong>Schemat</strong>
+    1) Zapisz warunek z zadania (równość, długość, prostopadłość, równoległość) jako równanie z \(m\).
+    2) Rozwiąż równanie (liniowe lub kwadratowe).
+    3) Sprawdź, czy dla otrzymanego \(m\) żaden wektor nie jest zerowy, i podaj odpowiedź.
+  </div>
+
+  <h3>Typ 1. Długość</h3>
+  <p>Dla jakich \(m\) wektor \(\vec a=[m,\ m+1]\) ma długość 5?</p>
+  $$\sqrt{m^2+(m+1)^2}=5 \;\Rightarrow\; m^2+m^2+2m+1=25 \;\Rightarrow\; 2m^2+2m-24=0 \;\Rightarrow\; m^2+m-12=0$$
+  $$\Delta=1+48=49,\qquad m=\frac{-1-7}{2}=-4 \ \ \text{lub}\ \ m=\frac{-1+7}{2}=3$$
+  <p class="tip">Sprawdzenie: \(m=3\): \([3,4]\), długość 5 ✓; \(m=-4\): \([-4,-3]\), długość 5 ✓</p>
+
+  <h3>Typ 2. Prostopadłość i równoległość</h3>
+  <p>Dane są \(\vec a=[m-1,\ 2]\) i \(\vec b=[3,\ m]\). Dla jakich \(m\) wektory są a) prostopadłe, b) równoległe?</p>
+  <div class="grid2">
+    <div>
+      <p><strong>a)</strong></p>
+      $$3(m-1)+2m=0$$
+      $$5m-3=0 \;\Rightarrow\; m=\tfrac35$$
+    </div>
+    <div>
+      <p><strong>b)</strong></p>
+      $$(m-1)\cdot m-2\cdot3=0$$
+      $$m^2-m-6=0 \;\Rightarrow\; (m-3)(m+2)=0$$
+      $$m=3 \ \ \text{lub}\ \ m=-2$$
+    </div>
+  </div>
+  <p class="tip">Sprawdzenie b): \(m=3\): \([2,2]\) i \([3,3]\) ✓; \(m=-2\): \([-3,2]\) i \([3,-2]\) ✓ (zwroty przeciwne).</p>
+
+  <h3>Typ 3. Gdy rozwiązania nie ma</h3>
+  <p>Czy istnieje \(m\), dla którego \(\vec a=[m,\ 2m+1]\) i \(\vec b=[2,\ -1]\) są prostopadłe?</p>
+  $$2m+(2m+1)(-1)=0 \;\Rightarrow\; 2m-2m-1=0 \;\Rightarrow\; -1=0$$
+  <p>Sprzeczność – takie \(m\) nie istnieje. (Równoległe są dla \(-m-2(2m+1)=0\), czyli \(m=-\tfrac25\).)</p>
+</section>
+
+<!-- ============ 9. DOWODY ============ -->
+<section id="dowody">
+  <h2>9. Własności wektorów w dowodach</h2>
+  <div class="box">
+    <strong>Narzędzia dowodowe</strong>
+    • \(\overrightarrow{AB}=\overrightarrow{DC}\) → \(ABCD\) jest równoległobokiem (boki \(AB\) i \(DC\) równoległe i równe).<br>
+    • \(\overrightarrow{AB}=k\cdot\overrightarrow{CD}\) → odcinki \(AB\) i \(CD\) są równoległe, a \(|AB|=|k|\cdot|CD|\).<br>
+    • \(\overrightarrow{AB}\parallel\overrightarrow{AC}\) → punkty \(A,B,C\) są współliniowe.<br>
+    • \(\overrightarrow{AB}\circ\overrightarrow{AC}=0\) → kąt przy \(A\) jest prosty.<br>
+    • Środek \(S\) odcinka \(AB\): \(\overrightarrow{AS}=\tfrac12\overrightarrow{AB}\), \(S=\left(\frac{x_A+x_B}2,\ \frac{y_A+y_B}2\right)\).
+  </div>
+
+  <h3>Dowód 1. Czworokąt jest równoległobokiem</h3>
+  <p>Wykaż, że \(A(-1,-2)\), \(B(3,0)\), \(C(4,3)\), \(D(0,1)\) są wierzchołkami równoległoboku.</p>
+  <p>\(\overrightarrow{AB}=[4,\ 2]\), \(\overrightarrow{DC}=[4-0,\ 3-1]=[4,\ 2]\). Wektory są równe, więc boki \(AB\) i \(DC\) są równoległe i mają równe długości. Czworokąt, który ma parę boków równoległych i równych, jest równoległobokiem. ∎</p>
+
+  <h3>Dowód 2. Trójkąt prostokątny i równoramienny</h3>
+  <p>Wykaż, że trójkąt \(A(1,1)\), \(B(4,3)\), \(C(-1,4)\) jest prostokątny i równoramienny.</p>
+  <p>\(\overrightarrow{AB}=[3,\ 2]\), \(\overrightarrow{AC}=[-2,\ 3]\).<br>
+  \(\overrightarrow{AB}\circ\overrightarrow{AC}=3\cdot(-2)+2\cdot3=0\) → kąt przy \(A\) jest prosty.<br>
+  \(|\overrightarrow{AB}|=\sqrt{9+4}=\sqrt{13}\), \(|\overrightarrow{AC}|=\sqrt{4+9}=\sqrt{13}\) → ramiona równe. ∎</p>
+
+  <h3>Dowód 3. Odcinek łączący środki boków trójkąta</h3>
+  <p>Wykaż, że odcinek łączący środki dwóch boków trójkąta jest równoległy do trzeciego boku i równy jego połowie.</p>
+  <p>Niech \(M\) – środek \(AB\), \(N\) – środek \(BC\). Wtedy \(\overrightarrow{MB}=\tfrac12\overrightarrow{AB}\) i \(\overrightarrow{BN}=\tfrac12\overrightarrow{BC}\). Z reguły łańcucha:</p>
+  $$\overrightarrow{MN}=\overrightarrow{MB}+\overrightarrow{BN}=\tfrac12\overrightarrow{AB}+\tfrac12\overrightarrow{BC}=\tfrac12\left(\overrightarrow{AB}+\overrightarrow{BC}\right)=\tfrac12\overrightarrow{AC}$$
+  <p>Skoro \(\overrightarrow{MN}=\tfrac12\overrightarrow{AC}\), to \(MN\parallel AC\) oraz \(|MN|=\tfrac12|AC|\). ∎</p>
+
+  <h3>Dowód 4. Przekątne rombu są prostopadłe</h3>
+  <p>Niech \(\overrightarrow{AB}=\vec a\), \(\overrightarrow{AD}=\vec b\), w rombie \(|\vec a|=|\vec b|\). Przekątne to \(\overrightarrow{AC}=\vec a+\vec b\) i \(\overrightarrow{DB}=\vec a-\vec b\). We współrzędnych:</p>
+  $$(\vec a+\vec b)\circ(\vec a-\vec b)=(a_x+b_x)(a_x-b_x)+(a_y+b_y)(a_y-b_y)=a_x^2+a_y^2-(b_x^2+b_y^2)=|\vec a|^2-|\vec b|^2=0$$
+  <p>Iloczyn skalarny jest równy 0, więc przekątne są prostopadłe. ∎</p>
+</section>
+
+<!-- ============ ŚCIĄGA ============ -->
+<section id="sciaga">
+  <h2>10. Ściąga – wszystkie wzory</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Co</th><th>Wzór</th></tr>
+    <tr><td>wektor z punktów</td><td>\(\overrightarrow{AB}=[x_B-x_A,\ y_B-y_A]\)</td></tr>
+    <tr><td>koniec / początek</td><td>\(B=A+\overrightarrow{AB}\), \(\ A=B-\overrightarrow{AB}\)</td></tr>
+    <tr><td>długość</td><td>\(|\vec a|=\sqrt{a_x^2+a_y^2}\)</td></tr>
+    <tr><td>wektory równe</td><td>\(a_x=b_x\) i \(a_y=b_y\)</td></tr>
+    <tr><td>wektor przeciwny</td><td>\(-\vec a=[-a_x,\ -a_y]\), \(\overrightarrow{BA}=-\overrightarrow{AB}\)</td></tr>
+    <tr><td>suma / różnica</td><td>\([a_x\pm b_x,\ a_y\pm b_y]\)</td></tr>
+    <tr><td>iloczyn przez liczbę</td><td>\(k\vec a=[ka_x,\ ka_y]\), \(|k\vec a|=|k|\,|\vec a|\)</td></tr>
+    <tr><td>reguła łańcucha</td><td>\(\overrightarrow{AB}+\overrightarrow{BC}=\overrightarrow{AC}\)</td></tr>
+    <tr><td>prostopadłość</td><td>\(a_xb_x+a_yb_y=0\)</td></tr>
+    <tr><td>równoległość</td><td>\(a_xb_y-a_yb_x=0\) \(\iff\) \(\vec b=k\vec a\)</td></tr>
+    <tr><td>środek odcinka</td><td>\(S=\left(\frac{x_A+x_B}{2},\ \frac{y_A+y_B}{2}\right)\)</td></tr>
+  </table></div>
+</section>
+
+<!-- ============ PRÓBNY SPRAWDZIAN ============ -->
+<section id="sprawdzian">
+  <h2>11. Próbny sprawdzian</h2>
+  <p class="tip">Rozwiąż najpierw sam, dopiero potem otwórz rozwiązanie.</p>
+  <ol class="tasks">
+    <li>Dane są punkty \(A(2,-3)\) i \(B(-1,1)\). Wyznacz \(\overrightarrow{AB}\), \(\overrightarrow{BA}\) i \(|\overrightarrow{AB}|\).
+      <details><summary>Rozwiązanie</summary>
+      \(\overrightarrow{AB}=[-1-2,\ 1-(-3)]=[-3,\ 4]\), \(\ \overrightarrow{BA}=[3,\ -4]\), \(\ |\overrightarrow{AB}|=\sqrt{9+16}=5\).</details></li>
+    <li>Wektory \(\vec a=[3m-2,\ 5]\) i \(\vec b=[4,\ n+3]\) są równe. Wyznacz \(m\) i \(n\).
+      <details><summary>Rozwiązanie</summary>
+      \(3m-2=4\Rightarrow m=2\); \(\ 5=n+3\Rightarrow n=2\).</details></li>
+    <li>Dla \(\vec a=[1,-2]\), \(\vec b=[-3,0]\), \(\vec c=[2,5]\) oblicz \(2\vec a-\vec b+\vec c\) oraz \(|\vec a+\vec b|\).
+      <details><summary>Rozwiązanie</summary>
+      \(2\vec a=[2,-4]\); \(\ 2\vec a-\vec b+\vec c=[2+3+2,\ -4-0+5]=[7,\ 1]\).<br>
+      \(\vec a+\vec b=[-2,\ -2]\), \(\ |\vec a+\vec b|=\sqrt{4+4}=\sqrt8=2\sqrt2\).</details></li>
+    <li>Wektor \(\overrightarrow{AB}=[-5,\ 2]\), \(B(1,\ -4)\). Wyznacz współrzędne punktu \(A\) i zaznacz wektor w układzie współrzędnych.
+      <details><summary>Rozwiązanie</summary>
+      \(A=B-\overrightarrow{AB}=(1+5,\ -4-2)=(6,\ -6)\). Rysunek: z punktu \((6,-6)\) 5 kratek w lewo i 2 w górę – dochodzimy do \((1,-4)\).</details></li>
+    <li>Sprawdź, czy wektory są prostopadłe, równoległe, czy żadne z nich: a) \([6,-4]\) i \([2,3]\); b) \([-2,5]\) i \([4,-10]\); c) \([1,3]\) i \([2,1]\).
+      <details><summary>Rozwiązanie</summary>
+      a) \(12-12=0\) → prostopadłe.<br>
+      b) \((-2)(-10)-5\cdot4=0\) → równoległe (\(k=-2\)).<br>
+      c) iloczyn skalarny \(2+3=5\neq0\), wyznacznik \(1-6=-5\neq0\) → żadne.</details></li>
+    <li>Dla jakich \(m\) wektor \(\vec u=[m-1,\ 4]\) ma długość 5?
+      <details><summary>Rozwiązanie</summary>
+      \((m-1)^2+16=25\Rightarrow (m-1)^2=9\Rightarrow m-1=3\) lub \(m-1=-3\), więc \(m=4\) lub \(m=-2\).</details></li>
+    <li>Dla jakiego \(m\) wektory \(\vec a=[m,\ 2]\) i \(\vec b=[8,\ m]\) są a) prostopadłe, b) równoległe?
+      <details><summary>Rozwiązanie</summary>
+      a) \(8m+2m=0\Rightarrow m=0\) (wtedy \(\vec a=[0,2]\), \(\vec b=[8,0]\) – oba niezerowe ✓).<br>
+      b) \(m\cdot m-2\cdot8=0\Rightarrow m^2=16\Rightarrow m=4\) lub \(m=-4\).</details></li>
+    <li>Znajdź wektor prostopadły do \(\vec a=[2,-1]\) o długości \(3\sqrt5\).
+      <details><summary>Rozwiązanie</summary>
+      \([1,\ 2]\perp[2,-1]\) (bo \(2-2=0\)) i \(|[1,2]|=\sqrt5\). Mnożymy przez 3: \([3,\ 6]\) lub \([-3,\ -6]\).</details></li>
+    <li>Punkty \(A(-2,0)\), \(B(3,1)\), \(C(5,4)\) są kolejnymi wierzchołkami równoległoboku \(ABCD\). Wyznacz \(D\).
+      <details><summary>Rozwiązanie</summary>
+      \(\overrightarrow{BC}=[2,\ 3]\), \(D=A+\overrightarrow{BC}=(0,\ 3)\). Sprawdzenie: \(\overrightarrow{AB}=[5,1]=\overrightarrow{DC}=[5-0,\ 4-3]\) ✓</details></li>
+    <li>Trójkąt ma wierzchołki \(A(0,0)\), \(B(6,0)\), \(C(2,4)\). \(M\) i \(N\) to środki boków \(AC\) i \(BC\). Wykaż za pomocą wektorów, że \(MN\parallel AB\) i \(|MN|=\tfrac12|AB|\).
+      <details><summary>Rozwiązanie</summary>
+      \(M=(1,\ 2)\), \(N=(4,\ 2)\). \(\overrightarrow{MN}=[3,\ 0]\), \(\overrightarrow{AB}=[6,\ 0]\), więc \(\overrightarrow{MN}=\tfrac12\overrightarrow{AB}\). Stąd \(MN\parallel AB\) i \(|MN|=3=\tfrac12\cdot6\). ∎</details></li>
+    <li><em>Dla chętnych.</em> Czy istnieje \(m\), dla którego \(\vec a=[m,\ 2m+1]\) i \(\vec b=[2,\ -1]\) są prostopadłe? Odpowiedź uzasadnij.
+      <details><summary>Rozwiązanie</summary>
+      \(2m-(2m+1)=-1\neq0\) dla każdego \(m\) – takie \(m\) nie istnieje.</details></li>
+  </ol>
+</section>
+
+<!-- ============ GENERATOR ============ -->
+<section id="generator">
+  <h2>12. Generator zadań – ćwicz bez końca</h2>
+  <p class="tip">Wylosuj zadanie, rozwiąż w zeszycie i sprawdź rozwiązanie.</p>
+  <div class="gen-controls">
+    <select id="gen-type" aria-label="Rodzaj zadania">
+      <option value="mix">Losowy typ</option>
+      <option value="points">Wektor z punktów + długość</option>
+      <option value="combo">Działania na wektorach</option>
+      <option value="end">Brakujący punkt</option>
+      <option value="check">Prostopadłe czy równoległe?</option>
+      <option value="perpM">Parametr – prostopadłość</option>
+      <option value="lenM">Parametr – długość</option>
+    </select>
+    <button class="btn" id="gen-new">Losuj zadanie</button>
+    <button class="btn sec" id="gen-show">Pokaż rozwiązanie</button>
+  </div>
+  <div id="gen-task"></div>
+</section>
+
+</main>
+
+<footer>Matematyka techniczna · Wektory · <a href="index.html">Prostopadłość i równoległość</a> · <a href="#wymagania">do góry ↑</a></footer>
+
+<script>
+/* ---------- checklista ---------- */
+(function(){
+  const KEY='wektory-checklist';
+  const boxes=[...document.querySelectorAll('#checklist input')];
+  let saved=[];
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){}
+  boxes.forEach((b,i)=>{b.checked=!!saved[i];b.addEventListener('change',upd);});
+  function upd(){
+    const st=boxes.map(b=>b.checked), n=st.filter(Boolean).length;
+    document.getElementById('bar').style.width=(100*n/boxes.length)+'%';
+    document.getElementById('bar-txt').textContent='Opanowane: '+n+' z '+boxes.length+(n===boxes.length?' – jesteś gotowy na sprawdzian!':'');
+    try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}
+  }
+  upd();
+})();
+
+/* ---------- generator ---------- */
+(function(){
+  const R=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+  const RNZ=(a,b)=>{let x;do{x=R(a,b);}while(x===0);return x;};
+  const pick=arr=>arr[R(0,arr.length-1)];
+  const n=x=>x<0?'('+x+')':String(x);          // liczba w nawiasie gdy ujemna
+  const vec=v=>'['+v[0]+',\\ '+v[1]+']';
+  const pt=(name,p)=>name+'('+p[0]+',\\ '+p[1]+')';
+  const gcd=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a;};
+  function sqrtTex(N){ // uproszczony pierwiastek
+    if(N===0) return '0';
+    let k=1,r=N;
+    for(let d=Math.floor(Math.sqrt(N));d>1;d--){ if(N%(d*d)===0){k=d;r=N/(d*d);break;} }
+    if(r===1) return String(k);
+    return (k>1?k:'')+'\\sqrt{'+r+'}';
+  }
+  function frac(p,q){
+    if(q<0){p=-p;q=-q;}
+    const g=gcd(p,q)||1; p/=g; q/=g;
+    if(q===1) return String(p);
+    return (p<0?'-':'')+'\\tfrac{'+Math.abs(p)+'}{'+q+'}';
+  }
+  const gen={
+    points(){
+      const A=[R(-6,6),R(-6,6)], B=[R(-6,6),R(-6,6)];
+      if(A[0]===B[0]&&A[1]===B[1]) B[0]+=3;
+      const v=[B[0]-A[0],B[1]-A[1]], L=v[0]**2+v[1]**2;
+      return {t:'Dane są punkty \\('+pt('A',A)+'\\) i \\('+pt('B',B)+'\\). Wyznacz \\(\\overrightarrow{AB}\\) i \\(|\\overrightarrow{AB}|\\).',
+        s:'\\(\\overrightarrow{AB}=['+B[0]+'-'+n(A[0])+',\\ '+B[1]+'-'+n(A[1])+']='+vec(v)+'\\)<br>\\(|\\overrightarrow{AB}|=\\sqrt{'+n(v[0])+'^2+'+n(v[1])+'^2}=\\sqrt{'+L+'}'+(sqrtTex(L)!=='\\sqrt{'+L+'}'?'='+sqrtTex(L):'')+'\\)'};
+    },
+    combo(){
+      const a=[R(-5,5),R(-5,5)], b=[R(-5,5),R(-5,5)], k=RNZ(-3,3), l=RNZ(-3,3);
+      const r=[k*a[0]+l*b[0],k*a[1]+l*b[1]];
+      const term=(c,name,first)=>(c<0?'-':(first?'':'+'))+(Math.abs(c)===1?'':Math.abs(c))+'\\vec '+name;
+      const L=r[0]**2+r[1]**2;
+      return {t:'Dla \\(\\vec a='+vec(a)+'\\) i \\(\\vec b='+vec(b)+'\\) oblicz \\(\\vec w='+term(k,'a',true)+term(l,'b',false)+'\\) oraz \\(|\\vec w|\\).',
+        s:'\\('+k+'\\vec a='+vec([k*a[0],k*a[1]])+'\\), \\('+l+'\\vec b='+vec([l*b[0],l*b[1]])+'\\)<br>\\(\\vec w='+vec(r)+'\\), \\(|\\vec w|=\\sqrt{'+L+'}'+(sqrtTex(L)!=='\\sqrt{'+L+'}'?'='+sqrtTex(L):'')+'\\)'};
+    },
+    end(){
+      const A=[R(-6,6),R(-6,6)], v=[RNZ(-6,6),RNZ(-6,6)], B=[A[0]+v[0],A[1]+v[1]];
+      if(Math.random()<.5) return {t:'Wektor \\(\\overrightarrow{AB}='+vec(v)+'\\), \\('+pt('A',A)+'\\). Wyznacz punkt \\(B\\).',
+        s:'\\(B=A+\\overrightarrow{AB}=('+A[0]+'+'+n(v[0])+',\\ '+A[1]+'+'+n(v[1])+')=('+B[0]+',\\ '+B[1]+')\\)'};
+      return {t:'Wektor \\(\\overrightarrow{AB}='+vec(v)+'\\), \\('+pt('B',B)+'\\). Wyznacz punkt \\(A\\).',
+        s:'\\(A=B-\\overrightarrow{AB}=('+B[0]+'-'+n(v[0])+',\\ '+B[1]+'-'+n(v[1])+')=('+A[0]+',\\ '+A[1]+')\\)'};
+    },
+    check(){
+      const a=[RNZ(-6,6),RNZ(-6,6)], kind=pick(['perp','para','none']); let b;
+      if(kind==='perp'){const k=RNZ(-2,2); b=[-a[1]*k,a[0]*k];}
+      else if(kind==='para'){const k=pick([-3,-2,2,3]); b=[a[0]*k,a[1]*k];}
+      else{do{b=[RNZ(-6,6),RNZ(-6,6)];}while(a[0]*b[0]+a[1]*b[1]===0||a[0]*b[1]-a[1]*b[0]===0);}
+      const dot=a[0]*b[0]+a[1]*b[1], det=a[0]*b[1]-a[1]*b[0];
+      const ans=dot===0?'wektory są <strong>prostopadłe</strong>':det===0?'wektory są <strong>równoległe</strong> (\\(\\vec b='+(b[0]/a[0])+'\\vec a\\))':'wektory <strong>nie są ani prostopadłe, ani równoległe</strong>';
+      return {t:'Zbadaj wzajemne położenie wektorów \\(\\vec a='+vec(a)+'\\) i \\(\\vec b='+vec(b)+'\\).',
+        s:'Iloczyn skalarny: \\('+n(a[0])+'\\cdot'+n(b[0])+'+'+n(a[1])+'\\cdot'+n(b[1])+'='+dot+'\\)<br>Wyznacznik: \\('+n(a[0])+'\\cdot'+n(b[1])+'-'+n(a[1])+'\\cdot'+n(b[0])+'='+det+'\\)<br>Odpowiedź: '+ans+'.'};
+    },
+    perpM(){
+      // a=[m+p, q], b=[r, s]  ->  r(m+p)+qs=0 -> m = (-qs - rp)/r
+      const p=R(-4,4), q=RNZ(-5,5), r=RNZ(-5,5), s=RNZ(-5,5);
+      const first=p===0?'m':'m'+(p>0?'+':'')+p;
+      const task=('Dla jakiego \\(m\\) wektory \\(\\vec a=['+first+',\\ '+q+']\\) i \\(\\vec b='+vec([r,s])+'\\) są prostopadłe?');
+        const coef=c=>c===1?'':c===-1?'-':String(c), c0=r*p+q*s;
+        return {t:task,
+        s:'\\('+coef(r)+'('+first+')+'+n(q)+'\\cdot'+n(s)+'=0\\)<br>\\('+coef(r)+'m'+(c0===0?'':(c0>0?'+':'')+c0)+'=0\\;\\Rightarrow\\; m='+frac(-c0,r)+'\\)'};
+    },
+    lenM(){
+      const tri=pick([[3,4,5],[4,3,5],[6,8,10],[8,6,10],[5,12,13],[12,5,13]]);
+      const p=R(-4,4), sgn=pick([1,-1]);
+      // wektor [m+p, sgn*tri[1]] o długości tri[2] -> m+p = ±tri[0]
+      const first=p===0?'m':'m'+(p>0?'+':'')+p;
+      return {t:'Dla jakich \\(m\\) wektor \\(\\vec u=['+first+',\\ '+(sgn*tri[1])+']\\) ma długość \\('+tri[2]+'\\)?',
+        s:'\\(('+first+')^2+'+n(sgn*tri[1])+'^2='+tri[2]+'^2\\;\\Rightarrow\\;('+first+')^2='+(tri[0]**2)+'\\)<br>\\('+first+'='+tri[0]+'\\) lub \\('+first+'=-'+tri[0]+'\\;\\Rightarrow\\; m='+(tri[0]-p)+'\\) lub \\(m='+(-tri[0]-p)+'\\)'};
+    }
+  };
+  const box=document.getElementById('gen-task');
+  let cur=null;
+  function render(){ if(window.renderMath) window.renderMath(box); }
+  function newTask(){
+    let t=document.getElementById('gen-type').value;
+    if(t==='mix') t=pick(Object.keys(gen));
+    cur=gen[t]();
+    box.innerHTML='<p>'+cur.t+'</p><div id="gen-sol" hidden></div>';
+    render();
+  }
+  document.getElementById('gen-new').addEventListener('click',newTask);
+  document.getElementById('gen-show').addEventListener('click',()=>{
+    if(!cur) newTask();
+    const s=document.getElementById('gen-sol');
+    s.innerHTML='<div class="box ok">'+cur.s+'</div>'; s.hidden=false; render();
+  });
+  window.addEventListener('load',()=>{ newTask(); });
+  window.__gen=gen; // do testów
+})();
+</script>
+</body>
+</html>

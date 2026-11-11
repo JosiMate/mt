@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zbiory i przedziały – matematyka 1A</title>
+<meta name="description" content="Matematyka 1A: zbiory, działania na zbiorach, zbiory liczbowe, przedziały i działania na przedziałach – teoria z rysunkami, kalkulator przedziałów, zadania z rozwiązaniami, próbny sprawdzian i generator zadań.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
+  onload="window.renderMath=function(el){renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});};renderMath(document.body);"></script>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --text:#1d2330; --muted:#5b6475; --line:#dde1e8;
+    --accent:#2563eb; --accent-soft:#e8efff; --a:#2563eb; --b:#dc2626; --c:#7c3aed; --c-soft:#efe9ff;
+    --ok:#15803d; --ok-soft:#e7f6ec; --warn:#b45309; --warn-soft:#fdf3e3;
+    --mat:"Cambria Math","STIX Two Math","Times New Roman",serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12151b; --card:#1b1f27; --text:#e6e9ef; --muted:#9aa3b2; --line:#2c323d;
+      --accent:#7aa2ff; --accent-soft:#1e2a44; --a:#7aa2ff; --b:#ff7a7a; --c:#c4a1ff; --c-soft:#2a2342;
+      --ok:#4ade80; --ok-soft:#163323; --warn:#fbbf24; --warn-soft:#3a2d12;
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-padding-top:4rem}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  a{color:var(--accent)}
+  header{background:var(--accent);color:#fff;padding:2rem 1rem}
+  header .wrap{max-width:920px;margin:auto}
+  header p{margin:.2rem 0;opacity:.92}
+  header a{color:#fff}
+  header h1{margin:.3rem 0;font-size:1.9rem;line-height:1.25}
+  nav{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+  nav .wrap{max-width:920px;margin:auto;display:flex;gap:.2rem .9rem;flex-wrap:wrap;padding:.5rem 1rem}
+  nav a{text-decoration:none;font-size:.9rem}
+  nav a:hover{text-decoration:underline}
+  main{max-width:920px;margin:auto;padding:1rem;overflow-x:clip}
+  section{background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:1.2rem 1.4rem;margin:1.2rem 0}
+  @media (max-width:600px){section{padding:1rem}}
+  h2{margin-top:0;font-size:1.4rem;border-bottom:2px solid var(--accent-soft);padding-bottom:.3rem}
+  h3{font-size:1.1rem;margin:1.2rem 0 .3rem}
+  .box{border-left:4px solid var(--accent);background:var(--accent-soft);padding:.6rem 1rem;border-radius:6px;margin:1rem 0}
+  .box.ok{border-color:var(--ok);background:var(--ok-soft)}
+  .box.warn{border-color:var(--warn);background:var(--warn-soft)}
+  .box>strong:first-child{display:block}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
+  @media (max-width:760px){.grid2{grid-template-columns:1fr}.grid4{grid-template-columns:repeat(2,1fr)}}
+  figure{margin:0;text-align:center}
+  figure svg{width:100%;max-width:340px;height:auto}
+  figcaption{font-size:.9rem;color:var(--muted)}
+  table{border-collapse:collapse;width:100%;font-size:.95rem}
+  th,td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:middle}
+  th{background:var(--accent-soft)}
+  .table-wrap{overflow-x:auto}
+  details{border:1px solid var(--line);border-radius:6px;padding:.4rem .8rem;margin:.5rem 0}
+  summary{cursor:pointer;color:var(--accent);font-weight:600}
+  ol.tasks>li{margin-bottom:1rem}
+  .katex-display{overflow-x:auto;overflow-y:hidden;padding:.2rem 0}
+  .tip{color:var(--muted);font-size:.95rem}
+  .m{font-family:var(--mat);font-size:1.12em;white-space:nowrap}
+  .m.wynik{color:var(--c);font-weight:600}
+  /* checklista */
+  .check{list-style:none;padding:0;margin:0}
+  .check li{display:flex;gap:.6rem;align-items:flex-start;padding:.35rem 0;border-bottom:1px dashed var(--line)}
+  .check input{margin-top:.35rem;width:1.1rem;height:1.1rem;accent-color:var(--ok);flex:none}
+  .check a{margin-left:auto;white-space:nowrap;font-size:.9rem;padding-left:.5rem}
+  .progress{height:10px;background:var(--accent-soft);border-radius:99px;overflow:hidden;margin:.6rem 0}
+  .progress div{height:100%;background:var(--ok);width:0;transition:width .3s}
+  /* oś liczbowa */
+  .os{margin:.6rem 0}
+  .os svg{width:100%;max-width:640px;height:auto;display:block}
+  .os text{font:13px system-ui,sans-serif;fill:var(--muted)}
+  .os text.etyk{font:italic 600 15px var(--mat)}
+  /* diagramy Venna */
+  .venn svg{max-width:220px}
+  .venn .u{fill:none;stroke:var(--muted);stroke-width:1.5}
+  .venn .kolo{fill:none;stroke:var(--text);stroke-width:1.6}
+  .venn .zam{fill:var(--c);fill-opacity:.45}
+  .venn text{font:italic 600 16px var(--mat);fill:var(--text)}
+  /* kalkulator i generator */
+  .kalk{display:grid;grid-template-columns:auto 1fr;gap:.5rem .8rem;align-items:center;max-width:520px}
+  .kalk label{font-family:var(--mat);font-style:italic;font-weight:700;font-size:1.2rem}
+  .kalk input{font:1.1rem var(--mat);padding:.4rem .6rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);width:100%}
+  .kalk input:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .blad{color:var(--b);font-size:.95rem}
+  .wyniki{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem 1rem;margin-top:.8rem}
+  @media (max-width:640px){.wyniki{grid-template-columns:minmax(0,1fr)}}
+  .wyniki>div{border:1px solid var(--line);border-radius:8px;padding:.4rem .7rem;min-width:0}
+  .wyniki .nazwa{font-family:var(--mat);font-style:italic;font-weight:700;color:var(--muted)}
+  .gen-controls{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+  select,button.btn{padding:.45rem .7rem;font-size:1rem;border:1px solid var(--line);border-radius:6px;
+    background:var(--bg);color:var(--text)}
+  button.btn{cursor:pointer;background:var(--accent);color:#fff;border-color:var(--accent)}
+  button.btn.sec{background:var(--card);color:var(--accent)}
+  .przyklady{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0 .8rem}
+  .przyklady button{font:.9rem var(--mat);padding:.25rem .6rem;border:1px solid var(--line);border-radius:99px;background:var(--bg);color:var(--text);cursor:pointer}
+  #gen-task{margin-top:1rem;padding:.8rem 1rem;border:1px solid var(--line);border-radius:8px;min-height:3rem}
+  #gen-sol{margin-top:.6rem}
+  .zbiory-liczbowe svg{max-width:560px}
+  .zbiory-liczbowe rect{fill:var(--card);stroke-width:2}
+  .zbiory-liczbowe text{font:14px system-ui,sans-serif;fill:var(--muted)}
+  .zbiory-liczbowe text.lit{font:italic 700 20px var(--mat)}
+  footer{max-width:920px;margin:auto;padding:1rem;color:var(--muted);font-size:.9rem;text-align:center}
+  @media print{nav,.gen-controls,#generator,#kalkulator,.progress{display:none}details{border:none}details>*{display:block}
+    section{break-inside:avoid;border:none}header{background:none;color:#000}header a{color:#000}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p><a href="matematyka-1a.html">← Matematyka 1A</a></p>
+    <h1>Zbiory i przedziały</h1>
+    <p>Teoria z rysunkami, kalkulator przedziałów, zadania z rozwiązaniami, próbny sprawdzian i generator zadań.</p>
+    <p style="margin-top:.6rem"><a href="1a-dzialania-na-przedzialach.html">→ Zadania na lekcję: działania na przedziałach, grupy A i B</a></p>
+  </div>
+</header>
+
+<nav><div class="wrap">
+  <a href="#wymagania">Wymagania</a>
+  <a href="#zbior">Zbiór i element</a>
+  <a href="#dzialania">Działania na zbiorach</a>
+  <a href="#liczbowe">Zbiory liczbowe</a>
+  <a href="#przedzialy">Przedziały</a>
+  <a href="#dzialania-przedzialy">Działania na przedziałach</a>
+  <a href="#dopelnienie">Dopełnienie</a>
+  <a href="#kalkulator">Kalkulator</a>
+  <a href="#zadania">Zadania</a>
+  <a href="#sciaga">Ściąga</a>
+  <a href="#sprawdzian">Próbny sprawdzian</a>
+  <a href="#generator">Generator</a>
+</div></nav>
+
+<main>
+
+<!-- ============ WYMAGANIA ============ -->
+<section id="wymagania">
+  <h2>Wymagania – co musisz umieć</h2>
+  <p class="tip">Zaznacz to, co już umiesz. Postęp zapisuje się w tej przeglądarce. Link obok każdego punktu prowadzi do odpowiedniej części opracowania.</p>
+  <div class="progress"><div id="bar"></div></div>
+  <p id="bar-txt" class="tip"></p>
+  <ul class="check" id="checklist">
+    <li><input type="checkbox" id="w1"><label for="w1">Posługuję się symbolami \(\in,\ \notin,\ \subset,\ \emptyset\) i zapisuję zbiór, wymieniając jego elementy.</label><a href="#zbior">→ 1</a></li>
+    <li><input type="checkbox" id="w2"><label for="w2">Wyznaczam sumę, część wspólną, różnicę i dopełnienie zbiorów skończonych.</label><a href="#dzialania">→ 2</a></li>
+    <li><input type="checkbox" id="w3"><label for="w3">Rozpoznaję liczby naturalne, całkowite, wymierne i niewymierne.</label><a href="#liczbowe">→ 3</a></li>
+    <li><input type="checkbox" id="w4"><label for="w4">Zapisuję przedział na trzy sposoby: symbolem, nierównością i na osi liczbowej.</label><a href="#przedzialy">→ 4</a></li>
+    <li><input type="checkbox" id="w5"><label for="w5">Wyznaczam sumę, część wspólną i różnicę przedziałów.</label><a href="#dzialania-przedzialy">→ 5</a></li>
+    <li><input type="checkbox" id="w6"><label for="w6">Wyznaczam dopełnienie przedziału.</label><a href="#dopelnienie">→ 6</a></li>
+    <li><input type="checkbox" id="w7"><label for="w7">Podaję liczby całkowite należące do przedziału.</label><a href="#zadania">→ 8</a></li>
+  </ul>
+</section>
+
+<!-- ============ 1. ZBIÓR I ELEMENT ============ -->
+<section id="zbior">
+  <h2>1. Zbiór i element</h2>
+  <p><strong>Zbiór</strong> to kolekcja obiektów, które nazywamy jego <strong>elementami</strong>. Zbiory oznaczamy wielkimi literami: \(A,\ B,\ X\). O każdym obiekcie da się powiedzieć, czy należy do zbioru, czy nie.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Zapis</th><th>Czytamy</th><th>Przykład dla \(A=\{1,2,3,4,6,12\}\) – dzielniki liczby 12</th></tr>
+    <tr><td>\(x\in A\)</td><td>\(x\) należy do \(A\)</td><td>\(4\in A\)</td></tr>
+    <tr><td>\(x\notin A\)</td><td>\(x\) nie należy do \(A\)</td><td>\(5\notin A\)</td></tr>
+    <tr><td>\(B\subset A\)</td><td>\(B\) jest podzbiorem \(A\) – każdy element \(B\) należy do \(A\)</td><td>\(\{2,4\}\subset A\)</td></tr>
+    <tr><td>\(\emptyset\)</td><td>zbiór pusty – nie ma żadnego elementu</td><td>zbiór liczb naturalnych mniejszych od 0</td></tr>
+  </table></div>
+
+  <h3>Jak zapisać zbiór</h3>
+  <div class="grid2">
+    <div class="box"><strong>Wyliczając elementy</strong>
+      W nawiasie klamrowym, po przecinku: \(P=\{2,3,5,7\}\) – liczby pierwsze mniejsze od 10. Kolejność nie ma znaczenia, a każdy element zapisujemy raz.</div>
+    <div class="box"><strong>Podając warunek</strong>
+      \(\{x\in\mathbb{N}:\ x&lt;5\}=\{0,1,2,3,4\}\). Czytamy: „zbiór takich liczb naturalnych \(x\), że \(x&lt;5\)”.</div>
+  </div>
+  <div class="box warn"><strong>Uwaga na zapis</strong>
+    \(2\in\{2,4\}\) – liczba należy do zbioru (znak \(\in\) stoi między <em>elementem</em> a zbiorem).<br>
+    \(\{2\}\subset\{2,4\}\) – zbiór zawiera się w zbiorze (znak \(\subset\) stoi między <em>dwoma zbiorami</em>).<br>
+    Zbiór pusty jest podzbiorem każdego zbioru: \(\emptyset\subset A\).</div>
+</section>
+
+<!-- ============ 2. DZIAŁANIA NA ZBIORACH ============ -->
+<section id="dzialania">
+  <h2>2. Działania na zbiorach</h2>
+  <p>Zaznaczony fioletowy obszar to wynik działania. Prostokąt \(U\) to wszystkie rozważane elementy (przestrzeń).</p>
+  <div class="grid4">
+    <figure class="venn"><svg viewBox="0 0 220 140" role="img" aria-label="Suma zbiorów A i B">
+      <rect class="u" x="6" y="6" width="208" height="128" rx="6"/>
+      <circle class="zam" cx="85" cy="72" r="46"/><circle class="zam" cx="135" cy="72" r="46"/>
+      <circle class="kolo" cx="85" cy="72" r="46"/><circle class="kolo" cx="135" cy="72" r="46"/>
+      <text x="50" y="30">A</text><text x="162" y="30">B</text><text x="16" y="126">U</text></svg>
+      <figcaption><strong>Suma</strong> \(A\cup B\)<br>elementy, które należą do \(A\) <em>lub</em> do \(B\)</figcaption></figure>
+    <figure class="venn"><svg viewBox="0 0 220 140" role="img" aria-label="Część wspólna zbiorów A i B">
+      <defs><clipPath id="clipA"><circle cx="85" cy="72" r="46"/></clipPath></defs>
+      <rect class="u" x="6" y="6" width="208" height="128" rx="6"/>
+      <circle class="zam" cx="135" cy="72" r="46" clip-path="url(#clipA)"/>
+      <circle class="kolo" cx="85" cy="72" r="46"/><circle class="kolo" cx="135" cy="72" r="46"/>
+      <text x="50" y="30">A</text><text x="162" y="30">B</text><text x="16" y="126">U</text></svg>
+      <figcaption><strong>Część wspólna (iloczyn)</strong> \(A\cap B\)<br>elementy, które należą do \(A\) <em>i</em> do \(B\)</figcaption></figure>
+    <figure class="venn"><svg viewBox="0 0 220 140" role="img" aria-label="Różnica zbiorów A i B">
+      <defs><mask id="maskaAB"><rect x="0" y="0" width="220" height="140" fill="black"/><circle cx="85" cy="72" r="46" fill="white"/><circle cx="135" cy="72" r="46" fill="black"/></mask></defs>
+      <rect class="u" x="6" y="6" width="208" height="128" rx="6"/>
+      <rect class="zam" x="0" y="0" width="220" height="140" mask="url(#maskaAB)"/>
+      <circle class="kolo" cx="85" cy="72" r="46"/><circle class="kolo" cx="135" cy="72" r="46"/>
+      <text x="50" y="30">A</text><text x="162" y="30">B</text><text x="16" y="126">U</text></svg>
+      <figcaption><strong>Różnica</strong> \(A\setminus B\)<br>elementy \(A\), które <em>nie</em> należą do \(B\)</figcaption></figure>
+    <figure class="venn"><svg viewBox="0 0 220 140" role="img" aria-label="Dopełnienie zbioru A">
+      <defs><mask id="maskaA"><rect x="6" y="6" width="208" height="128" rx="6" fill="white"/><circle cx="85" cy="72" r="46" fill="black"/></mask></defs>
+      <rect class="zam" x="0" y="0" width="220" height="140" mask="url(#maskaA)"/>
+      <rect class="u" x="6" y="6" width="208" height="128" rx="6"/>
+      <circle class="kolo" cx="85" cy="72" r="46"/>
+      <text x="50" y="30">A</text><text x="16" y="126">U</text></svg>
+      <figcaption><strong>Dopełnienie</strong> \(A'\)<br>elementy przestrzeni \(U\), które nie należą do \(A\)</figcaption></figure>
+  </div>
+
+  <h3>Przykład</h3>
+  <p>\(A\) – dzielniki liczby 12, \(B\) – dzielniki liczby 18:</p>
+  $$A=\{1,2,3,4,6,12\},\qquad B=\{1,2,3,6,9,18\}$$
+  <div class="table-wrap"><table>
+    <tr><th>Działanie</th><th>Wynik</th><th>Jak myśleć</th></tr>
+    <tr><td>\(A\cup B\)</td><td>\(\{1,2,3,4,6,9,12,18\}\)</td><td>wszystkie elementy z obu zbiorów, każdy raz</td></tr>
+    <tr><td>\(A\cap B\)</td><td>\(\{1,2,3,6\}\)</td><td>wspólne dzielniki 12 i 18</td></tr>
+    <tr><td>\(A\setminus B\)</td><td>\(\{4,12\}\)</td><td>z \(A\) skreślamy wszystko, co jest w \(B\)</td></tr>
+    <tr><td>\(B\setminus A\)</td><td>\(\{9,18\}\)</td><td>z \(B\) skreślamy wszystko, co jest w \(A\)</td></tr>
+  </table></div>
+  <p>Dopełnienie: jeśli przestrzenią jest \(U=\{1,2,\dots,10\}\), a \(C\) to liczby parzyste z \(U\), czyli \(C=\{2,4,6,8,10\}\), to \(C'=\{1,3,5,7,9\}\).</p>
+  <div class="box warn"><strong>Najczęstsze błędy</strong>
+    \(A\setminus B\) i \(B\setminus A\) to zwykle różne zbiory – kolejność ma znaczenie.<br>
+    Gdy zbiory nie mają wspólnych elementów (są <em>rozłączne</em>), ich część wspólna to \(\emptyset\), a nie 0.</div>
+</section>
+
+<!-- ============ 3. ZBIORY LICZBOWE ============ -->
+<section id="liczbowe">
+  <h2>3. Zbiory liczbowe</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Symbol</th><th>Nazwa</th><th>Co zawiera</th><th>Przykłady</th></tr>
+    <tr><td>\(\mathbb{N}\)</td><td>liczby naturalne</td><td>\(\{0,1,2,3,\dots\}\)</td><td>\(0,\ 7,\ 100\)</td></tr>
+    <tr><td>\(\mathbb{C}\)</td><td>liczby całkowite</td><td>\(\{\dots,-2,-1,0,1,2,\dots\}\)</td><td>\(-4,\ 0,\ 15\)</td></tr>
+    <tr><td>\(\mathbb{W}\)</td><td>liczby wymierne</td><td>liczby, które da się zapisać jako ułamek \(\frac{p}{q}\), gdzie \(p,q\) całkowite, \(q\neq0\); w zapisie dziesiętnym mają skończenie wiele cyfr albo okres</td><td>\(\frac34,\ -2{,}5,\ 0{,}(3)\)</td></tr>
+    <tr><td>\(\mathbb{NW}\)</td><td>liczby niewymierne</td><td>liczby, których nie da się zapisać jako ułamek; rozwinięcie dziesiętne nieskończone i nieokresowe</td><td>\(\sqrt2,\ \sqrt5,\ \pi\)</td></tr>
+    <tr><td>\(\mathbb{R}\)</td><td>liczby rzeczywiste</td><td>wszystkie liczby na osi liczbowej: \(\mathbb{R}=\mathbb{W}\cup\mathbb{NW}\)</td><td>każda z powyższych</td></tr>
+  </table></div>
+  <figure class="zbiory-liczbowe" style="margin-top:1rem"><svg viewBox="0 0 560 230" role="img" aria-label="Zbiory liczbowe zawarte jeden w drugim">
+    <rect x="4" y="4" width="552" height="222" rx="12" style="stroke:var(--muted)"/>
+    <rect x="22" y="34" width="340" height="180" rx="10" style="stroke:var(--a)"/>
+    <rect x="40" y="70" width="210" height="132" rx="10" style="stroke:var(--ok)"/>
+    <rect x="58" y="106" width="110" height="84" rx="10" style="stroke:var(--warn)"/>
+    <rect x="378" y="34" width="162" height="180" rx="10" style="stroke:var(--b)"/>
+    <text class="lit" x="16" y="26" style="fill:var(--muted)">ℝ</text>
+    <text class="lit" x="34" y="58" style="fill:var(--a)">𝕎</text>
+    <text class="lit" x="52" y="94" style="fill:var(--ok)">ℂ</text>
+    <text class="lit" x="70" y="130" style="fill:var(--warn)">ℕ</text>
+    <text class="lit" x="390" y="58" style="fill:var(--b)">ℕ𝕎</text>
+    <text x="72" y="160">0, 1, 7</text>
+    <text x="184" y="130">−4</text><text x="184" y="160">−1</text>
+    <text x="268" y="110">¾</text><text x="268" y="140">−2,5</text><text x="268" y="170">0,(3)</text>
+    <text x="400" y="100">√2</text><text x="400" y="130">π</text><text x="400" y="160">√5</text>
+  </svg>
+  <figcaption>\(\mathbb{N}\subset\mathbb{C}\subset\mathbb{W}\subset\mathbb{R}\), a \(\mathbb{NW}\) to reszta osi: \(\mathbb{W}\cap\mathbb{NW}=\emptyset\).</figcaption></figure>
+
+  <h3>Ćwiczenie: do których zbiorów należy liczba?</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Liczba</th><th>\(7\)</th><th>\(-4\)</th><th>\(0\)</th><th>\(\frac34\)</th><th>\(-2{,}5\)</th><th>\(\sqrt9\)</th><th>\(\sqrt5\)</th><th>\(\pi\)</th><th>\(0{,}(3)\)</th></tr>
+  </table></div>
+  <details><summary>Pokaż odpowiedzi</summary>
+    <div class="table-wrap"><table>
+      <tr><th>Liczba</th><th>\(\mathbb{N}\)</th><th>\(\mathbb{C}\)</th><th>\(\mathbb{W}\)</th><th>\(\mathbb{NW}\)</th><th>Uwagi</th></tr>
+      <tr><td>\(7\)</td><td>✓</td><td>✓</td><td>✓</td><td></td><td></td></tr>
+      <tr><td>\(-4\)</td><td></td><td>✓</td><td>✓</td><td></td><td></td></tr>
+      <tr><td>\(0\)</td><td>✓</td><td>✓</td><td>✓</td><td></td><td>zero jest liczbą naturalną</td></tr>
+      <tr><td>\(\frac34\)</td><td></td><td></td><td>✓</td><td></td><td></td></tr>
+      <tr><td>\(-2{,}5\)</td><td></td><td></td><td>✓</td><td></td><td>\(-2{,}5=-\frac52\)</td></tr>
+      <tr><td>\(\sqrt9\)</td><td>✓</td><td>✓</td><td>✓</td><td></td><td>\(\sqrt9=3\) – pierwiastek nie zawsze jest niewymierny</td></tr>
+      <tr><td>\(\sqrt5\)</td><td></td><td></td><td></td><td>✓</td><td></td></tr>
+      <tr><td>\(\pi\)</td><td></td><td></td><td></td><td>✓</td><td>\(3{,}14\) to tylko przybliżenie</td></tr>
+      <tr><td>\(0{,}(3)\)</td><td></td><td></td><td>✓</td><td></td><td>\(0{,}(3)=\frac13\) – okres oznacza liczbę wymierną</td></tr>
+    </table></div>
+    <p class="tip">Każda z tych liczb należy też do \(\mathbb{R}\).</p>
+  </details>
+</section>
+
+<!-- ============ 4. PRZEDZIAŁY ============ -->
+<section id="przedzialy">
+  <h2>4. Przedziały</h2>
+  <p><strong>Przedział</strong> to zbiór wszystkich liczb rzeczywistych leżących między dwiema liczbami (albo od jakiejś liczby w prawo lub w lewo, bez końca). Ten sam przedział zapisujemy na trzy sposoby: symbolem, nierównością i na osi liczbowej.</p>
+  <div class="box"><strong>Nawias mówi, czy koniec należy do przedziału</strong>
+    \(\langle\ \rangle\) – nawias <em>domknięty</em>: koniec należy do przedziału, na osi <strong>pełne kółko</strong>, w nierówności znak \(\le\) albo \(\ge\).<br>
+    \((\ )\) – nawias <em>otwarty</em>: koniec nie należy, na osi <strong>puste kółko</strong>, w nierówności znak \(&lt;\) albo \(>\).<br>
+    Przy \(-\infty\) i \(+\infty\) nawias jest <strong>zawsze otwarty</strong> – nieskończoność nie jest liczbą, nie może należeć do zbioru.</div>
+  <div class="table-wrap"><table>
+    <tr><th>Symbol</th><th>Nierówność</th><th>Nazwa</th><th style="min-width:260px">Na osi (dla \(a=-2,\ b=3\))</th></tr>
+    <tr><td>\((a;\ b)\)</td><td>\(a&lt;x&lt;b\)</td><td>otwarty</td><td><div class="os" data-os="(-2;3)" data-od="-4" data-do="5"></div></td></tr>
+    <tr><td>\(\langle a;\ b\rangle\)</td><td>\(a\le x\le b\)</td><td>domknięty</td><td><div class="os" data-os="<-2;3>" data-od="-4" data-do="5"></div></td></tr>
+    <tr><td>\(\langle a;\ b)\)</td><td>\(a\le x&lt;b\)</td><td>lewostronnie domknięty</td><td><div class="os" data-os="<-2;3)" data-od="-4" data-do="5"></div></td></tr>
+    <tr><td>\((a;\ b\rangle\)</td><td>\(a&lt;x\le b\)</td><td>prawostronnie domknięty</td><td><div class="os" data-os="(-2;3>" data-od="-4" data-do="5"></div></td></tr>
+    <tr><td>\((-\infty;\ b)\)</td><td>\(x&lt;b\)</td><td>nieograniczony</td><td><div class="os" data-os="(-inf;3)" data-od="-4" data-do="5"></div></td></tr>
+    <tr><td>\((-\infty;\ b\rangle\)</td><td>\(x\le b\)</td><td>nieograniczony</td><td><div class="os" data-os="(-inf;3>" data-od="-4" data-do="5"></div></td></tr>
+    <tr><td>\((a;\ +\infty)\)</td><td>\(x>a\)</td><td>nieograniczony</td><td><div class="os" data-os="(-2;+inf)" data-od="-4" data-do="5"></div></td></tr>
+    <tr><td>\(\langle a;\ +\infty)\)</td><td>\(x\ge a\)</td><td>nieograniczony</td><td><div class="os" data-os="<-2;+inf)" data-od="-4" data-do="5"></div></td></tr>
+  </table></div>
+  <p>Cała oś liczbowa to \(\mathbb{R}=(-\infty;\ +\infty)\).</p>
+  <div class="box warn"><strong>Najczęstsze błędy</strong>
+    \(\langle 2;\ +\infty\rangle\) – źle, przy nieskończoności zawsze \(+\infty)\).<br>
+    \((5;\ 2)\) – źle, lewy koniec musi być mniejszy od prawego. Chodziło o \((2;\ 5)\).<br>
+    \(x\ge-1\) to \(\langle-1;\ +\infty)\), a nie \((-1;\ +\infty)\) – przy \(\ge\) koniec należy do przedziału.</div>
+</section>
+
+<!-- ============ 5. DZIAŁANIA NA PRZEDZIAŁACH ============ -->
+<section id="dzialania-przedzialy">
+  <h2>5. Działania na przedziałach</h2>
+  <p>Przedziały to zbiory, więc działania znaczą to samo co w punkcie 2. Liczb jest jednak nieskończenie wiele, dlatego zamiast je wypisywać, <strong>rysujemy przedziały na jednej osi</strong>.</p>
+  <div class="box ok"><strong>Metoda w czterech krokach</strong>
+    1. Narysuj oś i zaznacz na niej wszystkie końce obu przedziałów.<br>
+    2. Narysuj \(A\) nad osią, a \(B\) trochę niżej – każdy innym kolorem, z pełnymi albo pustymi kółkami.<br>
+    3. Odczytaj wynik: <em>suma</em> – tam, gdzie jest choć jedna kreska; <em>część wspólna</em> – tam, gdzie są obie; <em>różnica</em> \(A\setminus B\) – tam, gdzie jest \(A\), a nie ma \(B\).<br>
+    4. Każdy koniec wyniku sprawdź osobno: czy ta liczba należy do wyniku? Tak – nawias \(\langle\ \rangle\), nie – \((\ )\).</div>
+
+  <h3>Przykład: \(A=\langle-1;\ 5)\), \(B=(2;\ 8\rangle\)</h3>
+  <div class="os" data-os="A:<-1;5)|B:(2;8>" data-od="-3" data-do="10"></div>
+  <div class="table-wrap"><table>
+    <tr><th>Działanie</th><th>Wynik</th><th>Skąd te nawiasy</th></tr>
+    <tr><td>\(A\cup B\)</td><td><span class="m wynik">⟨−1; 8⟩</span></td><td>\(-1\in A\) i \(8\in B\), więc oba końce domknięte</td></tr>
+    <tr><td>\(A\cap B\)</td><td><span class="m wynik">(2; 5)</span></td><td>\(2\notin B\), \(5\notin A\) – żaden koniec nie należy do <em>obu</em> zbiorów</td></tr>
+    <tr><td>\(A\setminus B\)</td><td><span class="m wynik">⟨−1; 2⟩</span></td><td>\(2\in A\) i \(2\notin B\), więc 2 zostaje – nawias domknięty</td></tr>
+    <tr><td>\(B\setminus A\)</td><td><span class="m wynik">⟨5; 8⟩</span></td><td>\(5\in B\) i \(5\notin A\), więc 5 zostaje</td></tr>
+  </table></div>
+  <div class="box warn"><strong>Pułapka różnicy</strong>
+    Przy różnicy nawiasy często się „odwracają”. W \(A\setminus B\) końcem jest liczba \(2\), która w \(B\) miała nawias otwarty – skoro nie należy do \(B\), to jej nie odejmujemy i w wyniku jest \(\rangle\). Zawsze sprawdzaj pytaniem: „czy ta liczba należy do \(A\) i nie należy do \(B\)?”.</div>
+
+  <h3>Szczególne przypadki</h3>
+  <ul>
+    <li>\(\langle3;\ 5)\cap(1;\ 3\rangle=\{3\}\) – przedziały stykają się w jednym punkcie i oba go zawierają. Wynikiem jest zbiór jednoelementowy, nie przedział.</li>
+    <li>\((-\infty;\ 2)\cap(2;\ +\infty)=\emptyset\) – liczba 2 nie należy do żadnego z nich.</li>
+    <li>\((-\infty;\ 2)\cup(2;\ +\infty)=\mathbb{R}\setminus\{2\}\) – wszystkie liczby oprócz 2. Zapisujemy też \((-\infty;\ 2)\cup(2;\ +\infty)\).</li>
+  </ul>
+</section>
+
+<!-- ============ 6. DOPEŁNIENIE ============ -->
+<section id="dopelnienie">
+  <h2>6. Dopełnienie przedziału</h2>
+  <p>Przestrzenią jest cała oś liczbowa \(\mathbb{R}\). <strong>Dopełnienie</strong> \(A'=\mathbb{R}\setminus A\) to wszystkie liczby, których nie ma w \(A\). Na osi: wszystko poza zaznaczoną kreską, a każde kółko zmienia się na przeciwne – pełne na puste i puste na pełne.</p>
+  <div class="grid2">
+    <div>
+      <p>\(A=\langle-2;\ 3)\)</p>
+      <div class="os" data-os="A:<-2;3)" data-od="-5" data-do="6"></div>
+      <p>\(A'=\)<span class="m wynik"> (−∞; −2) ∪ ⟨3; +∞)</span></p>
+      <div class="os" data-os="A′:(-inf;-2) u <3;+inf)" data-od="-5" data-do="6" data-kolor="c"></div>
+    </div>
+    <div>
+      <p>\(B=(-\infty;\ 4\rangle\)</p>
+      <div class="os" data-os="B:(-inf;4>" data-od="0" data-do="8" data-kolor="b"></div>
+      <p>\(B'=\)<span class="m wynik"> (4; +∞)</span></p>
+      <div class="os" data-os="B′:(4;+inf)" data-od="0" data-do="8" data-kolor="c"></div>
+    </div>
+  </div>
+  <div class="box"><strong>Dopełnienie przedziału ograniczonego to dwa kawałki</strong>
+    Dopełnieniem przedziału z dwoma końcami liczbowymi są zawsze dwa przedziały nieograniczone połączone znakiem \(\cup\). Dopełnieniem przedziału z nieskończonością – jeden przedział.</div>
+</section>
+
+<!-- ============ 7. KALKULATOR ============ -->
+<section id="kalkulator">
+  <h2>7. Kalkulator przedziałów</h2>
+  <p class="tip">Wpisz dwa przedziały – kalkulator narysuje je na osi i wyznaczy wszystkie działania. Nawias \(\langle\) wpisz jako <kbd>&lt;</kbd>, \(\rangle\) jako <kbd>&gt;</kbd>, nieskończoność jako <kbd>inf</kbd>. Możesz też wpisać sumę, np. <span class="m">(-inf; 0) u &lt;2; 5&gt;</span>, albo punkt <span class="m">{3}</span>. Najpierw rozwiąż zadanie sam, potem sprawdź.</p>
+  <div class="przyklady" id="kalk-przyklady">
+    <button type="button" data-a="<-1; 5)" data-b="(2; 8>">⟨−1; 5) i (2; 8⟩</button>
+    <button type="button" data-a="<3; 5)" data-b="(1; 3>">⟨3; 5) i (1; 3⟩</button>
+    <button type="button" data-a="(-inf; 2)" data-b="(2; +inf)">(−∞; 2) i (2; +∞)</button>
+    <button type="button" data-a="<-3; +inf)" data-b="<-5; 1>">⟨−3; +∞) i ⟨−5; 1⟩</button>
+  </div>
+  <div class="kalk">
+    <label for="kalk-a">A =</label><input id="kalk-a" value="<-1; 5)" autocomplete="off" spellcheck="false">
+    <label for="kalk-b">B =</label><input id="kalk-b" value="(2; 8>" autocomplete="off" spellcheck="false">
+  </div>
+  <p class="blad" id="kalk-blad" aria-live="polite"></p>
+  <div class="os" id="kalk-os"></div>
+  <div class="wyniki" id="kalk-wyniki"></div>
+</section>
+
+<!-- ============ 8. ZADANIA ============ -->
+<section id="zadania">
+  <h2>8. Zadania z rozwiązaniami</h2>
+  <p class="tip">Rozwiąż w zeszycie, dopiero potem rozwiń rozwiązanie.</p>
+  <ol class="tasks">
+    <li>Wypisz elementy zbiorów \(A=\{x\in\mathbb{N}:\ x&lt;5\}\) i \(B=\{x\in\mathbb{C}:\ -2\le x&lt;3\}\). Wyznacz \(A\cap B\), \(A\setminus B\), \(B\setminus A\).
+      <details><summary>Rozwiązanie</summary>
+        <p>\(A=\{0,1,2,3,4\}\) – liczby naturalne, czyli od zera. \(B=\{-2,-1,0,1,2\}\) – liczba \(-2\) należy (znak \(\le\)), liczba 3 nie (znak \(&lt;\)).</p>
+        <p>\(A\cap B=\{0,1,2\}\), \(A\setminus B=\{3,4\}\), \(B\setminus A=\{-2,-1\}\).</p>
+      </details></li>
+    <li>Zapisz w postaci przedziału zbiór liczb spełniających nierówność: a) \(x\ge-3\), b) \(-1&lt;x\le4\), c) \(x&lt;0\).
+      <details><summary>Rozwiązanie</summary>
+        <p>a) <span class="m wynik">⟨−3; +∞)</span>, b) <span class="m wynik">(−1; 4⟩</span>, c) <span class="m wynik">(−∞; 0)</span>.</p>
+      </details></li>
+    <li>Na osi zaznaczono zbiór. Zapisz go symbolem przedziału i nierównością.
+      <div class="os" data-os="<-2;3)" data-od="-4" data-do="5" data-kolor="a"></div>
+      <details><summary>Rozwiązanie</summary>
+        <p>Pełne kółko przy \(-2\), puste przy \(3\): <span class="m wynik">⟨−2; 3)</span>, czyli \(-2\le x&lt;3\).</p>
+      </details></li>
+    <li>Wypisz liczby całkowite należące do przedziału \((-3;\ 2\rangle\). Ile ich jest?
+      <details><summary>Rozwiązanie</summary>
+        <p>\(-3\) nie należy (nawias otwarty), \(2\) należy: \(-2,\ -1,\ 0,\ 1,\ 2\) – <strong>5 liczb</strong>.</p>
+      </details></li>
+    <li>Dane są \(A=(-4;\ 3\rangle\) i \(B=\langle1;\ 6)\). Wyznacz \(A\cup B\), \(A\cap B\), \(A\setminus B\), \(B\setminus A\).
+      <details><summary>Rozwiązanie</summary>
+        <div class="os" data-os="A:(-4;3>|B:<1;6)" data-od="-6" data-do="8"></div>
+        <p>\(A\cup B=\)<span class="m wynik"> (−4; 6)</span>, \(A\cap B=\)<span class="m wynik"> ⟨1; 3⟩</span>,<br>
+        \(A\setminus B=\)<span class="m wynik"> (−4; 1)</span> – 1 należy do \(B\), więc odpada,<br>
+        \(B\setminus A=\)<span class="m wynik"> (3; 6)</span> – 3 należy do \(A\), więc odpada.</p>
+      </details></li>
+    <li>Wyznacz \(\langle3;\ 5)\cap(1;\ 3\rangle\).
+      <details><summary>Rozwiązanie</summary>
+        <div class="os" data-os="A:<3;5)|B:(1;3>" data-od="0" data-do="6"></div>
+        <p>Przedziały mają tylko jedną wspólną liczbę – 3 (oba nawiasy przy 3 są domknięte). Wynik: <span class="m wynik">{3}</span>.</p>
+      </details></li>
+    <li>Dane są \(A=(-\infty;\ -1\rangle\) i \(B=\langle2;\ +\infty)\). Wyznacz \((A\cup B)'\).
+      <details><summary>Rozwiązanie</summary>
+        <p>\(A\cup B=(-\infty;\ -1\rangle\cup\langle2;\ +\infty)\). Poza tym zbiorem zostaje środek osi, bez końców: \((A\cup B)'=\)<span class="m wynik"> (−1; 2)</span>.</p>
+      </details></li>
+    <li>Ile liczb całkowitych należy do \(A\cap B\), jeśli \(A=(-5;\ 2)\) i \(B=\langle-1;\ 7\rangle\)?
+      <details><summary>Rozwiązanie</summary>
+        <p>\(A\cap B=\)<span class="m wynik"> ⟨−1; 2)</span>. Liczby całkowite: \(-1,\ 0,\ 1\) – <strong>3 liczby</strong>.</p>
+      </details></li>
+  </ol>
+</section>
+
+<!-- ============ 9. ŚCIĄGA ============ -->
+<section id="sciaga">
+  <h2>9. Ściąga</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Zapis</th><th>Znaczenie</th></tr>
+    <tr><td>\(x\in A\), \(x\notin A\)</td><td>\(x\) należy / nie należy do \(A\)</td></tr>
+    <tr><td>\(B\subset A\)</td><td>każdy element \(B\) jest elementem \(A\)</td></tr>
+    <tr><td>\(A\cup B\)</td><td>suma: należy do \(A\) <strong>lub</strong> do \(B\)</td></tr>
+    <tr><td>\(A\cap B\)</td><td>część wspólna: należy do \(A\) <strong>i</strong> do \(B\)</td></tr>
+    <tr><td>\(A\setminus B\)</td><td>różnica: należy do \(A\) i <strong>nie</strong> należy do \(B\)</td></tr>
+    <tr><td>\(A'\)</td><td>dopełnienie: nie należy do \(A\) (w przedziałach: \(\mathbb{R}\setminus A\))</td></tr>
+    <tr><td>\(\mathbb{N}\subset\mathbb{C}\subset\mathbb{W}\subset\mathbb{R}\)</td><td>naturalne (z zerem), całkowite, wymierne, rzeczywiste; \(\mathbb{NW}\) – niewymierne</td></tr>
+    <tr><td>\(\langle a;\ b\rangle\)</td><td>\(a\le x\le b\), pełne kółka</td></tr>
+    <tr><td>\((a;\ b)\)</td><td>\(a&lt;x&lt;b\), puste kółka</td></tr>
+    <tr><td>\(\pm\infty\)</td><td>zawsze nawias okrągły</td></tr>
+    <tr><td>koniec wyniku</td><td>sprawdź, czy ta liczba spełnia warunek działania – wtedy \(\langle\ \rangle\), inaczej \((\ )\)</td></tr>
+  </table></div>
+</section>
+
+<!-- ============ 10. PRÓBNY SPRAWDZIAN ============ -->
+<section id="sprawdzian">
+  <h2>10. Próbny sprawdzian</h2>
+  <p class="tip">8 zadań, około 40 minut. Rozwiąż wszystko na kartce, potem porównaj z rozwiązaniami.</p>
+  <ol class="tasks">
+    <li>Dane są \(A=\{1,3,5,7,9\}\) i \(B=\{3,6,9\}\). Wyznacz \(A\cup B\), \(A\cap B\), \(A\setminus B\), \(B\setminus A\).
+      <details><summary>Rozwiązanie</summary><p>\(A\cup B=\{1,3,5,6,7,9\}\), \(A\cap B=\{3,9\}\), \(A\setminus B=\{1,5,7\}\), \(B\setminus A=\{6\}\).</p></details></li>
+    <li>Spośród liczb \(-7,\ \frac23,\ \sqrt{16},\ \sqrt7,\ 1{,}25,\ 0\) wypisz: a) naturalne, b) całkowite, c) wymierne, d) niewymierne.
+      <details><summary>Rozwiązanie</summary><p>\(\sqrt{16}=4\). a) \(\sqrt{16},\ 0\); b) \(-7,\ \sqrt{16},\ 0\); c) \(-7,\ \frac23,\ \sqrt{16},\ 1{,}25,\ 0\); d) \(\sqrt7\).</p></details></li>
+    <li>Zapisz w postaci przedziału: a) \(x\le2\), b) \(-5&lt;x&lt;1\), c) \(x>-0{,}5\).
+      <details><summary>Rozwiązanie</summary><p>a) <span class="m wynik">(−∞; 2⟩</span>, b) <span class="m wynik">(−5; 1)</span>, c) <span class="m wynik">(−0,5; +∞)</span>.</p></details></li>
+    <li>Zaznacz na osi liczbowej przedział \(\langle-4;\ 1)\) i zapisz go nierównością.
+      <details><summary>Rozwiązanie</summary><div class="os" data-os="<-4;1)" data-od="-6" data-do="3"></div><p>\(-4\le x&lt;1\).</p></details></li>
+    <li>Dane są \(A=\langle-2;\ 6)\) i \(B=(2;\ +\infty)\). Wyznacz \(A\cup B\), \(A\cap B\), \(A\setminus B\), \(B\setminus A\), \(A'\), \(B'\).
+      <details><summary>Rozwiązanie</summary>
+        <div class="os" data-os="A:<-2;6)|B:(2;+inf)" data-od="-4" data-do="9"></div>
+        <p>\(A\cup B=\)<span class="m wynik"> ⟨−2; +∞)</span>, \(A\cap B=\)<span class="m wynik"> (2; 6)</span>, \(A\setminus B=\)<span class="m wynik"> ⟨−2; 2⟩</span>, \(B\setminus A=\)<span class="m wynik"> ⟨6; +∞)</span>,<br>
+        \(A'=\)<span class="m wynik"> (−∞; −2) ∪ ⟨6; +∞)</span>, \(B'=\)<span class="m wynik"> (−∞; 2⟩</span>.</p></details></li>
+    <li>Dane są \(A=(-\infty;\ 3\rangle\) i \(B=(-1;\ 5)\). Wyznacz \(A\cup B\), \(A\cap B\), \(A\setminus B\), \(B\setminus A\), \(A'\).
+      <details><summary>Rozwiązanie</summary>
+        <div class="os" data-os="A:(-inf;3>|B:(-1;5)" data-od="-3" data-do="7"></div>
+        <p>\(A\cup B=\)<span class="m wynik"> (−∞; 5)</span>, \(A\cap B=\)<span class="m wynik"> (−1; 3⟩</span>, \(A\setminus B=\)<span class="m wynik"> (−∞; −1⟩</span>, \(B\setminus A=\)<span class="m wynik"> (3; 5)</span>, \(A'=\)<span class="m wynik"> (3; +∞)</span>.</p></details></li>
+    <li>Dane są \(A=(-3{,}5;\ 4\rangle\) i \(B=\langle0;\ 10)\). Wyznacz \(A\cap B\) i podaj, ile liczb całkowitych do niego należy.
+      <details><summary>Rozwiązanie</summary><p>\(A\cap B=\)<span class="m wynik"> ⟨0; 4⟩</span>, liczby całkowite \(0,1,2,3,4\) – <strong>5 liczb</strong>.</p></details></li>
+    <li>Prawda czy fałsz? a) \(0\in\mathbb{N}\), b) \(\sqrt2\in\mathbb{W}\), c) \(\langle1;\ 3\rangle\cap(3;\ 5)=\emptyset\), d) \((-\infty;\ 2)'=\langle2;\ +\infty)\), e) \(-3\in(-3;\ 0)\).
+      <details><summary>Rozwiązanie</summary><p>a) prawda, b) fałsz – \(\sqrt2\) jest niewymierny, c) prawda – 3 nie należy do \((3;\ 5)\), d) prawda, e) fałsz – nawias przy \(-3\) jest otwarty.</p></details></li>
+  </ol>
+</section>
+
+<!-- ============ 11. GENERATOR ============ -->
+<section id="generator">
+  <h2>11. Generator zadań – ćwicz bez końca</h2>
+  <div class="gen-controls">
+    <label for="gen-typ">Rodzaj:</label>
+    <select id="gen-typ">
+      <option value="mix">wszystkie po kolei</option>
+      <option value="przedzialy">działania na przedziałach</option>
+      <option value="dopelnienie">dopełnienie przedziału</option>
+      <option value="nierownosc">nierówność → przedział</option>
+      <option value="calkowite">liczby całkowite w przedziale</option>
+      <option value="skonczone">działania na zbiorach skończonych</option>
+    </select>
+    <button type="button" class="btn" id="gen-nowe">Nowe zadanie</button>
+    <button type="button" class="btn sec" id="gen-pokaz">Pokaż rozwiązanie</button>
+  </div>
+  <div id="gen-task"></div>
+  <div id="gen-sol" hidden></div>
+</section>
+
+</main>
+
+<footer>Matematyka 1A · Zbiory i przedziały · materiały dla uczniów</footer>
+<script>
+/* ===== ALGEBRA PRZEDZIAŁÓW (wspólna dla rysunków, kalkulatora i generatora) ===== */
+const INF = Infinity;
+// Zbiór = tablica rozłącznych, uporządkowanych przedziałów {a, b, lz, pz}; punkt {p} to a === b, lz = pz = true.
+function liczbaTekst(x) {
+  if (x === INF) return "+∞";
+  if (x === -INF) return "−∞";
+  return String(x).replace(".", ",").replace("-", "−");
+}
+function przedzialTekst(p) {
+  if (p.a === p.b) return "{" + liczbaTekst(p.a) + "}";
+  return (p.lz ? "⟨" : "(") + liczbaTekst(p.a) + "; " + liczbaTekst(p.b) + (p.pz ? "⟩" : ")");
+}
+function zbiorTekst(z) {
+  if (!z.length) return "∅";
+  if (z.length === 1 && z[0].a === -INF && z[0].b === INF) return "ℝ";
+  return z.map(przedzialTekst).join(" ∪ ");
+}
+function liczbaZTekstu(t) {
+  t = t.trim().replace(/−/g, "-").replace(",", ".").replace(/\s+/g, "").toLowerCase();
+  if (/^\+?(∞|inf|oo)$/.test(t)) return INF;
+  if (/^-(∞|inf|oo)$/.test(t)) return -INF;
+  if (!/^-?\d+(\.\d+)?$/.test(t)) throw new Error("„" + t + "” nie jest liczbą");
+  return parseFloat(t);
+}
+// Tekst → zbiór. Rozumie: ⟨ albo < (domknięty), ( ) , ⟩ albo >, ∞/inf, sumę „∪” albo „u”, punkt {3}, ∅, R.
+function zbiorZTekstu(tekst) {
+  let t = tekst.trim();
+  if (!t) throw new Error("Wpisz przedział");
+  if (/^(∅|pusty|\{\s*\})$/i.test(t)) return [];
+  if (/^(ℝ|r)$/i.test(t)) return [{ a: -INF, b: INF, lz: false, pz: false }];
+  const czesci = t.split(/\s*(?:∪|\bu\b|U)\s*/);
+  let wynik = [];
+  for (const c of czesci) {
+    let m;
+    if ((m = /^\{\s*([^{}]+)\s*\}$/.exec(c))) {
+      for (const x of m[1].split(";")) { const v = liczbaZTekstu(x); wynik = suma(wynik, [{ a: v, b: v, lz: true, pz: true }]); }
+      continue;
+    }
+    m = /^([(<⟨\[])\s*([^;]+);\s*([^)>⟩\]]+)\s*([)>⟩\]])$/.exec(c);
+    if (!m) throw new Error("Nie rozumiem zapisu „" + c + "”. Przykład: <-3; 5)");
+    const a = liczbaZTekstu(m[2]), b = liczbaZTekstu(m[3]);
+    let lz = m[1] !== "(", pz = m[4] !== ")";
+    if (a === -INF && lz) throw new Error("Przy −∞ nawias jest zawsze otwarty: (−∞; …");
+    if (b === INF && pz) throw new Error("Przy +∞ nawias jest zawsze otwarty: …; +∞)");
+    if (a > b) throw new Error("Lewy koniec musi być mniejszy od prawego");
+    if (a === b && !(lz && pz)) { continue; }   // (a; a) — pusty
+    wynik = suma(wynik, [{ a, b, lz, pz }]);
+  }
+  return wynik;
+}
+function nalezy(z, x) {
+  return z.some((p) => (x > p.a || (x === p.a && p.lz)) && (x < p.b || (x === p.b && p.pz)));
+}
+// Buduje zbiór z funkcji przynależności, sprawdzając punkty końcowe i odcinki między nimi.
+function zFunkcji(f, zbiory) {
+  const pts = [...new Set(zbiory.flatMap((z) => z.flatMap((p) => [p.a, p.b])).filter(isFinite))].sort((x, y) => x - y);
+  const kawalki = [];
+  const srodek = (u, v) => u === -INF ? (v === INF ? 0 : v - 1) : v === INF ? u + 1 : (u + v) / 2;
+  let u = -INF;
+  for (const p of pts) { kawalki.push({ typ: "o", u, v: p }); kawalki.push({ typ: "p", u: p, v: p }); u = p; }
+  kawalki.push({ typ: "o", u, v: INF });
+  const wynik = []; let cur = null, prev = null;
+  for (const k of kawalki) {
+    const x = k.typ === "p" ? k.u : srodek(k.u, k.v);
+    const jest = f(x);
+    if (jest && !cur) cur = { a: k.u, lz: k.typ === "p" };
+    if (!jest && cur) { wynik.push({ a: cur.a, lz: cur.lz, b: prev.typ === "p" ? prev.u : prev.v, pz: prev.typ === "p" }); cur = null; }
+    prev = k;
+  }
+  if (cur) wynik.push({ a: cur.a, lz: cur.lz, b: INF, pz: false });
+  return wynik;
+}
+const suma = (A, B) => zFunkcji((x) => nalezy(A, x) || nalezy(B, x), [A, B]);
+const iloczyn = (A, B) => zFunkcji((x) => nalezy(A, x) && nalezy(B, x), [A, B]);
+const roznica = (A, B) => zFunkcji((x) => nalezy(A, x) && !nalezy(B, x), [A, B]);
+const dopelnienie = (A) => zFunkcji((x) => !nalezy(A, x), [A]);
+
+/* ===== RYSOWANIE OSI LICZBOWEJ ===== */
+const KOLORY = { a: "var(--a)", b: "var(--b)", c: "var(--c)" };
+function zakres(zbiory, od, doo) {
+  const pts = zbiory.flatMap((z) => z.flatMap((p) => [p.a, p.b])).filter(isFinite);
+  let lo = pts.length ? Math.floor(Math.min(...pts)) - 2 : -3, hi = pts.length ? Math.ceil(Math.max(...pts)) + 2 : 3;
+  if (od !== undefined && !isNaN(od)) lo = Math.min(lo, od);
+  if (doo !== undefined && !isNaN(doo)) hi = Math.max(hi, doo);
+  if (od !== undefined && !isNaN(od) && pts.every((p) => p >= od + 1)) lo = od;
+  if (doo !== undefined && !isNaN(doo) && pts.every((p) => p <= doo - 1)) hi = doo;
+  if (hi - lo < 6) { const d = Math.ceil((6 - (hi - lo)) / 2); lo -= d; hi += d; }
+  return [lo, hi];
+}
+// wiersze: [{etyk, zbior, kolor}]
+function os(wiersze, od, doo) {
+  const [lo, hi] = zakres(wiersze.map((w) => w.zbior), od, doo);
+  const W = 640, ml = wiersze.some((w) => w.etyk) ? 46 : 18, mr = 22, wys = 26, H = 12 + wiersze.length * wys + 32;
+  const x = (v) => ml + (Math.max(lo - .5, Math.min(hi + .5, v)) - (lo - .5)) / (hi - lo + 1) * (W - ml - mr);
+  const osY = H - 24, krok = hi - lo > 30 ? 5 : hi - lo > 16 ? 2 : 1;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Oś liczbowa">`;
+  s += `<line x1="${ml - 8}" y1="${osY}" x2="${W - 8}" y2="${osY}" stroke="var(--muted)" stroke-width="1.5"/><path d="M${W - 6} ${osY} l-9 -5 v10 z" fill="var(--muted)"/>`;
+  for (let v = Math.ceil(lo / krok) * krok; v <= hi; v += krok) {
+    s += `<line x1="${x(v)}" y1="${osY - 5}" x2="${x(v)}" y2="${osY + 5}" stroke="var(--muted)"/><text x="${x(v)}" y="${osY + 19}" text-anchor="middle">${liczbaTekst(v)}</text>`;
+  }
+  wiersze.forEach((w, i) => {
+    const y = 12 + i * wys + wys / 2, k = w.kolor;
+    w.zbior.forEach((p) => {
+      const xa = p.a === -INF ? ml - 8 : x(p.a), xb = p.b === INF ? W - 14 : x(p.b);
+      if (p.a !== p.b) {
+        s += `<line x1="${xa}" y1="${y}" x2="${xb}" y2="${y}" stroke="${k}" stroke-width="5"/>`;
+        if (p.a === -INF) s += `<path d="M${xa - 3} ${y} l10 -6 v12 z" fill="${k}"/>`;
+        if (p.b === INF) s += `<path d="M${xb + 3} ${y} l-10 -6 v12 z" fill="${k}"/>`;
+      }
+      for (const [v, zam] of (p.a === p.b ? [[p.a, true]] : [[p.a, p.lz], [p.b, p.pz]])) {
+        if (!isFinite(v)) continue;
+        s += `<line x1="${x(v)}" y1="${y}" x2="${x(v)}" y2="${osY}" stroke="${k}" stroke-dasharray="3 3"/>`;
+        s += `<circle cx="${x(v)}" cy="${y}" r="6" fill="${zam ? k : "var(--card)"}" stroke="${k}" stroke-width="2.5"/>`;
+        if (v !== Math.round(v)) s += `<text x="${x(v)}" y="${y - 10}" text-anchor="middle" style="fill:${k}">${liczbaTekst(v)}</text>`;
+      }
+    });
+    if (w.etyk) s += `<text class="etyk" x="${ml - 16}" y="${y + 5}" text-anchor="end" style="fill:${k}">${w.etyk}</text>`;
+  });
+  return s + "</svg>";
+}
+function rysujZAtrybutu(el) {
+  const kolejne = ["a", "b", "c"];
+  const wiersze = el.dataset.os.split("|").map((cz, i) => {
+    const m = /^([^:<(⟨{]+):(.*)$/.exec(cz);
+    const etyk = m ? m[1].trim() : "", zb = zbiorZTekstu(m ? m[2] : cz);
+    return { etyk, zbior: zb, kolor: KOLORY[(i === 0 && el.dataset.kolor) || kolejne[i]] };
+  });
+  el.innerHTML = os(wiersze, parseFloat(el.dataset.od), parseFloat(el.dataset.do));
+}
+document.querySelectorAll(".os[data-os]").forEach(rysujZAtrybutu);
+
+/* ===== CHECKLISTA ===== */
+(function () {
+  const KEY = "1a-zbiory-checklist";
+  const boxes = [...document.querySelectorAll("#checklist input")];
+  let saved = [];
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) {}
+  boxes.forEach((b, i) => { b.checked = !!saved[i]; b.addEventListener("change", upd); });
+  function upd() {
+    const st = boxes.map((b) => b.checked), n = st.filter(Boolean).length;
+    document.getElementById("bar").style.width = (100 * n / boxes.length) + "%";
+    document.getElementById("bar-txt").textContent = "Opanowane: " + n + " z " + boxes.length + (n === boxes.length ? " – jesteś gotowy na sprawdzian!" : "");
+    try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {}
+  }
+  upd();
+})();
+
+/* ===== KALKULATOR ===== */
+(function () {
+  const ia = document.getElementById("kalk-a"), ib = document.getElementById("kalk-b");
+  const blad = document.getElementById("kalk-blad"), osEl = document.getElementById("kalk-os"), wyn = document.getElementById("kalk-wyniki");
+  function licz() {
+    let A, B;
+    try { A = zbiorZTekstu(ia.value); } catch (e) { blad.textContent = "A: " + e.message; return; }
+    try { B = zbiorZTekstu(ib.value); } catch (e) { blad.textContent = "B: " + e.message; return; }
+    blad.textContent = "";
+    const [lo, hi] = zakres([A, B]);
+    osEl.innerHTML = os([{ etyk: "A", zbior: A, kolor: KOLORY.a }, { etyk: "B", zbior: B, kolor: KOLORY.b }], lo, hi);
+    const dz = [["A ∪ B", suma(A, B)], ["A ∩ B", iloczyn(A, B)], ["A \\ B", roznica(A, B)], ["B \\ A", roznica(B, A)], ["A′", dopelnienie(A)], ["B′", dopelnienie(B)]];
+    wyn.innerHTML = dz.map(([n, z]) => `<div><span class="nazwa">${n} =</span> <span class="m wynik">${zbiorTekst(z)}</span>${os([{ zbior: z, kolor: KOLORY.c }], lo, hi)}</div>`).join("");
+  }
+  ia.addEventListener("input", licz); ib.addEventListener("input", licz);
+  document.getElementById("kalk-przyklady").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-a]"); if (!b) return;
+    ia.value = b.dataset.a; ib.value = b.dataset.b; licz();
+  });
+  licz();
+})();
+
+/* ===== GENERATOR ===== */
+(function () {
+  const R = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+  const pick = (t) => t[R(0, t.length - 1)];
+  const M = (t) => `<span class="m">${t}</span>`, W_ = (t) => `<span class="m wynik">${t}</span>`;
+  function losowyPrzedzial() {
+    const r = Math.random();
+    if (r < .15) return [{ a: -INF, b: R(-6, 6), lz: false, pz: Math.random() < .5 }];
+    if (r < .3) return [{ a: R(-6, 6), b: INF, lz: Math.random() < .5, pz: false }];
+    const a = R(-8, 5), b = a + R(2, 8);
+    return [{ a, b, lz: Math.random() < .5, pz: Math.random() < .5 }];
+  }
+  const NIER = [
+    (a, b) => [`${a} < x < ${b}`, { a, b, lz: false, pz: false }], (a, b) => [`${a} ≤ x ≤ ${b}`, { a, b, lz: true, pz: true }],
+    (a, b) => [`${a} ≤ x < ${b}`, { a, b, lz: true, pz: false }], (a, b) => [`${a} < x ≤ ${b}`, { a, b, lz: false, pz: true }],
+    (a) => [`x < ${a}`, { a: -INF, b: a, lz: false, pz: false }], (a) => [`x ≤ ${a}`, { a: -INF, b: a, lz: false, pz: true }],
+    (a) => [`x > ${a}`, { a, b: INF, lz: false, pz: false }], (a) => [`x ≥ ${a}`, { a, b: INF, lz: true, pz: false }],
+  ];
+  const fmt = (t) => t.replace(/-/g, "−");
+  const gen = {
+    przedzialy() {
+      let A, B; do { A = losowyPrzedzial(); B = losowyPrzedzial(); } while (zbiorTekst(A) === zbiorTekst(B));
+      const [nazwa, wynik] = pick([["A ∪ B", suma(A, B)], ["A ∩ B", iloczyn(A, B)], ["A \\ B", roznica(A, B)], ["B \\ A", roznica(B, A)]]);
+      const [lo, hi] = zakres([A, B]);
+      return { t: `Dane są ${M("A = " + zbiorTekst(A))} i ${M("B = " + zbiorTekst(B))}. Wyznacz ${M(nazwa)}.`,
+        s: os([{ etyk: "A", zbior: A, kolor: KOLORY.a }, { etyk: "B", zbior: B, kolor: KOLORY.b }], lo, hi) +
+          os([{ etyk: nazwa.replace(/ /g, ""), zbior: wynik, kolor: KOLORY.c }], lo, hi) + `<p>${M(nazwa + " =")} ${W_(zbiorTekst(wynik))}</p>` };
+    },
+    dopelnienie() {
+      const A = losowyPrzedzial(), w = dopelnienie(A), [lo, hi] = zakres([A]);
+      return { t: `Wyznacz dopełnienie przedziału ${M("A = " + zbiorTekst(A))}.`,
+        s: os([{ etyk: "A", zbior: A, kolor: KOLORY.a }, { etyk: "A′", zbior: w, kolor: KOLORY.c }], lo, hi) +
+          `<p>${M("A′ =")} ${W_(zbiorTekst(w))} – kółka na końcach zmieniają się na przeciwne.</p>` };
+    },
+    nierownosc() {
+      const f = pick(NIER), a = R(-7, 3), b = a + R(2, 7), [txt, p] = f(a, b);
+      if (Math.random() < .5) return { t: `Zapisz w postaci przedziału zbiór liczb spełniających nierówność ${M(fmt(txt))}.`,
+        s: os([{ zbior: [p], kolor: KOLORY.c }]) + `<p>${W_(zbiorTekst([p]))}</p>` };
+      return { t: `Zapisz nierównością przedział ${M(zbiorTekst([p]))}.`, s: `<p>${W_(fmt(txt))}</p>` };
+    },
+    calkowite() {
+      const a = R(-8, 3) + (Math.random() < .4 ? .5 : 0), b = Math.floor(a) + R(2, 7) + (Math.random() < .4 ? .5 : 0);
+      const p = { a, b, lz: Math.random() < .5, pz: Math.random() < .5 };
+      const lista = []; for (let k = Math.ceil(a); k <= Math.floor(b); k++) if (nalezy([p], k)) lista.push(k);
+      return { t: `Ile liczb całkowitych należy do przedziału ${M(zbiorTekst([p]))}? Wypisz je.`,
+        s: os([{ zbior: [p], kolor: KOLORY.c }]) + `<p>${W_(lista.map(liczbaTekst).join(", ") || "żadna")} – <strong>${lista.length}</strong> ${lista.length === 1 ? "liczba" : lista.length >= 2 && lista.length <= 4 ? "liczby" : "liczb"}.</p>` };
+    },
+    skonczone() {
+      const los = () => { const s = new Set(); const n = R(4, 6); while (s.size < n) s.add(R(1, 12)); return [...s].sort((x, y) => x - y); };
+      const A = los(), B = los(), z = (t) => "{" + t.join(", ") + "}" ;
+      const dz = pick([["A ∪ B", [...new Set([...A, ...B])].sort((x, y) => x - y)], ["A ∩ B", A.filter((x) => B.includes(x))],
+        ["A \\ B", A.filter((x) => !B.includes(x))], ["B \\ A", B.filter((x) => !A.includes(x))]]);
+      return { t: `Dane są ${M("A = " + z(A))} i ${M("B = " + z(B))}. Wyznacz ${M(dz[0])}.`,
+        s: `<p>${M(dz[0] + " =")} ${W_(dz[1].length ? z(dz[1]) : "∅")}</p>` };
+    },
+  };
+  const kolej = Object.keys(gen); let nr = 0;
+  const typ = document.getElementById("gen-typ"), task = document.getElementById("gen-task"), sol = document.getElementById("gen-sol");
+  const pokaz = document.getElementById("gen-pokaz");
+  function nowe() {
+    const k = typ.value === "mix" ? kolej[nr++ % kolej.length] : typ.value;
+    const z = gen[k]();
+    task.innerHTML = z.t; sol.innerHTML = z.s; sol.hidden = true; pokaz.textContent = "Pokaż rozwiązanie";
+  }
+  document.getElementById("gen-nowe").addEventListener("click", nowe);
+  typ.addEventListener("change", nowe);
+  pokaz.addEventListener("click", () => { sol.hidden = !sol.hidden; pokaz.textContent = sol.hidden ? "Pokaż rozwiązanie" : "Ukryj rozwiązanie"; });
+  nowe();
+})();
+</script>
+</body>
+</html>

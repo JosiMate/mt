@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Matematyka 1A: działania na przedziałach — suma, iloczyn, różnica i dopełnienie, grupy A i B z odpowiedziami na osi liczbowej.">
+<title>Przedziały — grupy A i B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<style>
+/* Układ: tablica na projektor — dwie karty grup obok siebie albo jedna duża; pasek przełączników u góry. */
+:root{
+  --bg:#f4f6f9; --tablica:#ffffff; --fg:#151a24; --muted:#5d6676; --linia:#d5dbe4;
+  --akcent:#1d4ed8; --akcent-tlo:#e6edff;
+  --zbiorA:#c2410c; --zbiorB:#0f766e; --wynik:#7c3aed; --odp-tlo:#f3efff;
+  --font-ui:"Inter",system-ui,"Segoe UI",sans-serif;
+  --font-mat:"STIX Two Text","Cambria Math","Times New Roman",serif;
+  --skala:1;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11141a; --tablica:#1a1e27; --fg:#e8ebf1; --muted:#9aa3b2; --linia:#2e3440;
+  --akcent:#8ab0ff; --akcent-tlo:#1d2a45; --zbiorA:#fb923c; --zbiorB:#2dd4bf; --wynik:#c4b5fd; --odp-tlo:#251f3a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11141a; --tablica:#1a1e27; --fg:#e8ebf1; --muted:#9aa3b2; --linia:#2e3440;
+  --akcent:#8ab0ff; --akcent-tlo:#1d2a45; --zbiorA:#fb923c; --zbiorB:#2dd4bf; --wynik:#c4b5fd; --odp-tlo:#251f3a; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-ui);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px 28px}
+.wrap{max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.pasek{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.pasek h1{font-size:1.25rem;margin:0;margin-right:auto;text-wrap:balance}
+.wstecz{font-size:.9rem;color:var(--akcent);text-decoration:none}
+.wstecz:hover{text-decoration:underline}
+.pasek h1 small{display:block;font-weight:400;font-size:.85rem;color:var(--muted)}
+.grupa-btn,.przel{font:inherit;font-size:.9rem;border:1px solid var(--linia);background:var(--tablica);color:var(--fg);
+  padding:.45rem .8rem;border-radius:8px;cursor:pointer}
+.segment{display:inline-flex;border:1px solid var(--linia);border-radius:9px;overflow:hidden}
+.segment button{font:inherit;font-size:.9rem;border:0;background:var(--tablica);color:var(--fg);padding:.45rem .85rem;cursor:pointer}
+.segment button+button{border-left:1px solid var(--linia)}
+.segment button[aria-pressed="true"],.przel[aria-pressed="true"]{background:var(--akcent);color:var(--tablica);border-color:var(--akcent)}
+button:focus-visible{outline:3px solid var(--akcent);outline-offset:2px}
+.grupy{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grupy.jedna{grid-template-columns:minmax(0,1fr);--skala:1.45}
+.karta{background:var(--tablica);border:1px solid var(--linia);border-radius:12px;padding:calc(18px*var(--skala)) calc(22px*var(--skala));
+  display:flex;flex-direction:column;gap:calc(12px*var(--skala));min-width:0}
+.karta header{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px calc(28px*var(--skala))}
+.karta h2{margin:0;font-size:calc(1rem*var(--skala));text-transform:uppercase;letter-spacing:.08em;color:var(--akcent)}
+.zbiory{display:flex;flex-wrap:wrap;gap:4px calc(34px*var(--skala));font-family:var(--font-mat);font-size:calc(1.75rem*var(--skala))}
+.zbiory b{font-style:italic}
+.zbiory .A b{color:var(--zbiorA)} .zbiory .B b{color:var(--zbiorB)}
+.os{width:100%;height:auto;display:block}
+.os text{fill:var(--muted);font-family:var(--font-ui)}
+.wyznacz{font-size:calc(1rem*var(--skala));color:var(--muted);margin:0}
+.zadania{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:calc(10px*var(--skala)) calc(26px*var(--skala))}
+.zad{all:unset;box-sizing:border-box;display:flex;flex-direction:column;gap:4px;cursor:pointer;border-radius:8px;
+  padding:6px 8px;min-width:0}
+.zad:hover{background:var(--akcent-tlo)} .zad:focus-visible{outline:3px solid var(--akcent)}
+.zad .rown{font-family:var(--font-mat);font-size:calc(1.6rem*var(--skala));display:flex;flex-wrap:wrap;gap:0 .35em;align-items:baseline}
+.zad .lewa i{font-style:italic}
+.zad .luka{display:inline-block;min-width:6em;border-bottom:2px dotted var(--linia);height:1.1em}
+.zad .odp{color:var(--wynik);font-weight:600}
+.zad .mini{display:none}
+.zad.odkryte .luka{display:none} .zad:not(.odkryte) .odp{display:none}
+.zad.odkryte{background:var(--odp-tlo)} .zad.odkryte .mini{display:block}
+.legenda{font-size:.85rem;color:var(--muted);margin:0}
+.ukryj-os .os-grupy{display:none}
+@media (max-width:860px){.grupy{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.zadania{grid-template-columns:minmax(0,1fr)} .zbiory{font-size:1.4rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="wstecz" href="matematyka-1a.html">← Matematyka 1A</a>
+  <div class="pasek">
+    <h1>Działania na przedziałach<small>Wyznacz: A ∪ B, A ∩ B, A \ B, B \ A, A′, B′</small></h1>
+    <div class="segment" role="group" aria-label="Która grupa">
+      <button type="button" id="pokaz-obie" data-widok="obie" aria-pressed="true">Obie grupy</button>
+      <button type="button" id="pokaz-a" data-widok="A" aria-pressed="false">Grupa A</button>
+      <button type="button" id="pokaz-b" data-widok="B" aria-pressed="false">Grupa B</button>
+    </div>
+    <button type="button" class="przel" id="przel-os" aria-pressed="false">Oś liczbowa</button>
+    <button type="button" class="przel" id="przel-odp" aria-pressed="false">Pokaż wszystkie odpowiedzi</button>
+  </div>
+  <div class="grupy ukryj-os" id="grupy"></div>
+  <p class="legenda">Kliknij działanie, żeby odsłonić jedną odpowiedź z rysunkiem na osi. ⟨ ⟩ — koniec należy do przedziału (kółko pełne), ( ) — nie należy (kółko puste).</p>
+</div>
+
+<script>
+// Przedział: [a, b, aZamk, bZamk]; ±Infinity zawsze otwarte. Zbiór = lista przedziałów.
+const I = Infinity;
+const GRUPY = [
+  { nazwa: "A", A: [[7, I, true, false]], B: [[-2, 10, false, false]], od: -4, do: 12,
+    odp: {
+      "A ∪ B": [[-2, I, false, false]],
+      "A ∩ B": [[7, 10, true, false]],
+      "A \\ B": [[10, I, true, false]],
+      "B \\ A": [[-2, 7, false, false]],
+      "A′": [[-I, 7, false, false]],
+      "B′": [[-I, -2, false, true], [10, I, true, false]],
+    } },
+  { nazwa: "B", A: [[-3, I, false, false]], B: [[-6, 1, true, false]], od: -8, do: 3,
+    odp: {
+      "A ∪ B": [[-6, I, true, false]],
+      "A ∩ B": [[-3, 1, false, false]],
+      "A \\ B": [[1, I, true, false]],
+      "B \\ A": [[-6, -3, true, true]],
+      "A′": [[-I, -3, false, true]],
+      "B′": [[-I, -6, false, false], [1, I, true, false]],
+    } },
+];
+const KOLEJNOSC = ["A ∪ B", "A ∩ B", "A \\ B", "B \\ A", "A′", "B′"];
+
+const liczba = (x) => x === I ? "+∞" : x === -I ? "−∞" : String(x).replace("-", "−");
+const przedzial = ([a, b, za, zb]) => (za ? "⟨" : "(") + liczba(a) + "; " + liczba(b) + (zb ? "⟩" : ")");
+const zapis = (zb) => zb.map(przedzial).join(" ∪ ");
+const lewa = (t) => t.replace(/([AB])/g, "<i>$1</i>").replace(" \\ ", " \\ ");
+
+// Rysunek osi liczbowej: wiersze = [{przedzialy, kolor}]
+function os(g, wiersze, wysWiersza) {
+  const W = 640, marg = 22, h0 = 14, H = h0 + wiersze.length * wysWiersza + 34;
+  const x = (v) => marg + (Math.max(g.od - .6, Math.min(g.do + .6, v)) - (g.od - .6)) / (g.do - g.od + 1.2) * (W - 2 * marg);
+  const osY = H - 26;
+  let s = `<svg class="os" viewBox="0 0 ${W} ${H}" role="img" aria-label="Oś liczbowa">`;
+  s += `<line x1="${marg - 10}" y1="${osY}" x2="${W - marg + 6}" y2="${osY}" stroke="var(--muted)" stroke-width="1.5"/>`;
+  s += `<path d="M${W - marg + 6} ${osY} l-9 -5 v10 z" fill="var(--muted)"/>`;
+  for (let v = g.od; v <= g.do; v++) {
+    s += `<line x1="${x(v)}" y1="${osY - 5}" x2="${x(v)}" y2="${osY + 5}" stroke="var(--muted)" stroke-width="1.2"/>`;
+    s += `<text x="${x(v)}" y="${osY + 20}" font-size="12" text-anchor="middle">${liczba(v)}</text>`;
+  }
+  wiersze.forEach((w, i) => {
+    const y = h0 + i * wysWiersza + wysWiersza / 2;
+    w.przedzialy.forEach(([a, b, za, zb]) => {
+      const xa = a === -I ? marg - 10 : x(a), xb = b === I ? W - marg + 4 : x(b);
+      s += `<line x1="${xa}" y1="${y}" x2="${xb}" y2="${y}" stroke="${w.kolor}" stroke-width="5" stroke-linecap="butt"/>`;
+      if (a !== -I) s += `<line x1="${xa}" y1="${y}" x2="${xa}" y2="${osY}" stroke="${w.kolor}" stroke-width="1" stroke-dasharray="3 3"/>`;
+      if (b !== I) s += `<line x1="${xb}" y1="${y}" x2="${xb}" y2="${osY}" stroke="${w.kolor}" stroke-width="1" stroke-dasharray="3 3"/>`;
+      if (a === -I) s += `<path d="M${xa - 2} ${y} l9 -6 v12 z" fill="${w.kolor}"/>`;
+      if (b === I) s += `<path d="M${xb + 2} ${y} l-9 -6 v12 z" fill="${w.kolor}"/>`;
+      if (a !== -I) s += `<circle cx="${xa}" cy="${y}" r="6" fill="${za ? w.kolor : "var(--tablica)"}" stroke="${w.kolor}" stroke-width="2.5"/>`;
+      if (b !== I) s += `<circle cx="${xb}" cy="${y}" r="6" fill="${zb ? w.kolor : "var(--tablica)"}" stroke="${w.kolor}" stroke-width="2.5"/>`;
+    });
+    if (w.etykieta) s += `<text x="${marg - 14}" y="${y + 5}" font-size="14" font-style="italic" font-weight="600" text-anchor="end" style="fill:${w.kolor}">${w.etykieta}</text>`;
+  });
+  return s + "</svg>";
+}
+
+const host = document.getElementById("grupy");
+host.innerHTML = GRUPY.map((g) => `
+  <section class="karta" data-grupa="${g.nazwa}">
+    <header>
+      <h2>Grupa ${g.nazwa}</h2>
+      <div class="zbiory"><span class="A"><b>A</b> = ${zapis(g.A)}</span><span class="B"><b>B</b> = ${zapis(g.B)}</span></div>
+    </header>
+    <div class="os-grupy">${os(g, [{ przedzialy: g.A, kolor: "var(--zbiorA)" }, { przedzialy: g.B, kolor: "var(--zbiorB)" }], 26)}</div>
+    <p class="wyznacz">Wyznacz:</p>
+    <div class="zadania">
+      ${KOLEJNOSC.map((k, i) => `
+        <button type="button" class="zad" id="zad-${g.nazwa}-${i}" aria-expanded="false">
+          <span class="rown"><span class="lewa">${lewa(k)} =</span><span class="luka"></span><span class="odp">${zapis(g.odp[k])}</span></span>
+          <span class="mini">${os(g, [{ przedzialy: g.odp[k], kolor: "var(--wynik)" }], 22)}</span>
+        </button>`).join("")}
+    </div>
+  </section>`).join("");
+
+const zadania = [...document.querySelectorAll(".zad")];
+const przelOdp = document.getElementById("przel-odp");
+function odswiezPrzelacznik() {
+  const widoczne = zadania.filter((z) => !z.closest(".karta").hidden);
+  const wszystkie = widoczne.every((z) => z.classList.contains("odkryte"));
+  przelOdp.setAttribute("aria-pressed", String(wszystkie));
+  przelOdp.textContent = wszystkie ? "Ukryj odpowiedzi" : "Pokaż wszystkie odpowiedzi";
+}
+function ustaw(z, wl) { z.classList.toggle("odkryte", wl); z.setAttribute("aria-expanded", String(wl)); }
+zadania.forEach((z) => z.addEventListener("click", () => { ustaw(z, !z.classList.contains("odkryte")); odswiezPrzelacznik(); }));
+przelOdp.addEventListener("click", () => {
+  const pokaz = przelOdp.getAttribute("aria-pressed") !== "true";
+  zadania.filter((z) => !z.closest(".karta").hidden).forEach((z) => ustaw(z, pokaz));
+  odswiezPrzelacznik();
+});
+const przelOs = document.getElementById("przel-os");
+przelOs.addEventListener("click", () => {
+  const wl = przelOs.getAttribute("aria-pressed") !== "true";
+  przelOs.setAttribute("aria-pressed", String(wl));
+  host.classList.toggle("ukryj-os", !wl);
+});
+document.querySelectorAll("[data-widok]").forEach((b) => b.addEventListener("click", () => {
+  const w = b.dataset.widok;
+  document.querySelectorAll("[data-widok]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+  document.querySelectorAll(".karta").forEach((k) => { k.hidden = w !== "obie" && k.dataset.grupa !== w; });
+  host.classList.toggle("jedna", w !== "obie");
+  odswiezPrzelacznik();
+}));
+</script>
+</body>
+</html>

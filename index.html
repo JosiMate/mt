@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wektory – matematyka techniczna</title>
-<meta name="description" content="Matematyka techniczna, dział Wektory: tematy lekcji, opracowanie wymagań, ściąga, próbny sprawdzian i generator zadań.">
+<title>Matematyka – materiały dla uczniów</title>
+<meta name="description" content="Materiały do matematyki dla uczniów PCEiKZ Szczucin: matematyka techniczna, matematyka w klasie 4T i w klasie 1A.">
 <style>
   :root{
     --bg:#f7f8fa; --card:#ffffff; --text:#1d2330; --muted:#5b6475; --line:#dde1e8;
@@ -38,44 +38,50 @@
   .intro{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1rem 1.2rem;margin-top:1rem}
   .intro p{margin:.3rem 0}
   footer{padding:1.5rem 1rem;color:var(--muted);font-size:.9rem;text-align:center}
+
+  .subjects{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-top:1.2rem}
+  a.subject{display:flex;flex-direction:column;gap:.4rem;background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:1.3rem 1.3rem 1.1rem;text-decoration:none;color:var(--text);transition:border-color .15s,transform .15s;min-height:11rem}
+  a.subject:hover{border-color:var(--accent);transform:translateY(-2px)}
+  a.subject .ikona{width:2.6rem;height:2.6rem;border-radius:10px;background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.25rem}
+  a.subject strong{font-size:1.2rem;line-height:1.25}
+  a.subject span.d{color:var(--muted);font-size:.92rem;line-height:1.45}
+  a.subject .tag{align-self:flex-start;margin-top:auto}
+  a.subject .tag.wkrotce{background:var(--warn-soft);color:var(--warn)}
 </style>
 </head>
 <body>
 
 <header><div class="wrap">
-  <p>Matematyka techniczna</p>
-  <h1>Dział: Wektory</h1>
-  <p>Wybierz temat lekcji albo przejdź do materiałów przed pracą klasową.</p>
+  <p>Materiały dla uczniów</p>
+  <h1>Matematyka</h1>
+  <p>Wybierz przedmiot albo swoją klasę.</p>
 </div></header>
 
 <main>
-  <div class="intro">
-    <p><strong>Jak korzystać?</strong> Tematy są ułożone w kolejności lekcji. Każdy zawiera teorię, rysunki i przykłady z rozwiązaniami. Przed sprawdzianem zacznij od listy wymagań, a na koniec rozwiąż próbny sprawdzian.</p>
-  </div>
-
-  <h2>Tematy lekcji</h2>
-  <div class="cards">
-    <a class="card" href="powtorka.html#pojecie"><span class="num">1</span><span><strong>Pojęcie wektora</strong><span class="d">Wektor zaczepiony i swobodny, kierunek, zwrot, długość, wektor zerowy.</span></span></a>
-    <a class="card" href="powtorka.html#rowne"><span class="num">2</span><span><strong>Wektory równe i wektor przeciwny</strong><span class="d">Kiedy wektory są równe, jak wyznaczyć wektor przeciwny.</span></span></a>
-    <a class="card" href="powtorka.html#dzialania-geom"><span class="num">3</span><span><strong>Działania na wektorach – rysunek</strong><span class="d">Suma (reguła trójkąta i równoległoboku), różnica, mnożenie przez liczbę.</span></span></a>
-    <a class="card" href="powtorka.html#uklad"><span class="num">4</span><span><strong>Wektor w układzie współrzędnych</strong><span class="d">Współrzędne wektora z punktów, zaznaczanie wektora, brakujący punkt.</span></span></a>
-    <a class="card" href="powtorka.html#dlugosc"><span class="num">5</span><span><strong>Długość wektora</strong><span class="d">Wzór na długość, upraszczanie pierwiastków, typowe błędy.</span></span></a>
-    <a class="card" href="powtorka.html#dzialania-wsp"><span class="num">6</span><span><strong>Działania na współrzędnych</strong><span class="d">Suma, różnica, iloczyn przez liczbę, kombinacje wektorów, równania wektorowe.</span></span></a>
-    <a class="card" href="prostopadlosc-rownoleglosc.html"><span class="num">7</span><span><strong>Warunek prostopadłości i równoległości</strong><span class="d">Iloczyn skalarny, wyznacznik, zastosowania techniczne.</span><span class="tag">z kalkulatorem</span></span></a>
-    <a class="card" href="powtorka.html#parametr"><span class="num">8</span><span><strong>Zadania z parametrem</strong><span class="d">Długość, prostopadłość i równoległość z parametrem <em>m</em>.</span></span></a>
-    <a class="card" href="powtorka.html#dowody"><span class="num">9</span><span><strong>Wektory w dowodach</strong><span class="d">Równoległobok, trójkąt prostokątny, odcinek łączący środki boków, romb.</span></span></a>
-  </div>
-
-  <h2>Przed pracą klasową</h2>
-  <div class="cards exam">
-    <a class="card" href="powtorka.html#wymagania"><span class="num">✓</span><span><strong>Wymagania</strong><span class="d">Lista tego, co trzeba umieć, z zaznaczaniem postępu.</span></span></a>
-    <a class="card" href="powtorka.html"><span class="num">≡</span><span><strong>Cały dział na jednej stronie</strong><span class="d">Pełne opracowanie – wygodne do powtórki i wydruku.</span></span></a>
-    <a class="card" href="powtorka.html#sciaga"><span class="num">Σ</span><span><strong>Ściąga</strong><span class="d">Wszystkie wzory w jednej tabeli.</span></span></a>
-    <a class="card" href="powtorka.html#sprawdzian"><span class="num">?</span><span><strong>Próbny sprawdzian</strong><span class="d">11 zadań z rozwiązaniami.</span></span></a>
-    <a class="card" href="powtorka.html#generator"><span class="num">∞</span><span><strong>Generator zadań</strong><span class="d">Losowe zadania z rozwiązaniem – ćwicz ile chcesz.</span></span></a>
+  <div class="subjects">
+    <a class="subject" href="matematyka-techniczna.html">
+      <span class="ikona">⟶</span>
+      <strong>Matematyka techniczna</strong>
+      <span class="d">Dział Wektory: 9 tematów lekcji, opracowanie przed pracą klasową, ściąga, próbny sprawdzian i generator zadań.</span>
+      <span class="tag">materiały gotowe</span>
+    </a>
+    <a class="subject" href="matematyka-4t.html">
+      <span class="ikona">4T</span>
+      <strong>Matematyka 4T</strong>
+      <span class="d">Materiały do lekcji matematyki w klasie 4T.</span>
+      <span class="tag wkrotce">w przygotowaniu</span>
+    </a>
+    <a class="subject" href="matematyka-1a.html">
+      <span class="ikona">1A</span>
+      <strong>Matematyka 1A</strong>
+      <span class="d">Materiały do lekcji matematyki w klasie 1A.</span>
+      <span class="tag wkrotce">w przygotowaniu</span>
+    </a>
   </div>
 </main>
 
-<footer>Matematyka techniczna · Wektory · materiały dla uczniów</footer>
+<footer>Matematyka · materiały dla uczniów</footer>
 </body>
 </html>

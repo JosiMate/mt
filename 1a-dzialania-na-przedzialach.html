@@ -65,6 +65,16 @@ button:focus-visible{outline:3px solid var(--akcent);outline-offset:2px}
 .zad.odkryte .luka{display:none} .zad:not(.odkryte) .odp{display:none}
 .zad.odkryte{background:var(--odp-tlo)} .zad.odkryte .mini{display:block}
 .legenda{font-size:.85rem;color:var(--muted);margin:0}
+.ocenianie{background:var(--tablica);border:1px solid var(--linia);border-radius:12px;padding:18px 22px;display:flex;flex-direction:column;gap:10px}
+.ocenianie h2{margin:0;font-size:1.05rem;text-transform:uppercase;letter-spacing:.08em;color:var(--akcent)}
+.ocenianie ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
+.ocenianie .uklad{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:760px){.ocenianie .uklad{grid-template-columns:minmax(0,1fr)}}
+.ocenianie table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+.ocenianie th,.ocenianie td{border:1px solid var(--linia);padding:.35rem .7rem;text-align:left}
+.ocenianie th{background:var(--akcent-tlo)}
+.ocenianie .m{font-family:var(--font-mat);font-size:1.1em;white-space:nowrap}
+.ocenianie p{margin:0;color:var(--muted);font-size:.9rem}
 .ukryj-os .os-grupy{display:none}
 @media (max-width:860px){.grupy{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:520px){.zadania{grid-template-columns:minmax(0,1fr)} .zbiory{font-size:1.4rem}}
@@ -85,6 +95,30 @@ button:focus-visible{outline:3px solid var(--akcent);outline-offset:2px}
   </div>
   <div class="grupy ukryj-os" id="grupy"></div>
   <p class="legenda">Kliknij działanie, żeby odsłonić jedną odpowiedź z rysunkiem na osi. ⟨ ⟩ — koniec należy do przedziału (kółko pełne), ( ) — nie należy (kółko puste).</p>
+  <section class="ocenianie" id="ocenianie">
+    <h2>Jak oceniana jest ta praca</h2>
+    <div class="uklad">
+      <ul>
+        <li>Każde z sześciu działań to <strong>2 punkty</strong>, razem <strong>12 punktów</strong>.</li>
+        <li><strong>1 pkt za końce i kierunek</strong> – dobre liczby na końcach i przedział w dobrą stronę.</li>
+        <li><strong>1 pkt za nawiasy</strong> – oba nawiasy dobre. Przy <span class="m">±∞</span> nawias jest zawsze okrągły, więc <span class="m">+∞⟩</span> to błąd nawiasu.</li>
+        <li>Dopełnienie złożone z dwóch części, np. <span class="m">(−∞; −2⟩ ∪ ⟨10; +∞)</span>: po 1 pkt za każdą część razem z jej nawiasami.</li>
+        <li>Wynik zapisany nierównością, np. <span class="m">x ≥ 10</span>, też jest dobry.</li>
+        <li><span class="m">A \ B</span> i <span class="m">B \ A</span> to różne zbiory – pomylenie ich kosztuje punkty za oba działania.</li>
+      </ul>
+      <div>
+        <table>
+          <tr><th>Punkty</th><th>Ocena</th></tr>
+          <tr><td>11–12</td><td>bardzo dobry (5)</td></tr>
+          <tr><td>9–10</td><td>dobry (4)</td></tr>
+          <tr><td>7–8</td><td>dostateczny (3)</td></tr>
+          <tr><td>5–6</td><td>dopuszczający (2)</td></tr>
+          <tr><td>0–4</td><td>niedostateczny (1)</td></tr>
+        </table>
+        <p style="margin-top:6px">Progi: 40% na ocenę dopuszczającą, 55% – dostateczną, 75% – dobrą, 90% – bardzo dobrą.</p>
+      </div>
+    </div>
+  </section>
 </div>
 
 <script>

@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rozwiązywanie nierówności – matematyka 1A</title>
+<meta name="description" content="Matematyka 1A, temat 5: rozwiązywanie nierówności liniowych – przekształcenia, zmiana zwrotu, nawiasy i ułamki, nierówności sprzeczne i tożsamościowe, zadania z rozwiązaniami i trening ze sprawdzaniem odpowiedzi.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
+  onload="window.renderMath=function(el){renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});};renderMath(document.body);"></script>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --text:#1d2330; --muted:#5b6475; --line:#dde1e8;
+    --accent:#2563eb; --accent-soft:#e8efff; --a:#2563eb; --b:#dc2626; --c:#7c3aed; --c-soft:#efe9ff;
+    --ok:#15803d; --ok-soft:#e7f6ec; --warn:#b45309; --warn-soft:#fdf3e3;
+    --mat:"Cambria Math","STIX Two Math","Times New Roman",serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12151b; --card:#1b1f27; --text:#e6e9ef; --muted:#9aa3b2; --line:#2c323d;
+      --accent:#7aa2ff; --accent-soft:#1e2a44; --a:#7aa2ff; --b:#ff7a7a; --c:#c4a1ff; --c-soft:#2a2342;
+      --ok:#4ade80; --ok-soft:#163323; --warn:#fbbf24; --warn-soft:#3a2d12;
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-padding-top:4rem}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  a{color:var(--accent)}
+  header{background:var(--accent);color:#fff;padding:2rem 1rem}
+  header .wrap{max-width:920px;margin:auto}
+  header p{margin:.2rem 0;opacity:.92}
+  header a{color:#fff}
+  header h1{margin:.3rem 0;font-size:1.9rem;line-height:1.25}
+  nav{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+  nav .wrap{max-width:920px;margin:auto;display:flex;gap:.2rem .9rem;flex-wrap:wrap;padding:.5rem 1rem}
+  nav a{text-decoration:none;font-size:.9rem}
+  nav a:hover{text-decoration:underline}
+  main{max-width:920px;margin:auto;padding:1rem;overflow-x:clip}
+  section{background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:1.2rem 1.4rem;margin:1.2rem 0}
+  @media (max-width:600px){section{padding:1rem}}
+  h2{margin-top:0;font-size:1.4rem;border-bottom:2px solid var(--accent-soft);padding-bottom:.3rem}
+  h3{font-size:1.1rem;margin:1.2rem 0 .3rem}
+  .box{border-left:4px solid var(--accent);background:var(--accent-soft);padding:.6rem 1rem;border-radius:6px;margin:1rem 0}
+  .box.ok{border-color:var(--ok);background:var(--ok-soft)}
+  .box.warn{border-color:var(--warn);background:var(--warn-soft)}
+  .box>strong:first-child{display:block}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
+  @media (max-width:760px){.grid2{grid-template-columns:1fr}.grid4{grid-template-columns:repeat(2,1fr)}}
+  figure{margin:0;text-align:center}
+  figure svg{width:100%;max-width:340px;height:auto}
+  figcaption{font-size:.9rem;color:var(--muted)}
+  table{border-collapse:collapse;width:100%;font-size:.95rem}
+  th,td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:middle}
+  th{background:var(--accent-soft)}
+  .table-wrap{overflow-x:auto}
+  details{border:1px solid var(--line);border-radius:6px;padding:.4rem .8rem;margin:.5rem 0}
+  summary{cursor:pointer;color:var(--accent);font-weight:600}
+  ol.tasks>li{margin-bottom:1rem}
+  .katex-display{overflow-x:auto;overflow-y:hidden;padding:.2rem 0}
+  .tip{color:var(--muted);font-size:.95rem}
+  .m{font-family:var(--mat);font-size:1.12em;white-space:nowrap}
+  .m.wynik{color:var(--c);font-weight:600}
+  /* checklista */
+  .check{list-style:none;padding:0;margin:0}
+  .check li{display:flex;gap:.6rem;align-items:flex-start;padding:.35rem 0;border-bottom:1px dashed var(--line)}
+  .check input{margin-top:.35rem;width:1.1rem;height:1.1rem;accent-color:var(--ok);flex:none}
+  .check a{margin-left:auto;white-space:nowrap;font-size:.9rem;padding-left:.5rem}
+  .progress{height:10px;background:var(--accent-soft);border-radius:99px;overflow:hidden;margin:.6rem 0}
+  .progress div{height:100%;background:var(--ok);width:0;transition:width .3s}
+  /* oś liczbowa */
+  .os{margin:.6rem 0}
+  .os svg{width:100%;max-width:640px;height:auto;display:block}
+  .os text{font:13px system-ui,sans-serif;fill:var(--muted)}
+  .os text.etyk{font:italic 600 15px var(--mat)}
+  /* diagramy Venna */
+  .venn svg{max-width:220px}
+  .venn .u{fill:none;stroke:var(--muted);stroke-width:1.5}
+  .venn .kolo{fill:none;stroke:var(--text);stroke-width:1.6}
+  .venn .zam{fill:var(--c);fill-opacity:.45}
+  .venn text{font:italic 600 16px var(--mat);fill:var(--text)}
+  /* kalkulator i generator */
+  .kalk{display:grid;grid-template-columns:auto 1fr;gap:.5rem .8rem;align-items:center;max-width:520px}
+  .kalk label{font-family:var(--mat);font-style:italic;font-weight:700;font-size:1.2rem}
+  .kalk input{font:1.1rem var(--mat);padding:.4rem .6rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);width:100%}
+  .kalk input:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .blad{color:var(--b);font-size:.95rem}
+  .wyniki{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem 1rem;margin-top:.8rem}
+  @media (max-width:640px){.wyniki{grid-template-columns:minmax(0,1fr)}}
+  .wyniki>div{border:1px solid var(--line);border-radius:8px;padding:.4rem .7rem;min-width:0}
+  .wyniki .nazwa{font-family:var(--mat);font-style:italic;font-weight:700;color:var(--muted)}
+  .gen-controls{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+  select,button.btn{padding:.45rem .7rem;font-size:1rem;border:1px solid var(--line);border-radius:6px;
+    background:var(--bg);color:var(--text)}
+  button.btn{cursor:pointer;background:var(--accent);color:#fff;border-color:var(--accent)}
+  button.btn.sec{background:var(--card);color:var(--accent)}
+  .przyklady{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0 .8rem}
+  .przyklady button{font:.9rem var(--mat);padding:.25rem .6rem;border:1px solid var(--line);border-radius:99px;background:var(--bg);color:var(--text);cursor:pointer}
+  #gen-task{margin-top:1rem;padding:.8rem 1rem;border:1px solid var(--line);border-radius:8px;min-height:3rem}
+  #gen-sol{margin-top:.6rem}
+  .zbiory-liczbowe svg{max-width:560px}
+  .zbiory-liczbowe rect{fill:var(--card);stroke-width:2}
+  .zbiory-liczbowe text{font:14px system-ui,sans-serif;fill:var(--muted)}
+  .zbiory-liczbowe text.lit{font:italic 700 20px var(--mat)}
+  footer{max-width:920px;margin:auto;padding:1rem;color:var(--muted);font-size:.9rem;text-align:center}
+  @media print{nav,.gen-controls,#generator,#kalkulator,.progress{display:none}details{border:none}details>*{display:block}
+    section{break-inside:avoid;border:none}header{background:none;color:#000}header a{color:#000}}
+  .zadanie-tr{margin-top:1rem;padding:.8rem 1rem;border:1px solid var(--line);border-radius:8px;font-size:1.1rem}
+  .odp-tr{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-top:.8rem}
+  .odp-tr input{font:1.1rem var(--mat);padding:.4rem .6rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);flex:1 1 14rem;min-width:0}
+  .odp-tr input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  #tr-ocena{font-weight:600;min-height:1.6em}
+  #tr-ocena.dobrze{color:var(--ok)} #tr-ocena.blad{color:var(--b)}
+  #tr-rozw{border-top:1px dashed var(--line);margin-top:.4rem}
+  .katex .mord.text{white-space:nowrap}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p><a href="matematyka-1a.html">← Matematyka 1A · Dział 2. Język matematyki</a></p>
+    <h1>Rozwiązywanie nierówności</h1>
+    <p>Temat 5 · 2 godziny lekcyjne. Przekształcanie nierówności, zmiana zwrotu, nierówności z nawiasami i ułamkami, zapis wyniku przedziałem.</p>
+    <p style="margin-top:.6rem"><a href="1a-zbiory-i-przedzialy.html#przedzialy">→ Przypomnij sobie przedziały i oś liczbową</a></p>
+  </div>
+</header>
+
+<nav><div class="wrap">
+  <a href="#wymagania">Wymagania</a>
+  <a href="#czym-jest">Czym jest nierówność</a>
+  <a href="#przeksztalcenia">Przekształcenia</a>
+  <a href="#zwrot">Zmiana zwrotu</a>
+  <a href="#schemat">Schemat rozwiązania</a>
+  <a href="#nawiasy">Nawiasy i ułamki</a>
+  <a href="#szczegolne">Brak rozwiązań i ℝ</a>
+  <a href="#calkowite">Liczby całkowite i zadania tekstowe</a>
+  <a href="#zadania">Zadania</a>
+  <a href="#sciaga">Ściąga</a>
+  <a href="#trening">Trening z sprawdzaniem</a>
+</div></nav>
+
+<main>
+
+<!-- ============ WYMAGANIA ============ -->
+<section id="wymagania">
+  <h2>Wymagania – co musisz umieć</h2>
+  <p class="tip">Zaznacz to, co już umiesz. Postęp zapisuje się w tej przeglądarce.</p>
+  <div class="progress"><div id="bar"></div></div>
+  <p id="bar-txt" class="tip"></p>
+  <ul class="check" id="checklist">
+    <li><input type="checkbox" id="w1"><label for="w1">Sprawdzam, czy dana liczba spełnia nierówność.</label><a href="#czym-jest">→ 1</a></li>
+    <li><input type="checkbox" id="w2"><label for="w2">Przenoszę wyrazy na drugą stronę i dzielę obie strony przez liczbę.</label><a href="#przeksztalcenia">→ 2</a></li>
+    <li><input type="checkbox" id="w3"><label for="w3">Zmieniam zwrot nierówności przy mnożeniu i dzieleniu przez liczbę ujemną.</label><a href="#zwrot">→ 3</a></li>
+    <li><input type="checkbox" id="w4"><label for="w4">Zapisuję zbiór rozwiązań przedziałem i zaznaczam go na osi.</label><a href="#schemat">→ 4</a></li>
+    <li><input type="checkbox" id="w5"><label for="w5">Rozwiązuję nierówności z nawiasami i z ułamkami.</label><a href="#nawiasy">→ 5</a></li>
+    <li><input type="checkbox" id="w6"><label for="w6">Rozpoznaję nierówność sprzeczną i tożsamościową.</label><a href="#szczegolne">→ 6</a></li>
+    <li><input type="checkbox" id="w7"><label for="w7">Wyznaczam najmniejszą albo największą liczbę całkowitą spełniającą nierówność i rozwiązuję zadania tekstowe.</label><a href="#calkowite">→ 7</a></li>
+  </ul>
+</section>
+
+<!-- ============ 1. CZYM JEST ============ -->
+<section id="czym-jest">
+  <h2>1. Czym jest nierówność i jej rozwiązanie</h2>
+  <p><strong>Nierówność</strong> to dwa wyrażenia połączone jednym ze znaków \(\lt,\ \le,\ \gt,\ \ge\). <strong>Rozwiązaniem</strong> nierówności z niewiadomą \(x\) jest każda liczba, która po wstawieniu za \(x\) daje zdanie prawdziwe.</p>
+  <div class="grid2">
+    <div class="box"><strong>Równanie</strong>\(2x+1=7\) ma zwykle jedno rozwiązanie: \(x=3\).</div>
+    <div class="box"><strong>Nierówność</strong>\(2x+1\gt7\) ma nieskończenie wiele rozwiązań: wszystkie liczby większe od 3. Dlatego wynik zapisujemy <em>przedziałem</em>: \(x\in(3;\ +\infty)\).</div>
+  </div>
+  <h3>Czy liczba spełnia nierówność \(2x+1\gt7\)?</h3>
+  <div class="table-wrap"><table>
+    <tr><th>\(x\)</th><th>Lewa strona \(2x+1\)</th><th>Czy \(\gt7\)?</th></tr>
+    <tr><td>\(5\)</td><td>\(2\cdot5+1=11\)</td><td>tak, \(11\gt7\)</td></tr>
+    <tr><td>\(3\)</td><td>\(2\cdot3+1=7\)</td><td>nie, \(7\gt7\) to fałsz – liczba 3 nie należy do rozwiązań</td></tr>
+    <tr><td>\(3{,}1\)</td><td>\(2\cdot3{,}1+1=7{,}2\)</td><td>tak – rozwiązaniami są też liczby niecałkowite</td></tr>
+    <tr><td>\(-1\)</td><td>\(2\cdot(-1)+1=-1\)</td><td>nie</td></tr>
+  </table></div>
+</section>
+
+<!-- ============ 2. PRZEKSZTAŁCENIA ============ -->
+<section id="przeksztalcenia">
+  <h2>2. Przekształcenia, które nie zmieniają rozwiązań</h2>
+  <p>Nierówność rozwiązujemy tak jak równanie – krok po kroku zostawiamy \(x\) samego po jednej stronie. Wolno:</p>
+  <div class="table-wrap"><table>
+    <tr><th>Co robimy z obiema stronami</th><th>Co ze znakiem nierówności</th><th>Przykład</th></tr>
+    <tr><td>dodajemy albo odejmujemy tę samą liczbę lub wyrażenie (czyli <em>przenosimy</em> wyraz na drugą stronę ze zmienionym znakiem)</td><td>bez zmian</td><td>\(x+4\gt9\ \ \big|-4\)<br>\(x\gt5\)</td></tr>
+    <tr><td>mnożymy albo dzielimy przez liczbę <strong>dodatnią</strong></td><td>bez zmian</td><td>\(3x\le12\ \ \big|:3\)<br>\(x\le4\)</td></tr>
+    <tr><td>mnożymy albo dzielimy przez liczbę <strong>ujemną</strong></td><td><strong>zmieniamy zwrot</strong>: \(\lt\) na \(\gt\), \(\le\) na \(\ge\) i odwrotnie</td><td>\(-2x\lt8\ \ \big|:(-2)\)<br>\(x\gt-4\)</td></tr>
+  </table></div>
+  <p class="tip">Kreską pionową \(\big|\) zapisujemy obok nierówności, co robimy w tym kroku. To pomaga nie zgubić zmiany zwrotu.</p>
+</section>
+
+<!-- ============ 3. ZMIANA ZWROTU ============ -->
+<section id="zwrot">
+  <h2>3. Dlaczego przy liczbie ujemnej zmienia się zwrot?</h2>
+  <p>Weźmy prawdziwą nierówność \(2\lt5\) i pomnóżmy obie strony przez \(-1\): wychodzi \(-2\) i \(-5\). Na osi \(-2\) leży na prawo od \(-5\), czyli \(-2\gt-5\). Mnożenie przez liczbę ujemną „odbija” liczby względem zera, więc mniejsza staje się większą.</p>
+  <figure><svg viewBox="0 0 520 90" style="max-width:520px" role="img" aria-label="Liczby 2 i 5 oraz ich odbicia −2 i −5 na osi">
+    <line x1="10" y1="55" x2="505" y2="55" stroke="var(--muted)" stroke-width="1.5"/><path d="M510 55 l-9 -5 v10 z" fill="var(--muted)"/>
+    <g font-size="13" text-anchor="middle" style="fill:var(--muted)">
+      <text x="40" y="78">−6</text><text x="80" y="78">−5</text><text x="120" y="78">−4</text><text x="160" y="78">−3</text><text x="200" y="78">−2</text><text x="240" y="78">−1</text><text x="280" y="78">0</text><text x="320" y="78">1</text><text x="360" y="78">2</text><text x="400" y="78">3</text><text x="440" y="78">4</text><text x="480" y="78">5</text>
+    </g>
+    <g stroke="var(--muted)"><line x1="40" y1="50" x2="40" y2="60"/><line x1="80" y1="50" x2="80" y2="60"/><line x1="120" y1="50" x2="120" y2="60"/><line x1="160" y1="50" x2="160" y2="60"/><line x1="200" y1="50" x2="200" y2="60"/><line x1="240" y1="50" x2="240" y2="60"/><line x1="280" y1="48" x2="280" y2="62"/><line x1="320" y1="50" x2="320" y2="60"/><line x1="360" y1="50" x2="360" y2="60"/><line x1="400" y1="50" x2="400" y2="60"/><line x1="440" y1="50" x2="440" y2="60"/><line x1="480" y1="50" x2="480" y2="60"/></g>
+    <circle cx="360" cy="55" r="6" fill="var(--a)"/><circle cx="480" cy="55" r="6" fill="var(--a)"/>
+    <circle cx="200" cy="55" r="6" fill="var(--b)"/><circle cx="80" cy="55" r="6" fill="var(--b)"/>
+    <path d="M360 44 Q280 4 200 44" fill="none" stroke="var(--c)" stroke-width="1.6" stroke-dasharray="4 3"/>
+    <path d="M480 44 Q280 -22 80 44" fill="none" stroke="var(--c)" stroke-width="1.6" stroke-dasharray="4 3"/>
+    <text x="360" y="38" text-anchor="middle" style="fill:var(--a);font:600 14px system-ui">2</text><text x="480" y="38" text-anchor="middle" style="fill:var(--a);font:600 14px system-ui">5</text>
+    <text x="200" y="38" text-anchor="middle" style="fill:var(--b);font:600 14px system-ui">−2</text><text x="80" y="38" text-anchor="middle" style="fill:var(--b);font:600 14px system-ui">−5</text>
+  </svg><figcaption>\(2\lt5\), ale \(-2\gt-5\) – po pomnożeniu przez \(-1\) kolejność liczb się odwraca.</figcaption></figure>
+  <div class="box warn"><strong>Najczęstszy błąd w tym temacie</strong>
+    \(-3x\ge12\ \ \big|:(-3)\) daje \(x\le-4\), a nie \(x\ge-4\). Zwrot zmienia się, gdy <strong>dzielisz przez liczbę ujemną</strong> – nie wtedy, gdy wynik jest ujemny. Na przykład \(3x\ge-12\ \ \big|:3\) daje \(x\ge-4\) i zwrot zostaje.</div>
+</section>
+
+<!-- ============ 4. SCHEMAT ============ -->
+<section id="schemat">
+  <h2>4. Schemat rozwiązania i zapis wyniku</h2>
+  <div class="box ok"><strong>Cztery kroki</strong>
+    1. Wyrazy z \(x\) przenieś na lewą stronę, liczby na prawą.<br>
+    2. Zredukuj wyrazy podobne po obu stronach.<br>
+    3. Podziel obie strony przez współczynnik przy \(x\) – jeśli jest ujemny, zmień zwrot.<br>
+    4. Zapisz wynik nierównością, przedziałem i zaznacz go na osi.</div>
+  <div class="grid2">
+    <div>
+      <h3>Przykład 1</h3>
+      $$\begin{aligned}5x-3&\ge2x+9 &&\big|-2x,\ +3\\ 3x&\ge12 &&\big|:3\\ x&\ge4\end{aligned}$$
+      <p>\(x\in\)<span class="m wynik"> ⟨4; +∞)</span></p>
+      <div class="os" data-os="⟨4;+inf)" data-od="0" data-do="8" data-kolor="c"></div>
+    </div>
+    <div>
+      <h3>Przykład 2</h3>
+      $$\begin{aligned}4-3x&\gt x+12 &&\big|-x,\ -4\\ -4x&\gt8 &&\big|:(-4)\ \text{zmiana zwrotu!}\\ x&\lt-2\end{aligned}$$
+      <p>\(x\in\)<span class="m wynik"> (−∞; −2)</span></p>
+      <div class="os" data-os="(-inf;-2)" data-od="-6" data-do="2" data-kolor="c"></div>
+    </div>
+  </div>
+  <div class="box"><strong>Nawias przy końcu</strong>
+    Znak \(\le\) lub \(\ge\) – koniec należy do wyniku: nawias \(\langle\ \rangle\), pełne kółko. Znak \(\lt\) lub \(\gt\) – nie należy: nawias \((\ )\), puste kółko.</div>
+</section>
+
+<!-- ============ 5. NAWIASY I UŁAMKI ============ -->
+<section id="nawiasy">
+  <h2>5. Nierówności z nawiasami i z ułamkami</h2>
+  <div class="grid2">
+    <div>
+      <h3>Nawiasy: najpierw je opuść</h3>
+      $$\begin{aligned}3(x-2)-2(x+1)&\le4-x\\ 3x-6-2x-2&\le4-x\\ x-8&\le4-x &&\big|+x,\ +8\\ 2x&\le12 &&\big|:2\\ x&\le6\end{aligned}$$
+      <p>\(x\in\)<span class="m wynik"> (−∞; 6⟩</span></p>
+      <p class="tip">Minus przed nawiasem zmienia znaki <em>wszystkich</em> wyrazów w nawiasie: \(-2(x+1)=-2x-2\).</p>
+    </div>
+    <div>
+      <h3>Ułamki: pomnóż przez wspólny mianownik</h3>
+      $$\begin{aligned}\frac{x-1}{2}-\frac{x+2}{3}&\ge1 &&\big|\cdot6\\ 3(x-1)-2(x+2)&\ge6\\ 3x-3-2x-4&\ge6\\ x-7&\ge6 &&\big|+7\\ x&\ge13\end{aligned}$$
+      <p>\(x\in\)<span class="m wynik"> ⟨13; +∞)</span></p>
+      <p class="tip">Mnożymy przez 6 – liczbę dodatnią, więc zwrot zostaje. Licznik bierzemy w nawias, żeby nie zgubić znaku.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. SZCZEGÓLNE ============ -->
+<section id="szczegolne">
+  <h2>6. Gdy \(x\) znika: brak rozwiązań albo wszystkie liczby</h2>
+  <p>Czasem po redukcji wyrazy z \(x\) się skracają i zostaje sama nierówność liczbowa. Wtedy:</p>
+  <div class="grid2">
+    <div class="box"><strong>Nierówność sprzeczna – brak rozwiązań</strong>
+      $$\begin{aligned}2(x+3)&\lt2x+1\\ 2x+6&\lt2x+1\\ 6&\lt1\ \ \text{fałsz}\end{aligned}$$
+      Żadna liczba jej nie spełnia: \(x\in\)<span class="m wynik"> ∅</span>.</div>
+    <div class="box ok"><strong>Nierówność tożsamościowa – każda liczba</strong>
+      $$\begin{aligned}4(x-1)&\le4x+3\\ 4x-4&\le4x+3\\ -4&\le3\ \ \text{prawda}\end{aligned}$$
+      Spełnia ją każda liczba: \(x\in\)<span class="m wynik"> ℝ</span>.</div>
+  </div>
+</section>
+
+<!-- ============ 7. CAŁKOWITE I TEKSTOWE ============ -->
+<section id="calkowite">
+  <h2>7. Liczby całkowite i zadania tekstowe</h2>
+  <h3>Najmniejsza liczba całkowita spełniająca nierówność \(2x-7\gt3-x\)</h3>
+  $$\begin{aligned}2x-7&\gt3-x &&\big|+x,\ +7\\ 3x&\gt10 &&\big|:3\\ x&\gt\tfrac{10}{3}=3\tfrac13\end{aligned}$$
+  <div class="os" data-os="(10/3;+inf)" data-od="1" data-do="7" data-kolor="c"></div>
+  <p>Liczby całkowite większe od \(3\tfrac13\) to \(4,\ 5,\ 6,\dots\) Najmniejsza to <strong>4</strong>. Uwaga: 3 nie spełnia nierówności, bo \(3\lt3\tfrac13\).</p>
+
+  <h3>Liczby naturalne spełniające nierówność \(3x-2\lt10\)</h3>
+  <p>\(3x\lt12\), więc \(x\lt4\). Liczby naturalne mniejsze od 4: <strong>\(0,\ 1,\ 2,\ 3\)</strong>.</p>
+
+  <h3>Zadanie tekstowe</h3>
+  <p>Wypożyczalnia rowerów ma dwa cenniki. A: opłata 12 zł i 4 zł za każdą godzinę. B: 7 zł za godzinę, bez opłaty. Przy ilu godzinach jazdy cennik A jest tańszy?</p>
+  <p>\(h\) – liczba godzin. Cennik A kosztuje \(12+4h\), cennik B \(7h\). Szukamy \(h\), dla których \(12+4h\lt7h\):</p>
+  $$\begin{aligned}12+4h&\lt7h &&\big|-4h\\ 12&\lt3h &&\big|:3\\ 4&\lt h\end{aligned}$$
+  <p>Cennik A jest tańszy, gdy jazda trwa <strong>dłużej niż 4 godziny</strong>. Przy dokładnie 4 godzinach oba kosztują 28 zł.</p>
+</section>
+
+<!-- ============ ZADANIA ============ -->
+<section id="zadania">
+  <h2>8. Zadania z rozwiązaniami</h2>
+  <p class="tip">Rozwiąż w zeszycie, dopiero potem rozwiń rozwiązanie. Wynik zawsze zapisz przedziałem.</p>
+  <ol class="tasks">
+    <li>Rozwiąż: a) \(x-3\ge2\), b) \(-4x\gt20\), c) \(\frac{x}{3}\le-2\), d) \(-\frac{x}{2}\lt1\).
+      <details><summary>Rozwiązanie</summary>
+        <p>a) \(x\ge5\), <span class="m wynik">⟨5; +∞)</span>. b) \(\big|:(-4)\), zmiana zwrotu: \(x\lt-5\), <span class="m wynik">(−∞; −5)</span>.<br>
+        c) \(\big|\cdot3\): \(x\le-6\), <span class="m wynik">(−∞; −6⟩</span>. d) \(\big|\cdot(-2)\), zmiana zwrotu: \(x\gt-2\), <span class="m wynik">(−2; +∞)</span>.</p>
+      </details></li>
+    <li>Rozwiąż nierówność \(7-2x\le3x+22\).
+      <details><summary>Rozwiązanie</summary>
+        <p>\(-2x-3x\le22-7\), \(-5x\le15\ \big|:(-5)\), \(x\ge-3\). Wynik: <span class="m wynik">⟨−3; +∞)</span>.</p>
+      </details></li>
+    <li>Rozwiąż nierówność \(2(3-x)\gt3(x+7)\).
+      <details><summary>Rozwiązanie</summary>
+        <p>\(6-2x\gt3x+21\), \(-5x\gt15\ \big|:(-5)\), \(x\lt-3\). Wynik: <span class="m wynik">(−∞; −3)</span>.</p>
+      </details></li>
+    <li>Rozwiąż nierówność \(\frac{2x+1}{3}\lt\frac{x-1}{2}\).
+      <details><summary>Rozwiązanie</summary>
+        <p>\(\big|\cdot6\): \(2(2x+1)\lt3(x-1)\), \(4x+2\lt3x-3\), \(x\lt-5\). Wynik: <span class="m wynik">(−∞; −5)</span>.</p>
+      </details></li>
+    <li>Rozwiąż: a) \(5(x-1)-5x\ge0\), b) \(3x-(x-4)\gt2x\).
+      <details><summary>Rozwiązanie</summary>
+        <p>a) \(5x-5-5x\ge0\), czyli \(-5\ge0\) – fałsz, <span class="m wynik">∅</span>.<br>
+        b) \(3x-x+4\gt2x\), czyli \(4\gt0\) – prawda, <span class="m wynik">ℝ</span>.</p>
+      </details></li>
+    <li>Podaj największą liczbę całkowitą spełniającą nierówność \(4x+3\le x-8\).
+      <details><summary>Rozwiązanie</summary>
+        <p>\(3x\le-11\), \(x\le-\frac{11}{3}=-3\tfrac23\). Liczby całkowite nie większe od \(-3\tfrac23\): \(-4,\ -5,\dots\) Największa to <strong>\(-4\)</strong>.</p>
+      </details></li>
+    <li>Ile liczb naturalnych spełnia nierówność \(2(x-3)\lt x+1\)?
+      <details><summary>Rozwiązanie</summary>
+        <p>\(2x-6\lt x+1\), \(x\lt7\). Liczby naturalne: \(0,1,2,3,4,5,6\) – <strong>7 liczb</strong>.</p>
+      </details></li>
+    <li>Ola ma 120 zł. Kupuje bilet za 24 zł, a za resztę chce kupić jak najwięcej książek po 18 zł. Ile książek kupi?
+      <details><summary>Rozwiązanie</summary>
+        <p>\(n\) – liczba książek: \(24+18n\le120\), \(18n\le96\), \(n\le5\tfrac13\). Liczba książek jest naturalna, więc najwięcej <strong>5 książek</strong>.</p>
+      </details></li>
+    <li>\(A\) – zbiór rozwiązań nierówności \(2x-1\gt3\), \(B\) – zbiór rozwiązań nierówności \(x+5\le9\). Wyznacz \(A\cap B\).
+      <details><summary>Rozwiązanie</summary>
+        <p>\(A=(2;\ +\infty)\), \(B=(-\infty;\ 4\rangle\), więc \(A\cap B=\)<span class="m wynik"> (2; 4⟩</span>.</p>
+        <div class="os" data-os="A:(2;+inf)|B:(-inf;4>|A∩B:(2;4>" data-od="0" data-do="6"></div>
+      </details></li>
+  </ol>
+</section>
+
+<!-- ============ ŚCIĄGA ============ -->
+<section id="sciaga">
+  <h2>9. Ściąga</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Krok</th><th>Zasada</th></tr>
+    <tr><td>przeniesienie wyrazu</td><td>na drugą stronę ze zmienionym znakiem; zwrot bez zmian</td></tr>
+    <tr><td>mnożenie / dzielenie przez liczbę dodatnią</td><td>zwrot bez zmian</td></tr>
+    <tr><td>mnożenie / dzielenie przez liczbę ujemną</td><td><strong>zmiana zwrotu</strong>: \(\lt\ \leftrightarrow\ \gt\), \(\le\ \leftrightarrow\ \ge\)</td></tr>
+    <tr><td>nawiasy</td><td>opuszczamy na początku; minus przed nawiasem zmienia wszystkie znaki</td></tr>
+    <tr><td>ułamki</td><td>mnożymy obie strony przez wspólny mianownik, licznik w nawias</td></tr>
+    <tr><td>\(x\) się skrócił</td><td>prawda → \(\mathbb{R}\), fałsz → \(\emptyset\)</td></tr>
+    <tr><td>zapis wyniku</td><td>\(\le,\ \ge\) → \(\langle\ \rangle\); \(\lt,\ \gt\) → \((\ )\); przy \(\pm\infty\) zawsze \((\ )\)</td></tr>
+  </table></div>
+</section>
+
+<!-- ============ TRENING ============ -->
+<section id="trening">
+  <h2>10. Trening ze sprawdzaniem odpowiedzi</h2>
+  <p class="tip">Rozwiąż nierówność w zeszycie, wpisz wynik i kliknij <strong>Sprawdź</strong>. Wynik wpisz przedziałem, np. <span class="m">(-inf; 3&gt;</span> (nawias ⟨ wpisz jako <kbd>&lt;</kbd>, ⟩ jako <kbd>&gt;</kbd>), albo nierównością, np. <span class="m">x &gt;= 2</span>. Ułamek wpisz jako <span class="m">7/3</span>, brak rozwiązań jako <span class="m">∅</span> albo <span class="m">brak</span>, wszystkie liczby jako <span class="m">R</span>.</p>
+  <div class="gen-controls">
+    <label for="tr-typ">Rodzaj:</label>
+    <select id="tr-typ">
+      <option value="mix">wszystkie po kolei</option>
+      <option value="proste">proste: ax + b &lt; c</option>
+      <option value="obie">x po obu stronach</option>
+      <option value="nawiasy">z nawiasami</option>
+      <option value="ulamki">z ułamkami</option>
+      <option value="szczegolne">sprzeczne i tożsamościowe</option>
+      <option value="calkowite">najmniejsza / największa liczba całkowita</option>
+    </select>
+    <button type="button" class="btn" id="tr-nowe">Nowe zadanie</button>
+  </div>
+  <div id="tr-zadanie" class="zadanie-tr"></div>
+  <div class="odp-tr">
+    <label for="tr-odp">Twoja odpowiedź:</label>
+    <input id="tr-odp" autocomplete="off" spellcheck="false">
+    <button type="button" class="btn" id="tr-sprawdz">Sprawdź</button>
+    <button type="button" class="btn sec" id="tr-pokaz">Pokaż rozwiązanie</button>
+  </div>
+  <p id="tr-ocena" aria-live="polite"></p>
+  <div id="tr-rozw" hidden></div>
+  <p class="tip" id="tr-licznik"></p>
+</section>
+
+</main>
+
+<footer>Matematyka 1A · Dział 2. Język matematyki · Temat 5. Rozwiązywanie nierówności</footer>
+
+<script>
+/* ===== ALGEBRA PRZEDZIAŁÓW (wspólna dla rysunków, kalkulatora i generatora) ===== */
+const INF = Infinity;
+// Zbiór = tablica rozłącznych, uporządkowanych przedziałów {a, b, lz, pz}; punkt {p} to a === b, lz = pz = true.
+function liczbaTekst(x) {
+  if (x === INF) return "+∞";
+  if (x === -INF) return "−∞";
+  if (!Number.isInteger(x)) {            // ułamek zwykły, gdy mianownik jest mały: 10/3, −7/4
+    for (let d = 2; d <= 12; d++) {          // najmniejszy mianownik; połówki, ćwiartki i piąte zostają dziesiętne
+      const n = Math.round(x * d);
+      if (Math.abs(n / d - x) < 1e-9) {
+        if ([2, 4, 5, 8, 10].includes(d)) break;
+        return (n < 0 ? "−" : "") + Math.abs(n) + "/" + d;
+      }
+    }
+  }
+  return String(x).replace(".", ",").replace("-", "−");
+}
+function przedzialTekst(p) {
+  if (p.a === p.b) return "{" + liczbaTekst(p.a) + "}";
+  return (p.lz ? "⟨" : "(") + liczbaTekst(p.a) + "; " + liczbaTekst(p.b) + (p.pz ? "⟩" : ")");
+}
+function zbiorTekst(z) {
+  if (!z.length) return "∅";
+  if (z.length === 1 && z[0].a === -INF && z[0].b === INF) return "ℝ";
+  return z.map(przedzialTekst).join(" ∪ ");
+}
+function liczbaZTekstu(t) {
+  t = t.trim().replace(/−/g, "-").replace(",", ".").replace(/\s+/g, "").toLowerCase();
+  if (/^\+?(∞|inf|oo)$/.test(t)) return INF;
+  if (/^-(∞|inf|oo)$/.test(t)) return -INF;
+  let m = /^(-?)(\d+)\/(\d+)$/.exec(t);
+  if (m) { if (+m[3] === 0) throw new Error("Mianownik nie może być zerem"); return (m[1] ? -1 : 1) * (+m[2]) / (+m[3]); }
+  if (!/^-?\d+(\.\d+)?$/.test(t)) throw new Error("„" + t + "” nie jest liczbą");
+  return parseFloat(t);
+}
+// Tekst → zbiór. Rozumie: ⟨ albo < (domknięty), ( ) , ⟩ albo >, ∞/inf, sumę „∪” albo „u”, punkt {3}, ∅, R.
+function zbiorZTekstu(tekst) {
+  let t = tekst.trim();
+  if (!t) throw new Error("Wpisz przedział");
+  if (/^(∅|pusty|\{\s*\})$/i.test(t)) return [];
+  if (/^(ℝ|r)$/i.test(t)) return [{ a: -INF, b: INF, lz: false, pz: false }];
+  const czesci = t.split(/\s*(?:∪|\bu\b|U)\s*/);
+  let wynik = [];
+  for (const c of czesci) {
+    let m;
+    if ((m = /^\{\s*([^{}]+)\s*\}$/.exec(c))) {
+      for (const x of m[1].split(";")) { const v = liczbaZTekstu(x); wynik = suma(wynik, [{ a: v, b: v, lz: true, pz: true }]); }
+      continue;
+    }
+    m = /^([(<⟨\[])\s*([^;]+);\s*([^)>⟩\]]+)\s*([)>⟩\]])$/.exec(c);
+    if (!m) throw new Error("Nie rozumiem zapisu „" + c + "”. Przykład: <-3; 5)");
+    const a = liczbaZTekstu(m[2]), b = liczbaZTekstu(m[3]);
+    let lz = m[1] !== "(", pz = m[4] !== ")";
+    if (a === -INF && lz) throw new Error("Przy −∞ nawias jest zawsze otwarty: (−∞; …");
+    if (b === INF && pz) throw new Error("Przy +∞ nawias jest zawsze otwarty: …; +∞)");
+    if (a > b) throw new Error("Lewy koniec musi być mniejszy od prawego");
+    if (a === b && !(lz && pz)) { continue; }   // (a; a) — pusty
+    wynik = suma(wynik, [{ a, b, lz, pz }]);
+  }
+  return wynik;
+}
+function nalezy(z, x) {
+  return z.some((p) => (x > p.a || (x === p.a && p.lz)) && (x < p.b || (x === p.b && p.pz)));
+}
+// Buduje zbiór z funkcji przynależności, sprawdzając punkty końcowe i odcinki między nimi.
+function zFunkcji(f, zbiory) {
+  const pts = [...new Set(zbiory.flatMap((z) => z.flatMap((p) => [p.a, p.b])).filter(isFinite))].sort((x, y) => x - y);
+  const kawalki = [];
+  const srodek = (u, v) => u === -INF ? (v === INF ? 0 : v - 1) : v === INF ? u + 1 : (u + v) / 2;
+  let u = -INF;
+  for (const p of pts) { kawalki.push({ typ: "o", u, v: p }); kawalki.push({ typ: "p", u: p, v: p }); u = p; }
+  kawalki.push({ typ: "o", u, v: INF });
+  const wynik = []; let cur = null, prev = null;
+  for (const k of kawalki) {
+    const x = k.typ === "p" ? k.u : srodek(k.u, k.v);
+    const jest = f(x);
+    if (jest && !cur) cur = { a: k.u, lz: k.typ === "p" };
+    if (!jest && cur) { wynik.push({ a: cur.a, lz: cur.lz, b: prev.typ === "p" ? prev.u : prev.v, pz: prev.typ === "p" }); cur = null; }
+    prev = k;
+  }
+  if (cur) wynik.push({ a: cur.a, lz: cur.lz, b: INF, pz: false });
+  return wynik;
+}
+const suma = (A, B) => zFunkcji((x) => nalezy(A, x) || nalezy(B, x), [A, B]);
+const iloczyn = (A, B) => zFunkcji((x) => nalezy(A, x) && nalezy(B, x), [A, B]);
+const roznica = (A, B) => zFunkcji((x) => nalezy(A, x) && !nalezy(B, x), [A, B]);
+const dopelnienie = (A) => zFunkcji((x) => !nalezy(A, x), [A]);
+
+/* ===== RYSOWANIE OSI LICZBOWEJ ===== */
+const KOLORY = { a: "var(--a)", b: "var(--b)", c: "var(--c)" };
+function zakres(zbiory, od, doo) {
+  const pts = zbiory.flatMap((z) => z.flatMap((p) => [p.a, p.b])).filter(isFinite);
+  let lo = pts.length ? Math.floor(Math.min(...pts)) - 2 : -3, hi = pts.length ? Math.ceil(Math.max(...pts)) + 2 : 3;
+  if (od !== undefined && !isNaN(od)) lo = Math.min(lo, od);
+  if (doo !== undefined && !isNaN(doo)) hi = Math.max(hi, doo);
+  if (od !== undefined && !isNaN(od) && pts.every((p) => p >= od + 1)) lo = od;
+  if (doo !== undefined && !isNaN(doo) && pts.every((p) => p <= doo - 1)) hi = doo;
+  if (hi - lo < 6) { const d = Math.ceil((6 - (hi - lo)) / 2); lo -= d; hi += d; }
+  return [lo, hi];
+}
+// wiersze: [{etyk, zbior, kolor}]
+function os(wiersze, od, doo) {
+  const [lo, hi] = zakres(wiersze.map((w) => w.zbior), od, doo);
+  const W = 640, ml = wiersze.some((w) => w.etyk) ? 46 : 18, mr = 22, wys = 26, H = 12 + wiersze.length * wys + 32;
+  const x = (v) => ml + (Math.max(lo - .5, Math.min(hi + .5, v)) - (lo - .5)) / (hi - lo + 1) * (W - ml - mr);
+  const osY = H - 24, krok = hi - lo > 30 ? 5 : hi - lo > 16 ? 2 : 1;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Oś liczbowa">`;
+  s += `<line x1="${ml - 8}" y1="${osY}" x2="${W - 8}" y2="${osY}" stroke="var(--muted)" stroke-width="1.5"/><path d="M${W - 6} ${osY} l-9 -5 v10 z" fill="var(--muted)"/>`;
+  for (let v = Math.ceil(lo / krok) * krok; v <= hi; v += krok) {
+    s += `<line x1="${x(v)}" y1="${osY - 5}" x2="${x(v)}" y2="${osY + 5}" stroke="var(--muted)"/><text x="${x(v)}" y="${osY + 19}" text-anchor="middle">${liczbaTekst(v)}</text>`;
+  }
+  wiersze.forEach((w, i) => {
+    const y = 12 + i * wys + wys / 2, k = w.kolor;
+    w.zbior.forEach((p) => {
+      const xa = p.a === -INF ? ml - 8 : x(p.a), xb = p.b === INF ? W - 14 : x(p.b);
+      if (p.a !== p.b) {
+        s += `<line x1="${xa}" y1="${y}" x2="${xb}" y2="${y}" stroke="${k}" stroke-width="5"/>`;
+        if (p.a === -INF) s += `<path d="M${xa - 3} ${y} l10 -6 v12 z" fill="${k}"/>`;
+        if (p.b === INF) s += `<path d="M${xb + 3} ${y} l-10 -6 v12 z" fill="${k}"/>`;
+      }
+      for (const [v, zam] of (p.a === p.b ? [[p.a, true]] : [[p.a, p.lz], [p.b, p.pz]])) {
+        if (!isFinite(v)) continue;
+        s += `<line x1="${x(v)}" y1="${y}" x2="${x(v)}" y2="${osY}" stroke="${k}" stroke-dasharray="3 3"/>`;
+        s += `<circle cx="${x(v)}" cy="${y}" r="6" fill="${zam ? k : "var(--card)"}" stroke="${k}" stroke-width="2.5"/>`;
+        if (v !== Math.round(v)) s += `<text x="${x(v)}" y="${y - 10}" text-anchor="middle" style="fill:${k}">${liczbaTekst(v)}</text>`;
+      }
+    });
+    if (w.etyk) s += `<text class="etyk" x="${ml - 16}" y="${y + 5}" text-anchor="end" style="fill:${k}">${w.etyk}</text>`;
+  });
+  return s + "</svg>";
+}
+function rysujZAtrybutu(el) {
+  const kolejne = ["a", "b", "c"];
+  const wiersze = el.dataset.os.split("|").map((cz, i) => {
+    const m = /^([^:<(⟨{]+):(.*)$/.exec(cz);
+    const etyk = m ? m[1].trim() : "", zb = zbiorZTekstu(m ? m[2] : cz);
+    return { etyk, zbior: zb, kolor: KOLORY[(i === 0 && el.dataset.kolor) || kolejne[i]] };
+  });
+  el.innerHTML = os(wiersze, parseFloat(el.dataset.od), parseFloat(el.dataset.do));
+}
+document.querySelectorAll(".os[data-os]").forEach(rysujZAtrybutu);
+
+/* ===== CHECKLISTA ===== */
+(function () {
+  const KEY = "1a-nierownosci-checklist";
+  const boxes = [...document.querySelectorAll("#checklist input")];
+  let saved = [];
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) {}
+  boxes.forEach((b, i) => { b.checked = !!saved[i]; b.addEventListener("change", upd); });
+  function upd() {
+    const st = boxes.map((b) => b.checked), n = st.filter(Boolean).length;
+    document.getElementById("bar").style.width = (100 * n / boxes.length) + "%";
+    document.getElementById("bar-txt").textContent = "Opanowane: " + n + " z " + boxes.length + (n === boxes.length ? " – jesteś gotowy na sprawdzian!" : "");
+    try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {}
+  }
+  upd();
+})();
+
+
+/* ===== TRENING: generator nierówności z dokładnymi ułamkami i sprawdzaniem odpowiedzi ===== */
+const nwd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a || 1; };
+class Q {
+  constructor(n, d = 1) { if (d < 0) { n = -n; d = -d; } const g = nwd(n, d); this.n = n / g; this.d = d / g; }
+  add(o) { return new Q(this.n * o.d + o.n * this.d, this.d * o.d); }
+  sub(o) { return new Q(this.n * o.d - o.n * this.d, this.d * o.d); }
+  mul(o) { return new Q(this.n * o.n, this.d * o.d); }
+  div(o) { return new Q(this.n * o.d, this.d * o.n); }
+  get v() { return this.n / this.d; }
+  get zero() { return this.n === 0; }
+  tex() { return this.d === 1 ? String(this.n) : (this.n < 0 ? "-" : "") + "\\frac{" + Math.abs(this.n) + "}{" + this.d + "}"; }
+}
+const q = (n, d) => new Q(n, d);
+const ZNAK = { "<": "\\lt", "<=": "\\le", ">": "\\gt", ">=": "\\ge" };
+const ODWROC = { "<": ">", "<=": ">=", ">": "<", ">=": "<=" };
+function wspol(a) {                       // współczynnik przy x w TeX-u: 1 → "", −1 → "-"
+  if (a.d === 1 && Math.abs(a.n) === 1) return a.n < 0 ? "-" : "";
+  return a.tex();
+}
+function lin(a, b) {                      // ax + b w TeX-u
+  let s = "";
+  if (!a.zero) s = wspol(a) + "x";
+  if (!b.zero || !s) s += s ? (b.n < 0 ? "-" : "+") + q(Math.abs(b.n), b.d).tex() : b.tex();
+  return s;
+}
+const nawias = (k, t) => (k === 1 ? "" : k === -1 ? "-" : k) + "(x" + (t < 0 ? "-" : "+") + Math.abs(t) + ")";
+const stala = (r) => r === 0 ? "" : (r < 0 ? "-" : "+") + Math.abs(r);
+function opisPrzeniesienia(C, B) {
+  const cz = [];
+  if (!C.zero) cz.push((C.n > 0 ? "-" : "+") + wspol(q(Math.abs(C.n), C.d)) + "x");
+  if (!B.zero) cz.push((B.n > 0 ? "-" : "+") + q(Math.abs(B.n), B.d).tex());
+  return cz.length ? "\\big|" + cz.join(",\\ ") : "";
+}
+// Rozwiązuje Ax + B op Cx + D. Kroki: [lewa, op, prawa, co robimy z tym wierszem, żeby dostać następny].
+function rozwiaz(A, B, op, C, D, kroki) {
+  const k = A.sub(C), m = D.sub(B);
+  const opis = opisPrzeniesienia(C, B);
+  if (opis) { kroki[kroki.length - 1][3] = opis; kroki.push([k.zero ? "0" : lin(k, q(0)), op, m.tex(), ""]); }
+  if (k.zero) {
+    const prawda = { "<": 0 < m.v, "<=": 0 <= m.v, ">": 0 > m.v, ">=": 0 >= m.v }[op];
+    kroki[kroki.length - 1][3] = "\\text{" + (prawda ? "prawda" : "fałsz") + "}";
+    return prawda ? { wszystkie: true } : { pusty: true };
+  }
+  const nowyOp = k.n < 0 ? ODWROC[op] : op, v = m.div(k);
+  if (!(k.d === 1 && k.n === 1)) {
+    kroki[kroki.length - 1][3] = "\\big|:" + (k.n < 0 ? "(" + k.tex() + ")\\ \\text{zmiana zwrotu!}" : k.tex());
+    kroki.push(["x", nowyOp, v.tex(), ""]);
+  }
+  return { op: nowyOp, v };
+}
+function zbiorWyniku(w) {
+  if (w.wszystkie) return [{ a: -INF, b: INF, lz: false, pz: false }];
+  if (w.pusty) return [];
+  const v = w.v.v;
+  return [{ "<": { a: -INF, b: v, lz: false, pz: false }, "<=": { a: -INF, b: v, lz: false, pz: true },
+            ">": { a: v, b: INF, lz: false, pz: false }, ">=": { a: v, b: INF, lz: true, pz: false } }[w.op]];
+}
+const R = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+const RN = (a, b) => { let x; do { x = R(a, b); } while (x === 0); return x; };
+const pick = (t) => t[R(0, t.length - 1)];
+const OPY = ["<", "<=", ">", ">="];
+const por = (op, l, p) => ({ "<": l < p - 1e-12, "<=": l <= p + 1e-12, ">": l > p + 1e-12, ">=": l >= p - 1e-12 })[op];
+
+const TRENING = {
+  proste() {
+    const a = pick([-6, -5, -4, -3, -2, -1, 2, 3, 4, 5, 6]), x0 = R(-8, 8), b = R(-9, 9), c = a * x0 + b, op = pick(OPY);
+    const kroki = [[lin(q(a), q(b)), op, String(c), ""]];
+    return { f: (x) => por(op, a * x + b, c), t: lin(q(a), q(b)) + ZNAK[op] + c, kroki, w: rozwiaz(q(a), q(b), op, q(0), q(c), kroki) };
+  },
+  obie() {
+    let a, c; do { a = RN(-6, 6); c = RN(-6, 6); } while (a === c);
+    const x0 = R(-7, 7), b = R(-9, 9), d = (a - c) * x0 + b, op = pick(OPY);
+    const kroki = [[lin(q(a), q(b)), op, lin(q(c), q(d)), ""]];
+    return { f: (x) => por(op, a * x + b, c * x + d), t: lin(q(a), q(b)) + ZNAK[op] + lin(q(c), q(d)), kroki, w: rozwiaz(q(a), q(b), op, q(c), q(d), kroki) };
+  },
+  nawiasy() {
+    let p, s; do { p = pick([-4, -3, -2, 2, 3, 4, 5]); s = pick([-3, -2, 2, 3, 4]); } while (p === s);
+    const qq = RN(-6, 6), t = RN(-6, 6), r = R(-6, 6), x0 = R(-6, 6), u = (p - s) * x0 + p * qq + r - s * t, op = pick(OPY);
+    const lewa = nawias(p, qq) + stala(r), prawa = nawias(s, t) + stala(u);
+    const kroki = [[lewa, op, prawa, "\\text{opuszczamy nawiasy}"], [lin(q(p), q(p * qq + r)), op, lin(q(s), q(s * t + u)), ""]];
+    return { f: (x) => por(op, p * (x + qq) + r, s * (x + t) + u), t: lewa + ZNAK[op] + prawa, kroki, w: rozwiaz(q(p), q(p * qq + r), op, q(s), q(s * t + u), kroki) };
+  },
+  ulamki() {
+    let m, n; do { m = pick([2, 3, 4, 6]); n = pick([2, 3, 4, 6]); } while (m === n);
+    const L = m * n / nwd(m, n), al = L / m, be = L / n, p = RN(-6, 6), qq = RN(-6, 6), k = R(-3, 3), op = pick(OPY);
+    const ul = (pp, mm) => "\\frac{x" + (pp < 0 ? "-" : "+") + Math.abs(pp) + "}{" + mm + "}";
+    const lewa = ul(p, m), prawa = ul(qq, n) + stala(k);
+    const kroki = [[lewa, op, prawa, "\\big|\\cdot" + L],
+      [nawias(al, p), op, nawias(be, qq) + stala(k * L), "\\text{opuszczamy nawiasy}"],
+      [lin(q(al), q(al * p)), op, lin(q(be), q(be * qq + k * L)), ""]];
+    return { f: (x) => por(op, (x + p) / m, (x + qq) / n + k), t: lewa + ZNAK[op] + prawa, kroki, w: rozwiaz(q(al), q(al * p), op, q(be), q(be * qq + k * L), kroki) };
+  },
+  szczegolne() {
+    const a = pick([-3, -2, 2, 3, 4, 5]), p = RN(-5, 5), r = R(-5, 5), c = R(-9, 9), op = pick(OPY);
+    const lewa = nawias(a, p) + stala(r), prawa = lin(q(a), q(c));
+    const kroki = [[lewa, op, prawa, "\\text{opuszczamy nawiasy}"], [lin(q(a), q(a * p + r)), op, prawa, ""]];
+    return { f: (x) => por(op, a * (x + p) + r, a * x + c), t: lewa + ZNAK[op] + prawa, kroki, w: rozwiaz(q(a), q(a * p + r), op, q(a), q(c), kroki) };
+  },
+  calkowite() {
+    let a, c, k, b, d; do { a = RN(-6, 6); c = RN(-6, 6); k = a - c; b = R(-9, 9); d = R(-9, 9); } while (![2, 3, 4, -2, -3, -4].includes(k) || (d - b) % k === 0);
+    const op = pick(OPY), kroki = [[lin(q(a), q(b)), op, lin(q(c), q(d)), ""]];
+    const w = rozwiaz(q(a), q(b), op, q(c), q(d), kroki);
+    const dolna = w.op === ">" || w.op === ">=";
+    const v = w.v.v, odp = dolna ? Math.floor(v) + 1 : Math.floor(v);
+    return { f: (x) => por(op, a * x + b, c * x + d), t: lin(q(a), q(b)) + ZNAK[op] + lin(q(c), q(d)), kroki, w, calk: { odp, dolna } };
+  },
+};
+
+function krokiTeX(kroki) {
+  return "$$\\begin{aligned}" + kroki.map(([l, op, p, uw]) => l + "&" + ZNAK[op] + p + (uw ? "&&" + uw : "")).join("\\\\ ") + "\\end{aligned}$$";
+}
+// Odpowiedź ucznia → zbiór. Rozumie przedział, sumę przedziałów, x ≥ 2, 2 < x, ∅/brak, R.
+function zbiorZOdpowiedzi(t) {
+  t = t.trim().replace(/^x\s*∈\s*/i, "").replace(/=</g, "<=").replace(/=>/g, ">=").replace(/≤/g, "<=").replace(/≥/g, ">=");
+  if (/^(brak( rozwiązań)?|∅|zbiór pusty|pusty|\{\s*\})$/i.test(t)) return [];
+  let m = /^x\s*(<=|>=|<|>)\s*(.+)$/i.exec(t);
+  if (m) return zbiorWyniku({ op: m[1], v: { v: liczbaZTekstu(m[2]) } });
+  m = /^(.+?)\s*(<=|>=|<|>)\s*x$/i.exec(t);
+  if (m) return zbiorWyniku({ op: ODWROC[m[2]], v: { v: liczbaZTekstu(m[1]) } });
+  return zbiorZTekstu(t);
+}
+const rowneLiczby = (a, b) => a === b || Math.abs(a - b) < 1e-9;
+const rowneZbiory = (A, B) => A.length === B.length && A.every((p, i) =>
+  rowneLiczby(p.a, B[i].a) && rowneLiczby(p.b, B[i].b) && p.lz === B[i].lz && p.pz === B[i].pz);
+
+(function () {
+  const typEl = document.getElementById("tr-typ"), zad = document.getElementById("tr-zadanie"), odp = document.getElementById("tr-odp");
+  const ocena = document.getElementById("tr-ocena"), rozw = document.getElementById("tr-rozw"), pokaz = document.getElementById("tr-pokaz");
+  const licznik = document.getElementById("tr-licznik");
+  const tex = (el) => { if (window.renderMath) window.renderMath(el); };
+  const kolej = Object.keys(TRENING);
+  let nr = 0, biezace = null, dobre = 0, wszystkie = 0, sprawdzone = false;
+  function nowe() {
+    const k = typEl.value === "mix" ? kolej[nr++ % kolej.length] : typEl.value;
+    biezace = TRENING[k]();
+    const pyt = biezace.calk
+      ? `Podaj <strong>${biezace.calk.dolna ? "najmniejszą" : "największą"}</strong> liczbę całkowitą spełniającą nierówność \\(${biezace.t}\\).`
+      : `Rozwiąż nierówność \\(${biezace.t}\\). Wynik zapisz przedziałem.`;
+    zad.innerHTML = pyt; tex(zad);
+    odp.value = ""; odp.placeholder = biezace.calk ? "np. -4" : "np. (-inf; 3>  albo  x >= 2";
+    ocena.textContent = ""; ocena.className = ""; rozw.hidden = true; pokaz.textContent = "Pokaż rozwiązanie"; sprawdzone = false;
+    const Z = zbiorWyniku(biezace.w);
+    let h = krokiTeX(biezace.kroki);
+    if (biezace.w.wszystkie) h += `<p>Nierówność tożsamościowa – spełnia ją każda liczba: \\(x\\in\\)<span class="m wynik"> ℝ</span></p>`;
+    else if (biezace.w.pusty) h += `<p>Nierówność sprzeczna – brak rozwiązań: \\(x\\in\\)<span class="m wynik"> ∅</span></p>`;
+    else h += `<p>\\(x\\in\\)<span class="m wynik"> ${zbiorTekst(Z)}</span></p>` + os([{ zbior: Z, kolor: KOLORY.c }]);
+    if (biezace.calk) h += `<p>${biezace.calk.dolna ? "Najmniejsza" : "Największa"} liczba całkowita w tym zbiorze: <strong>${liczbaTekst(biezace.calk.odp)}</strong>.</p>`;
+    rozw.innerHTML = `<div class="os">${h}</div>`;
+    tex(rozw);
+    odp.focus({ preventScroll: true });
+  }
+  function sprawdz() {
+    if (!biezace) return;
+    const t = odp.value.trim();
+    if (!t) { ocena.textContent = "Wpisz odpowiedź."; ocena.className = "blad"; return; }
+    let ok = false, rada = "";
+    try {
+      if (biezace.calk) {
+        const v = liczbaZTekstu(t);
+        ok = v === biezace.calk.odp;
+        if (!ok) rada = Number.isInteger(v) ? "Sprawdź, czy ta liczba spełnia nierówność i czy jest " +
+          (biezace.calk.dolna ? "najmniejsza" : "największa") + "." : "Odpowiedzią ma być liczba całkowita.";
+      } else {
+        const Z = zbiorWyniku(biezace.w), U = zbiorZOdpowiedzi(t);
+        ok = rowneZbiory(Z, U);
+        if (!ok && biezace.w.op) {
+          const odwr = zbiorWyniku({ op: ODWROC[biezace.w.op], v: biezace.w.v });
+          const odwrOtw = zbiorWyniku({ op: { "<": ">=", "<=": ">", ">": "<=", ">=": "<" }[biezace.w.op], v: biezace.w.v });
+          const inny = zbiorWyniku({ op: { "<": "<=", "<=": "<", ">": ">=", ">=": ">" }[biezace.w.op], v: biezace.w.v });
+          if (rowneZbiory(odwr, U) || rowneZbiory(odwrOtw, U)) rada = "Kierunek się nie zgadza. Czy przy dzieleniu przez liczbę ujemną zmieniłeś zwrot?";
+          else if (rowneZbiory(inny, U)) rada = "Koniec przedziału jest dobry, ale nawias nie. Znak ≤ lub ≥ – nawias ⟨ ⟩, znak < lub > – nawias ( ).";
+          else rada = "Koniec przedziału wychodzi inny. Sprawdź rachunki – zwłaszcza znaki przy przenoszeniu i opuszczaniu nawiasów.";
+        } else if (!ok) rada = biezace.w.wszystkie ? "Sprawdź, co zostaje po skróceniu x – czy ta nierówność liczbowa jest prawdziwa?"
+          : "Sprawdź, co zostaje po skróceniu x – czy ta nierówność liczbowa jest prawdziwa?";
+      }
+    } catch (e) { ocena.textContent = "Nie rozumiem zapisu: " + e.message; ocena.className = "blad"; return; }
+    if (!sprawdzone) { wszystkie++; if (ok) dobre++; sprawdzone = true; }
+    ocena.innerHTML = ok ? "✔ Dobrze!" + (rozw.hidden ? " Kliknij <strong>Nowe zadanie</strong> albo porównaj swoje kroki z rozwiązaniem." : "")
+      : "✘ Jeszcze nie. " + rada;
+    ocena.className = ok ? "dobrze" : "blad";
+    licznik.textContent = `Pierwsze próby w tej sesji: dobrze ${dobre} z ${wszystkie}.`;
+  }
+  document.getElementById("tr-nowe").addEventListener("click", nowe);
+  document.getElementById("tr-sprawdz").addEventListener("click", sprawdz);
+  odp.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sprawdz(); } });
+  typEl.addEventListener("change", nowe);
+  pokaz.addEventListener("click", () => { rozw.hidden = !rozw.hidden; pokaz.textContent = rozw.hidden ? "Pokaż rozwiązanie" : "Ukryj rozwiązanie"; });
+  nowe();
+})();
+</script>
+</body>
+</html>

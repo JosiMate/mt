@@ -35,6 +35,11 @@
   .tag{display:inline-block;font-size:.75rem;font-weight:700;padding:.05rem .5rem;border-radius:99px;
     background:var(--ok-soft);color:var(--ok);margin-top:.35rem}
   .exam a.card .num{background:var(--warn-soft);color:var(--warn)}
+  div.card{display:flex;gap:.8rem;align-items:flex-start;background:var(--card);border:1px dashed var(--line);
+    border-radius:10px;padding:.9rem 1rem;color:var(--muted)}
+  div.card .num{background:var(--line);color:var(--muted)}
+  .tag.wkrotce{background:var(--warn-soft);color:var(--warn)}
+  h2 small{font-weight:400;font-size:.95rem;color:var(--muted)}
   .intro{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1rem 1.2rem;margin-top:1rem}
   .intro p{margin:.3rem 0}
   footer{padding:1.5rem 1rem;color:var(--muted);font-size:.9rem;text-align:center}
@@ -50,27 +55,39 @@
 
 <main>
   <div class="intro">
-    <p><strong>Jak korzystać?</strong> Tematy są ułożone w kolejności lekcji. Każdy zawiera teorię, rysunki i przykłady z rozwiązaniami. Przed sprawdzianem zacznij od listy wymagań, a na koniec rozwiąż próbny sprawdzian.</p>
+    <p><strong>Jak korzystać?</strong> Tematy są ułożone w kolejności lekcji, tak jak w rozkładzie materiału. Każdy gotowy temat zawiera teorię, rysunki i przykłady z rozwiązaniami. Kolejne tematy pojawią się w miarę realizacji programu.</p>
   </div>
 
-  <h2>Dział: Zbiory i przedziały</h2>
+  <h2>Dział 2. Język matematyki <small>· 18 godzin</small></h2>
   <div class="cards">
-    <a class="card" href="1a-zbiory-i-przedzialy.html#zbior"><span class="num">1</span><span><strong>Zbiór i element</strong><span class="d">Symbole ∈, ∉, ⊂, zbiór pusty, zapis zbioru przez wyliczenie i warunek.</span></span></a>
-    <a class="card" href="1a-zbiory-i-przedzialy.html#dzialania"><span class="num">2</span><span><strong>Działania na zbiorach</strong><span class="d">Suma, część wspólna, różnica i dopełnienie – diagramy Venna i przykłady.</span></span></a>
-    <a class="card" href="1a-zbiory-i-przedzialy.html#liczbowe"><span class="num">3</span><span><strong>Zbiory liczbowe</strong><span class="d">Liczby naturalne, całkowite, wymierne, niewymierne i rzeczywiste.</span></span></a>
-    <a class="card" href="1a-zbiory-i-przedzialy.html#przedzialy"><span class="num">4</span><span><strong>Przedziały</strong><span class="d">Zapis symbolem, nierównością i na osi liczbowej.</span></span></a>
-    <a class="card" href="1a-zbiory-i-przedzialy.html#dzialania-przedzialy"><span class="num">5</span><span><strong>Działania na przedziałach</strong><span class="d">Suma, część wspólna i różnica przedziałów na osi liczbowej.</span><span class="tag">z kalkulatorem</span></span></a>
-    <a class="card" href="1a-zbiory-i-przedzialy.html#dopelnienie"><span class="num">6</span><span><strong>Dopełnienie przedziału</strong><span class="d">Wszystko poza przedziałem – kółka zmieniają się na przeciwne.</span></span></a>
+    <a class="card" href="1a-zbiory-i-przedzialy.html#zbior"><span class="num">1</span><span><strong>Zbiory</strong><span class="d">Zbiór i element, symbole ∈, ∉, ⊂, ∅, zbiory liczbowe. · 1 godz.</span></span></a>
+    <a class="card" href="1a-zbiory-i-przedzialy.html#dzialania"><span class="num">2</span><span><strong>Działania na zbiorach</strong><span class="d">Suma, część wspólna, różnica i dopełnienie – diagramy Venna. · 1 godz.</span></span></a>
+    <a class="card" href="1a-zbiory-i-przedzialy.html#przedzialy"><span class="num">3</span><span><strong>Przedziały</strong><span class="d">Zapis symbolem, nierównością i na osi liczbowej. · 1 godz.</span></span></a>
+    <a class="card" href="1a-zbiory-i-przedzialy.html#dzialania-przedzialy"><span class="num">4</span><span><strong>Działania na przedziałach</strong><span class="d">Suma, część wspólna, różnica i dopełnienie przedziałów. · 1 godz.</span><span class="tag">z kalkulatorem</span></span></a>
+    <a class="card" href="1a-nierownosci.html"><span class="num">5</span><span><strong>Rozwiązywanie nierówności</strong><span class="d">Przekształcenia, zmiana zwrotu, nawiasy i ułamki, wynik przedziałem. · 2 godz.</span><span class="tag">trening ze sprawdzaniem</span></span></a>
+    <div class="card"><span class="num">6</span><span><strong>Mnożenie sumy algebraicznej przez jednomian</strong><span class="d">1 godz.</span><span class="tag wkrotce">w przygotowaniu</span></span></div>
+    <div class="card"><span class="num">7</span><span><strong>Wyłączanie jednomianu przed nawias</strong><span class="d">1 godz.</span><span class="tag wkrotce">w przygotowaniu</span></span></div>
+    <div class="card"><span class="num">8</span><span><strong>Mnożenie sum algebraicznych</strong><span class="d">2 godz.</span><span class="tag wkrotce">w przygotowaniu</span></span></div>
+    <div class="card"><span class="num">9</span><span><strong>Wzory skróconego mnożenia</strong><span class="d">2 godz.</span><span class="tag wkrotce">w przygotowaniu</span></span></div>
+    <div class="card"><span class="num">10</span><span><strong>Zastosowanie przekształceń algebraicznych</strong><span class="d">1 godz.</span><span class="tag wkrotce">w przygotowaniu</span></span></div>
+    <div class="card"><span class="num">11</span><span><strong>Wartość bezwzględna</strong><span class="d">1 godz.</span><span class="tag wkrotce">w przygotowaniu</span></span></div>
+    <div class="card"><span class="num">12</span><span><strong>Powtórzenie wiadomości</strong><span class="d">2 godz.</span><span class="tag wkrotce">w przygotowaniu</span></span></div>
+    <div class="card"><span class="num">13</span><span><strong>Praca klasowa i jej omówienie</strong><span class="d">2 godz.</span><span class="tag wkrotce">w przygotowaniu</span></span></div>
   </div>
 
-  <h2>Ćwiczenia i przed pracą klasową</h2>
+  <h2>Zbiory i przedziały – ćwiczenia i powtórka</h2>
   <div class="cards exam">
     <a class="card" href="1a-dzialania-na-przedzialach.html"><span class="num">✎</span><span><strong>Zadania na lekcję: grupy A i B</strong><span class="d">Działania na przedziałach do wyświetlenia na tablicy, odpowiedzi z rysunkiem na osi.</span></span></a>
     <a class="card" href="1a-zbiory-i-przedzialy.html#wymagania"><span class="num">✓</span><span><strong>Wymagania</strong><span class="d">Lista tego, co trzeba umieć, z zaznaczaniem postępu.</span></span></a>
-    <a class="card" href="1a-zbiory-i-przedzialy.html"><span class="num">≡</span><span><strong>Cały dział na jednej stronie</strong><span class="d">Pełne opracowanie – wygodne do powtórki i wydruku.</span></span></a>
+    <a class="card" href="1a-zbiory-i-przedzialy.html"><span class="num">≡</span><span><strong>Zbiory i przedziały na jednej stronie</strong><span class="d">Pełne opracowanie tematów 1–4 – wygodne do powtórki i wydruku.</span></span></a>
     <a class="card" href="1a-zbiory-i-przedzialy.html#sciaga"><span class="num">Σ</span><span><strong>Ściąga</strong><span class="d">Symbole i zasady w jednej tabeli.</span></span></a>
     <a class="card" href="1a-zbiory-i-przedzialy.html#sprawdzian"><span class="num">?</span><span><strong>Próbny sprawdzian</strong><span class="d">8 zadań z rozwiązaniami.</span></span></a>
     <a class="card" href="1a-zbiory-i-przedzialy.html#generator"><span class="num">∞</span><span><strong>Generator zadań</strong><span class="d">Losowe zadania z rozwiązaniem – ćwicz ile chcesz.</span></span></a>
+  </div>
+
+  <h2>Dział 3. Układy równań <small>· 11 godzin</small></h2>
+  <div class="cards">
+    <div class="card"><span class="num">3</span><span><strong>Układy równań</strong><span class="d">Tematy działu pojawią się po zakończeniu działu 2.</span><span class="tag wkrotce">w przygotowaniu</span></span></div>
   </div>
 </main>
 

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Matematyka 4T</title>
-<meta name="description" content="Materiały do matematyki dla klasy 4T.">
+<meta name="description" content="Matematyka 4T: dział Geometria analityczna – tematy lekcji z teorią, narzędziami i treningiem, powtórka, ściąga, próbny sprawdzian i generator zadań.">
 <style>
   :root{
     --bg:#f7f8fa; --card:#ffffff; --text:#1d2330; --muted:#5b6475; --line:#dde1e8;
@@ -35,6 +35,10 @@
   .tag{display:inline-block;font-size:.75rem;font-weight:700;padding:.05rem .5rem;border-radius:99px;
     background:var(--ok-soft);color:var(--ok);margin-top:.35rem}
   .exam a.card .num{background:var(--warn-soft);color:var(--warn)}
+  div.card{display:flex;gap:.8rem;align-items:flex-start;background:var(--card);border:1px dashed var(--line);
+    border-radius:10px;padding:.9rem 1rem;color:var(--muted)}
+  div.card .num{background:var(--line);color:var(--muted)}
+  h2 small{font-weight:400;font-size:.95rem;color:var(--muted)}
   .intro{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1rem 1.2rem;margin-top:1rem}
   .intro p{margin:.3rem 0}
   footer{padding:1.5rem 1rem;color:var(--muted);font-size:.9rem;text-align:center}
@@ -50,17 +54,31 @@
 
 <main>
   <div class="intro">
-    <p><strong>Materiały w przygotowaniu.</strong> Tematy pojawią się tutaj w miarę realizacji programu.</p>
+    <p><strong>Jak korzystać?</strong> Tematy są ułożone w kolejności lekcji, tak jak w rozkładzie materiału. Każdy temat ma listę wymagań, teorię z rysunkami, przykłady, interaktywne narzędzie, zadania z rozwiązaniami i trening, który sam sprawdza odpowiedzi. Przed pracą klasową zacznij od wymagań i ściągi, a na koniec rozwiąż próbny sprawdzian.</p>
   </div>
 
-  <h2>Tematy lekcji</h2>
+  <h2>Dział 2. Geometria analityczna <small>· 17 godzin</small></h2>
   <div class="cards">
-    <!-- Tu dodawaj kafelki tematów, np.:
-    <a class="card" href="..."><span class="num">1</span><span><strong>Temat</strong><span class="d">Krótki opis.</span></span></a>
-    -->
+    <a class="card" href="4t-odleglosc-punktow.html"><span class="num">1</span><span><strong>Odległość między punktami w układzie współrzędnych</strong><span class="d">Wzór na długość odcinka, upraszczanie pierwiastków, trójkąty prostokątne, parametr. · 2 godz.</span><span class="tag">trening ze sprawdzaniem</span></span></a>
+    <a class="card" href="4t-srodek-odcinka.html"><span class="num">2</span><span><strong>Środek odcinka</strong><span class="d">Środek i drugi koniec odcinka, środkowa trójkąta, wierzchołek równoległoboku. · 2 godz.</span><span class="tag">trening ze sprawdzaniem</span></span></a>
+    <a class="card" href="4t-okrag-rownanie.html"><span class="num">3</span><span><strong>Okrąg w układzie współrzędnych (1)</strong><span class="d">Równanie okręgu: odczyt środka i promienia, zapis z różnych danych. · 2 godz.</span><span class="tag">rysowanie z równania</span></span></a>
+    <a class="card" href="4t-okrag-polozenie.html"><span class="num">4</span><span><strong>Okrąg w układzie współrzędnych (2)</strong><span class="d">Punkt a okrąg, koło i zasięg, wzajemne położenie dwóch okręgów. · 1 godz.</span><span class="tag">trening ze sprawdzaniem</span></span></a>
+    <a class="card" href="4t-uklady-rownan.html"><span class="num">5</span><span><strong>Układy równań – powtórzenie</strong><span class="d">Podstawianie, przeciwne współczynniki, interpretacja na wykresie, prosta i okrąg. · 2 godz.</span><span class="tag">z kalkulatorem układów</span></span></a>
+    <a class="card" href="4t-symetria-osiowa.html"><span class="num">6</span><span><strong>Symetria osiowa</strong><span class="d">Obrazy punktów, wielokątów i okręgów względem osi OX i OY, figury osiowosymetryczne. · 2 godz.</span><span class="tag">trening ze sprawdzaniem</span></span></a>
+    <a class="card" href="4t-symetria-srodkowa.html"><span class="num">7</span><span><strong>Symetria środkowa</strong><span class="d">Symetria względem początku układu, figury środkowosymetryczne. · 2 godz.</span><span class="tag">trening ze sprawdzaniem</span></span></a>
+    <a class="card" href="4t-geometria-powtorka.html"><span class="num">8</span><span><strong>Powtórzenie wiadomości</strong><span class="d">Wymagania, ściąga, próbny sprawdzian i generator zadań z całego działu. · 2 godz.</span></span></a>
+    <div class="card"><span class="num">9</span><span><strong>Praca klasowa i jej omówienie</strong><span class="d">2 godz. · Przygotuj się z powtórką z tematu 8.</span></span></div>
+  </div>
+
+  <h2>Przed pracą klasową</h2>
+  <div class="cards exam">
+    <a class="card" href="4t-geometria-powtorka.html#wymagania"><span class="num">✓</span><span><strong>Wymagania</strong><span class="d">Lista tego, co trzeba umieć, z zaznaczaniem postępu i linkami do tematów.</span></span></a>
+    <a class="card" href="4t-geometria-powtorka.html#sciaga"><span class="num">Σ</span><span><strong>Ściąga</strong><span class="d">Wszystkie wzory działu w jednej tabeli.</span></span></a>
+    <a class="card" href="4t-geometria-powtorka.html#sprawdzian"><span class="num">?</span><span><strong>Próbny sprawdzian</strong><span class="d">13 zadań (zamknięte i otwarte) z rozwiązaniami.</span></span></a>
+    <a class="card" href="4t-geometria-powtorka.html#generator"><span class="num">∞</span><span><strong>Generator zadań</strong><span class="d">Losowe zadania ze wszystkich tematów, z rysunkiem i rozwiązaniem.</span></span></a>
   </div>
 </main>
 
-<footer>Matematyka 4T · materiały dla uczniów</footer>
+<footer>Matematyka 4T · Dział 2. Geometria analityczna · materiały dla uczniów</footer>
 </body>
 </html>

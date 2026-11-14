@@ -1,0 +1,1112 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Symetria osiowa – matematyka 4T</title>
+<meta name="description" content="Matematyka 4T, dział Geometria analityczna, temat 6: Symetria względem osi OX i OY: obrazy punktów, wielokątów i okręgów, figury osiowosymetryczne.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
+  onload="window.renderMath=function(el){renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});};renderMath(document.body);"></script>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --text:#1d2330; --muted:#5b6475; --line:#dde1e8;
+    --accent:#2563eb; --accent-soft:#e8efff; --a:#2563eb; --b:#dc2626; --c:#7c3aed; --c-soft:#efe9ff;
+    --ok:#15803d; --ok-soft:#e7f6ec; --warn:#b45309; --warn-soft:#fdf3e3; --siatka:#e7eaf0;
+    --mat:"Cambria Math","STIX Two Math","Times New Roman",serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12151b; --card:#1b1f27; --text:#e6e9ef; --muted:#9aa3b2; --line:#2c323d;
+      --accent:#7aa2ff; --accent-soft:#1e2a44; --a:#7aa2ff; --b:#ff7a7a; --c:#c4a1ff; --c-soft:#2a2342;
+      --ok:#4ade80; --ok-soft:#163323; --warn:#fbbf24; --warn-soft:#3a2d12; --siatka:#252a34;
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-padding-top:4rem}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  a{color:var(--accent)}
+  header{background:var(--accent);color:#fff;padding:2rem 1rem}
+  header .wrap{max-width:920px;margin:auto}
+  header p{margin:.2rem 0;opacity:.92}
+  header a{color:#fff}
+  header h1{margin:.3rem 0;font-size:1.9rem;line-height:1.25}
+  nav{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+  nav .wrap{max-width:920px;margin:auto;display:flex;gap:.2rem .9rem;flex-wrap:wrap;padding:.5rem 1rem}
+  nav a{text-decoration:none;font-size:.9rem}
+  nav a:hover{text-decoration:underline}
+  main{max-width:920px;margin:auto;padding:1rem;overflow-x:clip}
+  section{background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:1.2rem 1.4rem;margin:1.2rem 0}
+  @media (max-width:600px){section{padding:1rem}}
+  h2{margin-top:0;font-size:1.4rem;border-bottom:2px solid var(--accent-soft);padding-bottom:.3rem}
+  h3{font-size:1.1rem;margin:1.2rem 0 .3rem}
+  .box{border-left:4px solid var(--accent);background:var(--accent-soft);padding:.6rem 1rem;border-radius:6px;margin:1rem 0}
+  .box.ok{border-color:var(--ok);background:var(--ok-soft)}
+  .box.warn{border-color:var(--warn);background:var(--warn-soft)}
+  .box.gw{border-color:var(--c);background:var(--c-soft)}
+  .box>strong:first-child{display:block}
+  .wzor{font-size:1.15rem;text-align:center;margin:.4rem 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start}
+  @media (max-width:760px){.grid2{grid-template-columns:1fr}}
+  figure{margin:.6rem 0;text-align:center}
+  figcaption{font-size:.9rem;color:var(--muted)}
+  table{border-collapse:collapse;width:100%;font-size:.95rem}
+  th,td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:middle}
+  th{background:var(--accent-soft)}
+  .table-wrap{overflow-x:auto}
+  details{border:1px solid var(--line);border-radius:6px;padding:.4rem .8rem;margin:.5rem 0}
+  summary{cursor:pointer;color:var(--accent);font-weight:600}
+  ol.tasks>li{margin-bottom:1rem}
+  .katex-display{overflow-x:auto;overflow-y:hidden;padding:.2rem 0}
+  .tip{color:var(--muted);font-size:.95rem}
+  .wynik{color:var(--c);font-weight:600}
+  .gw-tag{display:inline-block;font-size:.75rem;font-weight:700;padding:.05rem .45rem;border-radius:99px;
+    background:var(--c-soft);color:var(--c);vertical-align:middle;margin-left:.3rem}
+  /* checklista */
+  .check{list-style:none;padding:0;margin:0}
+  .check li{display:flex;gap:.6rem;align-items:flex-start;padding:.35rem 0;border-bottom:1px dashed var(--line)}
+  .check input{margin-top:.35rem;width:1.1rem;height:1.1rem;accent-color:var(--ok);flex:none}
+  .check a{margin-left:auto;white-space:nowrap;font-size:.9rem;padding-left:.5rem}
+  .progress{height:10px;background:var(--accent-soft);border-radius:99px;overflow:hidden;margin:.6rem 0}
+  .progress div{height:100%;background:var(--ok);width:0;transition:width .3s}
+  /* układ współrzędnych */
+  .uklad svg{width:100%;height:auto;display:block;margin:auto;touch-action:none}
+  .uklad{max-width:380px;margin:.6rem auto}
+  .uklad.szeroki{max-width:520px}
+  .uklad .siatka{stroke:var(--siatka);stroke-width:1}
+  .uklad .os{stroke:var(--muted);stroke-width:1.4}
+  .uklad .os-g{fill:var(--muted)}
+  .uklad text{font:12px system-ui,sans-serif;fill:var(--muted)}
+  .uklad text.pkt{font:italic 700 15px var(--mat);fill:var(--text)}
+  .uklad text.nap{font:600 13px system-ui,sans-serif}
+  .uklad .k-a{stroke:var(--a);fill:var(--a)} .uklad .k-b{stroke:var(--b);fill:var(--b)}
+  .uklad .k-c{stroke:var(--c);fill:var(--c)} .uklad .k-ok{stroke:var(--ok);fill:var(--ok)}
+  .uklad .k-m{stroke:var(--muted);fill:var(--muted)} .uklad .k-w{stroke:var(--warn);fill:var(--warn)}
+  .uklad .lin{fill:none;stroke-width:2.2}
+  .uklad .przer{stroke-dasharray:6 5;stroke-width:1.6}
+  .uklad .wyp{fill-opacity:.12;stroke-width:2.2}
+  .uklad .uchwyt{cursor:grab;fill-opacity:.18;stroke:none}
+  .uklad .uchwyt:hover,.uklad .uchwyt.ciagnie{fill-opacity:.32}
+  .uklad text{paint-order:stroke;stroke:var(--card);stroke-width:3.5px;stroke-linejoin:round}
+  .uklad text.k-a,.uklad text.k-b,.uklad text.k-c,.uklad text.k-ok,.uklad text.k-w,.uklad text.k-m{stroke:var(--card)}
+  /* plansza interaktywna */
+  .plansza{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem;align-items:start}
+  @media (max-width:760px){.plansza{grid-template-columns:minmax(0,1fr)}}
+  .plansza .uklad{max-width:420px;margin:0 auto}
+  .wsp{display:flex;flex-wrap:wrap;gap:.4rem .9rem;margin:.3rem 0 .6rem}
+  .wsp label{font:italic 700 1.05rem var(--mat);display:flex;align-items:center;gap:.25rem}
+  .wsp input{width:4.2rem;font:1rem var(--mat);padding:.25rem .35rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text)}
+  .info{border:1px solid var(--line);border-radius:8px;padding:.5rem .9rem;min-width:0;overflow-x:auto}
+  .info p{margin:.35rem 0}
+  .info .werdykt{font-weight:700;color:var(--c)}
+  input:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .gen-controls{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+  select,button.btn,.pole-tekst{padding:.45rem .7rem;font-size:1rem;border:1px solid var(--line);border-radius:6px;
+    background:var(--bg);color:var(--text)}
+  button.btn{cursor:pointer;background:var(--accent);color:#fff;border-color:var(--accent)}
+  button.btn.sec{background:var(--card);color:var(--accent)}
+  .przyklady{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0 .8rem}
+  .przyklady button{font:.9rem var(--mat);padding:.25rem .6rem;border:1px solid var(--line);border-radius:99px;background:var(--bg);color:var(--text);cursor:pointer}
+  .blad{color:var(--b);font-size:.95rem}
+  /* trening */
+  .zadanie-tr{margin-top:1rem;padding:.8rem 1rem;border:1px solid var(--line);border-radius:8px;font-size:1.05rem;min-height:3rem}
+  .pola-tr{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.5rem .7rem;align-items:center;margin-top:.8rem;max-width:560px}
+  .pola-tr label{font-family:var(--mat);font-style:italic;font-weight:700;font-size:1.08rem}
+  .pola-tr input{font:1.05rem var(--mat);padding:.4rem .6rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);width:100%;min-width:0}
+  .pola-tr input.zle{border-color:var(--b)} .pola-tr input.dobre{border-color:var(--ok)}
+  .pola-tr .opcje{display:flex;flex-wrap:wrap;gap:.3rem .9rem;font-family:inherit;font-style:normal}
+  .pola-tr .opcje label{font:1rem system-ui,sans-serif;font-style:normal;font-weight:400}
+  .przyciski-tr{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem}
+  .ocena-tr{font-weight:600;min-height:1.6em;margin:.6rem 0 .2rem}
+  .ocena-tr.dobrze{color:var(--ok)} .ocena-tr.zle{color:var(--b)}
+  .rozw-tr{border-top:1px dashed var(--line);margin-top:.4rem}
+  .podpowiedz{font-size:.85rem;color:var(--muted);grid-column:2}
+  /* nawigacja między tematami */
+  .tematy-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin:1.5rem 0 .5rem}
+  .tematy-nav a{text-decoration:none;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:.5rem .9rem}
+  footer{max-width:920px;margin:auto;padding:1rem;color:var(--muted);font-size:.9rem;text-align:center}
+  @media print{nav,.gen-controls,.trening,.plansza-sekcja,.progress,.tematy-nav{display:none}details{border:none}details>*{display:block}
+    section{break-inside:avoid;border:none}header{background:none;color:#000}header a{color:#000}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p><a href="matematyka-4t.html">← Matematyka 4T · Dział 2. Geometria analityczna</a></p>
+    <h1>Symetria osiowa</h1>
+    <p>Temat 6 · 2 godziny lekcyjne. Symetria względem osi OX i OY: obrazy punktów, wielokątów i okręgów, figury osiowosymetryczne.</p>
+  </div>
+</header>
+
+<nav><div class="wrap">
+  <a href="#wymagania">Wymagania</a>
+  <a href="#definicja">Symetria osiowa</a>
+  <a href="#osie">Względem osi OX i OY</a>
+  <a href="#wielokaty">Obraz wielokąta</a>
+  <a href="#okregi">Obraz okręgu</a>
+  <a href="#figury">Figury osiowosymetryczne</a>
+  <a href="#parametry">Parametry</a>
+  <a href="#narzedzie">Narzędzie</a>
+  <a href="#zadania">Zadania</a>
+  <a href="#trening">Trening</a>
+</div></nav>
+
+<main>
+<section id="wymagania" data-nav="Wymagania">
+  <h2>Wymagania – co musisz umieć</h2>
+  <p class="tip">Zaznacz to, co już umiesz. Postęp zapisuje się w tej przeglądarce.</p>
+  <div class="progress"><div id="bar"></div></div>
+  <p id="bar-txt" class="tip"></p>
+  <ul class="check" id="checklist">
+    <li><input type="checkbox" id="w1"><label for="w1">Wiem, kiedy dwa punkty są symetryczne względem prostej.</label><a href="#definicja">→ 1</a></li>
+    <li><input type="checkbox" id="w2"><label for="w2">Wyznaczam obraz punktu w symetrii względem osi \(OX\) i osi \(OY\).</label><a href="#osie">→ 2</a></li>
+    <li><input type="checkbox" id="w3"><label for="w3">Wyznaczam obraz wielokąta w symetrii względem osi układu.</label><a href="#wielokaty">→ 3</a></li>
+    <li><input type="checkbox" id="w4"><label for="w4">Zapisuję równanie obrazu okręgu w symetrii względem osi układu.</label><a href="#okregi">→ 4</a></li>
+    <li><input type="checkbox" id="w5"><label for="w5">Rozpoznaję figury osiowosymetryczne i wskazuję ich osie symetrii.</label><a href="#figury">→ 5</a></li>
+    <li><input type="checkbox" id="w6"><label for="w6">Wyznaczam parametry, dla których punkty są symetryczne względem osi.</label><a href="#parametry">→ 6</a></li>
+  </ul>
+</section>
+
+<section id="definicja" data-nav="Symetria osiowa">
+  <h2>1. Co to jest symetria osiowa</h2>
+  <p>Punkty \(A\) i \(A'\) są <strong>symetryczne względem prostej \(l\)</strong>, gdy prosta \(l\) jest symetralną odcinka \(AA'\): przecina go w połowie i pod kątem prostym. Punkt leżący na prostej \(l\) jest symetryczny sam do siebie.</p>
+  <p>Symetria osiowa to <strong>izometria</strong> – nie zmienia długości odcinków ani miar kątów. Obraz figury jest jej „lustrzanym odbiciem”: ma te same wymiary, ale odwróconą orientację (kolejność wierzchołków \(A\to B\to C\) zmienia kierunek obiegu).</p>
+</section>
+
+<section id="osie" data-nav="Względem osi OX i OY">
+  <h2>2. Symetria względem osi \(OX\) i \(OY\)</h2>
+  <div class="grid2">
+    <div>
+      <div class="box ok"><strong>Wzory</strong>
+        względem osi \(OX\): \((x,\ y)\to(x,\ -y)\)<br>
+        względem osi \(OY\): \((x,\ y)\to(-x,\ y)\)</div>
+      <p>\(A=(3,\ 2)\). Obraz względem \(OX\): <span class="wynik">\(A'=(3,\ -2)\)</span>. Obraz względem \(OY\): <span class="wynik">\(A''=(-3,\ 2)\)</span>.</p>
+      <div class="box warn"><strong>Jak nie pomylić osi</strong>
+        Przy odbiciu względem osi \(OX\) punkt przeskakuje <em>w pionie</em> (nad oś albo pod nią), więc zmienia się \(y\), a \(x\) zostaje. Przy osi \(OY\) – odwrotnie. Zmiana <em>obu</em> znaków to już symetria środkowa.</div>
+    </div>
+    <figure><div class="uklad" data-rys='{"x":[-5,5],"y":[-4,4],"el":[{"t":"o","od":[3,2],"do":[3,-2],"k":"m","s":"przer"},{"t":"o","od":[3,2],"do":[-3,2],"k":"m","s":"przer"},{"t":"p","x":3,"y":2,"n":"A","wsp":true},{"t":"p","x":3,"y":-2,"n":"A′","k":"b","wsp":true,"poz":"se"},{"t":"p","x":-3,"y":2,"n":"A″","k":"c","wsp":true,"poz":"nw"}]}' data-opis="Punkt A=(3, 2) i jego obrazy względem osi OX i OY"></div>
+      <figcaption>Czerwony – obraz względem \(OX\), fioletowy – względem \(OY\).</figcaption></figure>
+  </div>
+</section>
+
+<section id="wielokaty" data-nav="Obraz wielokąta">
+  <h2>3. Obraz wielokąta</h2>
+  <div class="grid2">
+    <div>
+      <p>Obraz wielokąta wyznaczamy wierzchołek po wierzchołku, a potem łączymy obrazy w tej samej kolejności.</p>
+      <p>Trójkąt \(A=(1,\ 1)\), \(B=(5,\ 2)\), \(C=(2,\ 4)\) w symetrii względem osi \(OY\):</p>
+      <p><span class="wynik">\(A'=(-1,\ 1)\), \(B'=(-5,\ 2)\), \(C'=(-2,\ 4)\)</span>.</p>
+      <p class="tip">Trójkąty \(ABC\) i \(A'B'C'\) są przystające – mają równe boki, pola i kąty.</p>
+    </div>
+    <figure><div class="uklad" data-rys='{"x":[-6,6],"y":[-1,5],"el":[{"t":"w","pkt":[[1,1],[5,2],[2,4]],"k":"a","wyp":true},{"t":"w","pkt":[[-1,1],[-5,2],[-2,4]],"k":"b","wyp":true},{"t":"p","x":1,"y":1,"n":"A","poz":"se"},{"t":"p","x":5,"y":2,"n":"B"},{"t":"p","x":2,"y":4,"n":"C"},{"t":"p","x":-1,"y":1,"n":"A′","k":"b","poz":"sw"},{"t":"p","x":-5,"y":2,"n":"B′","k":"b","poz":"nw"},{"t":"p","x":-2,"y":4,"n":"C′","k":"b","poz":"nw"}]}' data-opis="Trójkąt ABC i jego obraz A′B′C′ w symetrii względem osi OY"></div></figure>
+  </div>
+</section>
+
+<section id="okregi" data-nav="Obraz okręgu">
+  <h2>4. Obraz okręgu</h2>
+  <p>Symetria nie zmienia promienia – przenosi tylko środek. Okrąg \((x-3)^2+(y+2)^2=4\) ma środek \(S=(3,\ -2)\) i \(r=2\).</p>
+  <p>W symetrii względem \(OX\): \(S'=(3,\ 2)\), więc obraz to <span class="wynik">\((x-3)^2+(y-2)^2=4\)</span>.</p>
+  <div class="box"><strong>Szybki sposób – zamiana zmiennej</strong>
+    W symetrii względem osi \(OX\) zamieniamy w równaniu \(y\) na \(-y\); względem osi \(OY\) – \(x\) na \(-x\).<br>
+    \((x-3)^2+(-y+2)^2=4\), a \((-y+2)^2=(y-2)^2\). Ten sposób działa dla każdej figury opisanej równaniem.</div>
+</section>
+
+<section id="figury" data-nav="Figury osiowosymetryczne">
+  <h2>5. Figury osiowosymetryczne</h2>
+  <p>Figura jest <strong>osiowosymetryczna</strong>, gdy istnieje prosta, w symetrii względem której figura przechodzi na siebie. Taką prostą nazywamy osią symetrii figury.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Figura</th><th>Liczba osi symetrii</th><th>Gdzie leżą</th></tr>
+    <tr><td>odcinek</td><td>2</td><td>symetralna odcinka i prosta zawierająca odcinek</td></tr>
+    <tr><td>trójkąt równoramienny (nierównoboczny)</td><td>1</td><td>wysokość opuszczona na podstawę</td></tr>
+    <tr><td>trójkąt równoboczny</td><td>3</td><td>wysokości</td></tr>
+    <tr><td>prostokąt (nie kwadrat)</td><td>2</td><td>symetralne boków</td></tr>
+    <tr><td>romb (nie kwadrat)</td><td>2</td><td>przekątne</td></tr>
+    <tr><td>kwadrat</td><td>4</td><td>przekątne i symetralne boków</td></tr>
+    <tr><td>okrąg, koło</td><td>nieskończenie wiele</td><td>każda prosta przechodząca przez środek</td></tr>
+  </table></div>
+  <p>Okrąg \((x-a)^2+(y-b)^2=r^2\) jest symetryczny względem osi \(OX\) dokładnie wtedy, gdy jego środek leży na tej osi (\(b=0\)), a względem osi \(OY\) – gdy \(a=0\).</p>
+</section>
+
+<section id="parametry" data-nav="Parametry">
+  <h2>6. Punkty symetryczne z parametrem</h2>
+  <p>Punkty \(A=(2m,\ 3)\) i \(B=(-4,\ n-1)\) są symetryczne względem osi \(OY\). Względem \(OY\) pierwsze współrzędne są przeciwne, a drugie równe:</p>
+  <p>\(2m=-(-4)=4\Rightarrow m=2\); \(\ n-1=3\Rightarrow n=4\). <span class="wynik">\(m=2,\ n=4\)</span>.</p>
+  <div class="box gw"><strong>Dla chętnych: symetria względem prostej \(x=k\) albo \(y=k\)</strong>
+    Względem prostej pionowej \(x=k\): \((x,\ y)\to(2k-x,\ y)\). Względem prostej poziomej \(y=k\): \((x,\ y)\to(x,\ 2k-y)\).<br>
+    Prosta jest symetralną odcinka \(AA'\), więc \(k\) to średnia odpowiednich współrzędnych. Np. \(A=(1,\ 3)\) względem prostej \(x=4\): \(A'=(7,\ 3)\).</div>
+</section>
+
+<section id="narzedzie" data-nav="Narzędzie" class="plansza-sekcja">
+  <h2>7. Narzędzie: odbicie trójkąta</h2>
+  <p class="tip">Przesuwaj wierzchołki trójkąta i zmieniaj oś. Gdzie musi leżeć wierzchołek, żeby był swoim własnym obrazem?</p>
+  <div id="narzedzie-sym"></div>
+</section>
+
+<section id="zadania" data-nav="Zadania">
+  <h2>8. Zadania z rozwiązaniami</h2>
+  <p class="tip">Rozwiąż w zeszycie, dopiero potem rozwiń rozwiązanie.</p>
+  <ol class="tasks">
+    <li>Wyznacz obrazy punktów \(A=(-3,\ 5)\), \(B=(4,\ 0)\), \(C=(0,\ -2)\) w symetrii względem osi \(OX\) i względem osi \(OY\).
+      <details><summary>Rozwiązanie</summary>
+        <p>Względem \(OX\): <span class="wynik">\((-3,\ -5)\), \((4,\ 0)\), \((0,\ 2)\)</span>. Względem \(OY\): <span class="wynik">\((3,\ 5)\), \((-4,\ 0)\), \((0,\ -2)\)</span>.</p>
+        <p class="tip">\(B\) leży na osi \(OX\), więc w symetrii względem \(OX\) się nie przesuwa; \(C\) leży na osi \(OY\).</p>
+      </details></li>
+    <li>Wyznacz obraz trójkąta \(A=(-4,\ 1)\), \(B=(-1,\ 1)\), \(C=(-2,\ 4)\) w symetrii względem osi \(OX\) i oblicz pola obu trójkątów.
+      <details><summary>Rozwiązanie</summary>
+        <p><span class="wynik">\(A'=(-4,\ -1)\), \(B'=(-1,\ -1)\), \(C'=(-2,\ -4)\)</span>.</p>
+        <p>Podstawa \(AB\) jest pozioma, \(|AB|=3\); wysokość to różnica drugich współrzędnych \(C\) i \(AB\): \(4-1=3\). Pole: \(\frac12\cdot3\cdot3=\)<span class="wynik"> \(\frac92\)</span> – dla obrazu tyle samo, bo symetria jest izometrią.</p>
+      </details></li>
+    <li>Napisz równanie obrazu okręgu \((x+2)^2+(y-5)^2=9\) w symetrii względem osi \(OY\).
+      <details><summary>Rozwiązanie</summary>
+        <p>\(S=(-2,\ 5)\to S'=(2,\ 5)\), \(r^2=9\). <span class="wynik">\((x-2)^2+(y-5)^2=9\)</span>.</p>
+      </details></li>
+    <li>Punkty \(A=(m-1,\ 4)\) i \(B=(3,\ 2n)\) są symetryczne względem osi \(OX\). Oblicz \(m\) i \(n\).
+      <details><summary>Rozwiązanie</summary>
+        <p>Pierwsze współrzędne równe: \(m-1=3\Rightarrow m=4\). Drugie przeciwne: \(2n=-4\Rightarrow n=-2\). <span class="wynik">\(m=4,\ n=-2\)</span>.</p>
+      </details></li>
+    <li>Odcinek \(AB\), gdzie \(A=(1,\ 2)\), \(B=(5,\ 4)\), odbito symetrycznie względem osi \(OX\). Jaką figurą jest czworokąt \(ABB'A'\)? Oblicz jego pole.
+      <details><summary>Rozwiązanie</summary>
+        <p>\(A'=(1,\ -2)\), \(B'=(5,\ -4)\). Boki \(AA'\) i \(BB'\) są pionowe, czyli równoległe: \(|AA'|=4\), \(|BB'|=8\), a odległość między nimi to \(5-1=4\).</p>
+        <p>Ramiona \(AB\) i \(A'B'\) mają równe długości (symetria), więc to <span class="wynik">trapez równoramienny</span>. Pole: \(\frac{4+8}{2}\cdot4=\)<span class="wynik"> 24</span>.</p>
+      </details></li>
+    <li>Czy okrąg \((x-3)^2+y^2=7\) jest symetryczny względem osi \(OX\)? A względem osi \(OY\)?
+      <details><summary>Rozwiązanie</summary>
+        <p>Środek \(S=(3,\ 0)\) leży na osi \(OX\) – <span class="wynik">tak, względem \(OX\)</span>. Nie leży na osi \(OY\) – <span class="wynik">względem \(OY\) nie</span> (obrazem byłby okrąg \((x+3)^2+y^2=7\)).</p>
+      </details></li>
+  </ol>
+</section>
+
+<section id="trening" data-nav="Trening" class="trening">
+  <h2>9. Trening ze sprawdzaniem odpowiedzi</h2>
+  <p class="tip">Punkt wpisz jako <code>(3, -2)</code>, równanie okręgu jako <code>(x-2)^2+(y+1)^2=9</code>.</p>
+  <div id="trening-tr"></div>
+</section>
+<div class="tematy-nav"><a href="4t-uklady-rownan.html">← 5. Układy równań – powtórzenie</a><a href="4t-symetria-srodkowa.html">7. Symetria środkowa →</a></div>
+</main>
+
+<footer>Matematyka 4T · Dział 2. Geometria analityczna · Temat 6. Symetria osiowa</footer>
+
+<script>
+/* ===== Geometria analityczna 4T — wspólny silnik: liczby, rysunki układu, plansze, trening ===== */
+"use strict";
+const $ = (s, el = document) => el.querySelector(s);
+const renderTeX = (el) => { if (window.renderMath && el) window.renderMath(el); };
+
+/* ---------- liczby ---------- */
+const nwd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a || 1; };
+const losuj = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const losujBez = (a, b, ...bez) => { let x; do { x = losuj(a, b); } while (bez.includes(x)); return x; };
+const wybierz = (t) => t[Math.floor(Math.random() * t.length)];
+function ulamek(x) {                      // [licznik, mianownik] dla małych mianowników albo null
+  if (Number.isInteger(x)) return [x, 1];
+  for (let d = 2; d <= 12; d++) { const n = Math.round(x * d); if (Math.abs(n / d - x) < 1e-9) return [n, d]; }
+  return null;
+}
+function tl(x) {                          // liczba w TeX-u: −3, \frac{5}{2}
+  if (Math.abs(x) < 1e-12) x = 0;
+  const u = ulamek(x);
+  if (!u) return String(+x.toFixed(3)).replace(".", "{,}");
+  const [n, d] = u;
+  return d === 1 ? String(n) : (n < 0 ? "-" : "") + "\\frac{" + Math.abs(n) + "}{" + d + "}";
+}
+const tn = (x) => (x < 0 ? "(" + tl(x) + ")" : tl(x));          // ujemna w nawiasie (do podstawiania)
+const tp = (x, y) => "(" + tl(x) + ",\\ " + tl(y) + ")";          // punkt
+function txt(x) {                         // liczba w zwykłym tekście (podpisy na rysunku)
+  if (Math.abs(x) < 1e-12) x = 0;
+  const u = ulamek(x);
+  const s = !u ? String(+x.toFixed(2)).replace(".", ",") : u[1] === 1 ? String(u[0]) : u[1] === 2 ? String(x).replace(".", ",") : u[0] + "/" + u[1];
+  return s.replace("-", "−");
+}
+function upr(n) { let k = 1, m = n; for (let i = 2; i * i <= m; i++) while (m % (i * i) === 0) { m /= i * i; k *= i; } return [k, m]; }
+function tpierw(n) {                      // √n uproszczony; n wymierne ≥ 0 (np. 45 → 3\sqrt{5}, 25/4 → \frac{5}{2})
+  if (n < 1e-12) return "0";
+  const [p, q] = ulamek(n) || [n, 1];
+  const [k0, m] = upr(p * q);             // √(p/q) = √(pq)/q
+  const g = nwd(k0, q), k = k0 / g, d = q / g;
+  const pierw = m === 1 ? "" : "\\sqrt{" + m + "}";
+  if (d === 1) return (k === 1 && m !== 1 ? "" : String(k)) + pierw;
+  return "\\frac{" + (k === 1 && m !== 1 ? "" : k) + pierw + "}{" + d + "}";
+}
+const czyKwadrat = (n) => Number.isInteger(Math.sqrt(n));
+function tokr(a, b, r2) {                 // (x−a)²+(y−b)²=r²
+  const cz = (v, s) => (s === 0 ? v + "^2" : "(" + v + (s > 0 ? "-" : "+") + tl(Math.abs(s)) + ")^2");
+  return cz("x", a) + "+" + cz("y", b) + "=" + tl(r2);
+}
+function tlin(a, b, c) {                  // ax + by = c
+  const w = (k, v, pierwszy) => {
+    if (k === 0) return "";
+    const z = k < 0 ? "-" : pierwszy ? "" : "+";
+    return z + (Math.abs(k) === 1 ? "" : tl(Math.abs(k))) + v;
+  };
+  const l = w(a, "x", true) + w(b, "y", a === 0);
+  return (l || "0") + "=" + tl(c);
+}
+
+/* ---------- odczyt odpowiedzi ucznia ---------- */
+function normalizuj(s) {
+  return String(s).toLowerCase().replace(/[−–—]/g, "-").replace(/[·×]/g, "*").replace(/²/g, "^2")
+    .replace(/\s+/g, "").replace(/pierw(iastek)?/g, "sqrt");
+}
+function wyrazenie(s) {                   // liczba z wyrażenia: 2√5, 3sqrt(2)+1, (1+√5)/2, -7/3, 2,5
+  const t = normalizuj(s).replace(/,/g, ".");
+  let i = 0;
+  const zobacz = () => t[i];
+  const liczba = () => {
+    const m = /^\d+(\.\d+)?|^\.\d+/.exec(t.slice(i));
+    if (!m) throw 0;
+    i += m[0].length; return parseFloat(m[0]);
+  };
+  function atom() {
+    if (zobacz() === "(") { i++; const v = suma(); if (zobacz() !== ")") throw 0; i++; return v; }
+    if (zobacz() === "√" || t.startsWith("sqrt", i)) {
+      i += zobacz() === "√" ? 1 : 4;
+      const v = atom(); if (v < 0) throw 0; return Math.sqrt(v);
+    }
+    if (t.startsWith("pi", i)) { i += 2; return Math.PI; }
+    if (zobacz() === "π") { i++; return Math.PI; }
+    return liczba();
+  }
+  function potega() { let v = atom(); if (zobacz() === "^") { i++; v = Math.pow(v, czynnik()); } return v; }
+  function czynnik() {
+    if (zobacz() === "-") { i++; return -czynnik(); }
+    if (zobacz() === "+") { i++; return czynnik(); }
+    return potega();
+  }
+  function iloczyn() {
+    let v = czynnik();
+    for (;;) {
+      const c = zobacz();
+      if (c === "*") { i++; v *= czynnik(); }
+      else if (c === "/") { i++; const d = czynnik(); if (d === 0) throw 0; v /= d; }
+      else if (c === "(" || c === "√" || c === "π" || t.startsWith("sqrt", i) || t.startsWith("pi", i)) v *= potega();
+      else return v;
+    }
+  }
+  function suma() {
+    let v = iloczyn();
+    for (;;) {
+      if (zobacz() === "+") { i++; v += iloczyn(); }
+      else if (zobacz() === "-") { i++; v -= iloczyn(); }
+      else return v;
+    }
+  }
+  try { if (!t) return NaN; const v = suma(); return i === t.length && isFinite(v) ? v : NaN; } catch (e) { return NaN; }
+}
+function punkt(s) {                       // (3, -2), (2,5; -1), [1/2; 3], S=(1,2)
+  let t = String(s).trim().replace(/^[a-ząćęłńóśźż'′]*\s*=\s*/i, "").replace(/^[([{]\s*/, "").replace(/\s*[)\]}]$/, "");
+  const cz = t.includes(";") ? t.split(";") : t.split(",");
+  if (cz.length !== 2) return null;
+  const x = wyrazenie(cz[0]), y = wyrazenie(cz[1]);
+  return isNaN(x) || isNaN(y) ? null : [x, y];
+}
+function okrag(s) {                       // (x-2)^2+(y+1)^2=9 → {a:2, b:-1, r2:9}
+  const t = normalizuj(s).replace(/,/g, ".");
+  const st = t.split("=");
+  if (st.length !== 2) return null;
+  const r2 = wyrazenie(st[1]);
+  const czlon = /^(?:\(([xy])([+-][^()]+)\)\^2|([xy])\^2)/;
+  let l = st[0], w = {};
+  for (let n = 0; n < 2; n++) {
+    const m = czlon.exec(l);
+    if (!m) return null;
+    const v = m[1] || m[3];
+    w[v] = m[1] ? -wyrazenie(m[2]) : 0;
+    l = l.slice(m[0].length);
+    if (n === 0) { if (l[0] !== "+") return null; l = l.slice(1); }
+  }
+  if (l || !("x" in w) || !("y" in w) || isNaN(w.x) || isNaN(w.y) || isNaN(r2)) return null;
+  return { a: w.x, b: w.y, r2 };
+}
+const blisko = (a, b) => Math.abs(a - b) < 1e-6 * Math.max(1, Math.abs(b));
+
+/* ---------- rysunek układu współrzędnych ---------- */
+// spec: {x:[x0,x1], y:[y0,y1], sz, el:[…]}; elementy:
+//  {t:"p", x, y, n, k, poz, wsp}  punkt     {t:"o", od:[x,y], do:[x,y], k, s}  odcinek
+//  {t:"w", pkt:[[x,y]…], k, wyp}  wielokąt  {t:"k", x, y, r, k, wyp, s}       okrąg
+//  {t:"l", a, b, c, k, s, n}      prosta ax+by=c        {t:"n", x, y, tekst, k, kot}  napis
+function ukladTresc(spec) {
+  const [x0, x1] = spec.x, [y0, y1] = spec.y, sz = spec.sz || 380, pad = 16;
+  const u = sz / (x1 - x0), w = sz + 2 * pad, h = u * (y1 - y0) + 2 * pad;
+  const X = (x) => +(pad + (x - x0) * u).toFixed(2), Y = (y) => +(pad + (y1 - y) * u).toFixed(2);
+  const zakres = Math.max(x1 - x0, y1 - y0), krok = spec.krok || (zakres > 16 ? 2 : 1);
+  const o = [];
+  for (let x = Math.ceil(x0); x <= x1; x++) o.push(`<line class="siatka" x1="${X(x)}" y1="${Y(y0)}" x2="${X(x)}" y2="${Y(y1)}"/>`);
+  for (let y = Math.ceil(y0); y <= y1; y++) o.push(`<line class="siatka" x1="${X(x0)}" y1="${Y(y)}" x2="${X(x1)}" y2="${Y(y)}"/>`);
+  if (y0 <= 0 && y1 >= 0) {
+    o.push(`<line class="os" x1="${X(x0)}" y1="${Y(0)}" x2="${X(x1) + 8}" y2="${Y(0)}"/>`,
+      `<path class="os-g" d="M${X(x1) + 12} ${Y(0)} l-8 -4 v8z"/>`, `<text x="${X(x1) + 6}" y="${Y(0) - 7}" font-style="italic">x</text>`);
+    for (let x = Math.ceil(x0 / krok) * krok; x < x1; x += krok) if (x !== 0)
+      o.push(`<line class="os" x1="${X(x)}" y1="${Y(0) - 3}" x2="${X(x)}" y2="${Y(0) + 3}"/>`, `<text x="${X(x)}" y="${Y(0) + 15}" text-anchor="middle">${txt(x)}</text>`);
+  }
+  if (x0 <= 0 && x1 >= 0) {
+    o.push(`<line class="os" x1="${X(0)}" y1="${Y(y0)}" x2="${X(0)}" y2="${Y(y1) - 8}"/>`,
+      `<path class="os-g" d="M${X(0)} ${Y(y1) - 12} l-4 8 h8z"/>`, `<text x="${X(0) + 8}" y="${Y(y1) - 2}" font-style="italic">y</text>`);
+    for (let y = Math.ceil(y0 / krok) * krok; y < y1; y += krok) if (y !== 0)
+      o.push(`<line class="os" x1="${X(0) - 3}" y1="${Y(y)}" x2="${X(0) + 3}" y2="${Y(y)}"/>`, `<text x="${X(0) - 6}" y="${Y(y) + 4}" text-anchor="end">${txt(y)}</text>`);
+    if (y0 <= 0 && y1 >= 0) o.push(`<text x="${X(0) - 6}" y="${Y(0) + 15}" text-anchor="end">0</text>`);
+  }
+  const POZ = { ne: [7, -7, "start"], nw: [-7, -7, "end"], se: [7, 17, "start"], sw: [-7, 17, "end"], n: [0, -9, "middle"], s: [0, 20, "middle"], e: [9, 5, "start"], w: [-9, 5, "end"] };
+  const kl = (e, inne) => `class="k-${e.k || "a"} ${inne}"`;
+  const napisy = [];
+  for (const e of spec.el || []) {
+    if (e.t === "o") o.push(`<line ${kl(e, "lin " + (e.s || ""))} x1="${X(e.od[0])}" y1="${Y(e.od[1])}" x2="${X(e.do[0])}" y2="${Y(e.do[1])}"/>`);
+    else if (e.t === "w") o.push(`<polygon ${kl(e, (e.wyp ? "wyp" : "lin") + " " + (e.s || ""))} points="${e.pkt.map(([x, y]) => X(x) + "," + Y(y)).join(" ")}"/>`);
+    else if (e.t === "k") o.push(`<circle ${kl(e, (e.wyp ? "wyp" : "lin") + " " + (e.s || ""))} cx="${X(e.x)}" cy="${Y(e.y)}" r="${+(e.r * u).toFixed(2)}"/>`);
+    else if (e.t === "l") {
+      const p = [];                           // przecięcie prostej z ramką widoku
+      if (e.b !== 0) for (const x of [x0, x1]) { const y = (e.c - e.a * x) / e.b; if (y >= y0 - 1e-9 && y <= y1 + 1e-9) p.push([x, y]); }
+      if (e.a !== 0) for (const y of [y0, y1]) { const x = (e.c - e.b * y) / e.a; if (x >= x0 - 1e-9 && x <= x1 + 1e-9) p.push([x, y]); }
+      if (p.length >= 2) {
+        p.sort((s, t) => s[0] - t[0] || s[1] - t[1]);
+        const [A, B] = [p[0], p[p.length - 1]];
+        o.push(`<line ${kl(e, "lin " + (e.s || ""))} x1="${X(A[0])}" y1="${Y(A[1])}" x2="${X(B[0])}" y2="${Y(B[1])}"/>`);
+        if (e.n) napisy.push(`<text class="nap k-${e.k || "a"}" x="${X(B[0]) - 4}" y="${Y(B[1]) + (B[1] > (y0 + y1) / 2 ? 16 : -6)}" text-anchor="end">${e.n}</text>`);
+      }
+    } else if (e.t === "p") {
+      o.push(`<circle class="k-${e.k || "a"}" cx="${X(e.x)}" cy="${Y(e.y)}" r="4"/>`);
+      const [dx, dy, kot] = POZ[e.poz || "ne"];
+      const opis = (e.n || "") + (e.wsp ? `${e.n ? "=" : ""}(${txt(e.x)}, ${txt(e.y)})` : "");
+      if (opis) napisy.push(`<text class="pkt" x="${X(e.x) + dx}" y="${Y(e.y) + dy}" text-anchor="${kot}">${opis}</text>`);
+    } else if (e.t === "n") napisy.push(`<text class="nap k-${e.k || "m"}" x="${X(e.x)}" y="${Y(e.y)}" text-anchor="${e.kot || "middle"}">${e.tekst}</text>`);
+  }
+  return { w: +w.toFixed(1), h: +h.toFixed(1), tresc: o.join("") + napisy.join(""), X, Y, u, pad };
+}
+function ukladSVG(spec, opis) {
+  const r = ukladTresc(spec);
+  return `<svg viewBox="0 0 ${r.w} ${r.h}" role="img" aria-label="${opis || "Rysunek w układzie współrzędnych"}">${r.tresc}</svg>`;
+}
+function rysujStatyczne(root = document) {
+  root.querySelectorAll(".uklad[data-rys]").forEach((el) => {
+    try { el.innerHTML = ukladSVG(JSON.parse(el.dataset.rys), el.dataset.opis); } catch (e) { el.textContent = "(rysunek niedostępny)"; console.error(e, el.dataset.rys); }
+  });
+}
+
+/* ---------- plansza: punkty do przeciągania + opis obliczeń ---------- */
+// cfg: {x, y, sz, pkt:{A:{x,y,k}}, krok (siatka przyciągania), rysuj(P,S) → elementy, opis(P,S) → html,
+//       kontrolki: html, podepnij(root, S, odswiez), stan: {...}}
+function plansza(el, cfg) {
+  const P = {}; for (const [n, p] of Object.entries(cfg.pkt)) P[n] = { ...p };
+  const S = cfg.stan || {};
+  const krok = cfg.krok || 1;
+  el.classList.add("plansza");
+  el.innerHTML = `<div><div class="uklad"><svg></svg></div><p class="tip" style="text-align:center">Przeciągnij punkty albo wpisz ich współrzędne.</p></div>
+    <div><div class="wsp">${Object.keys(P).filter((n) => !P[n].staly).map((n) => `<label>${n} = (<input type="number" step="${krok}" data-n="${n}" data-w="x" aria-label="${n}: pierwsza współrzędna">,
+      <input type="number" step="${krok}" data-n="${n}" data-w="y" aria-label="${n}: druga współrzędna">)</label>`).join("")}</div>
+      ${cfg.kontrolki || ""}<div class="info" aria-live="polite"></div></div>`;
+  const svg = $("svg", el), info = $(".info", el);
+  const zaokr = (v) => Math.round(v / krok) * krok;
+  const ogr = (v, [a, b]) => Math.min(b, Math.max(a, v));
+  let geo = null;
+  function odswiez(bezPol) {
+    const el2 = cfg.rysuj(P, S);
+    for (const [n, p] of Object.entries(P)) if (!p.staly && !p.ukryty) el2.push({ t: "p", x: p.x, y: p.y, n, k: p.k || "a", poz: p.poz });
+    geo = ukladTresc({ x: cfg.x, y: cfg.y, sz: cfg.sz || 400, el: el2 });
+    const uchwyty = Object.entries(P).filter(([, p]) => !p.staly && !p.ukryty)
+      .map(([n, p]) => `<circle class="uchwyt k-${p.k || "a"}" data-n="${n}" cx="${geo.X(p.x)}" cy="${geo.Y(p.y)}" r="15"><title>${n} – przeciągnij</title></circle>`).join("");
+    svg.setAttribute("viewBox", `0 0 ${geo.w} ${geo.h}`);
+    svg.innerHTML = geo.tresc + uchwyty;
+    if (!bezPol) el.querySelectorAll(".wsp input").forEach((i) => { i.value = +P[i.dataset.n][i.dataset.w].toFixed(3); });
+    info.innerHTML = cfg.opis(P, S);
+    renderTeX(info);
+  }
+  let ciagnie = null;
+  const doUkladu = (ev) => {
+    const pt = svg.createSVGPoint(); pt.x = ev.clientX; pt.y = ev.clientY;
+    const q = pt.matrixTransform(svg.getScreenCTM().inverse());
+    return [cfg.x[0] + (q.x - geo.pad) / geo.u, cfg.y[1] - (q.y - geo.pad) / geo.u];
+  };
+  svg.addEventListener("pointerdown", (ev) => {
+    const c = ev.target.closest(".uchwyt"); if (!c) return;
+    ciagnie = c.dataset.n; svg.setPointerCapture(ev.pointerId); ev.preventDefault();
+  });
+  svg.addEventListener("pointermove", (ev) => {
+    if (!ciagnie) return;
+    const [x, y] = doUkladu(ev), p = P[ciagnie];
+    const nx = ogr(zaokr(x), cfg.x), ny = ogr(zaokr(y), cfg.y);
+    if (nx === p.x && ny === p.y) return;
+    if (cfg.wolno && !cfg.wolno(ciagnie, nx, ny, P, S)) return;
+    p.x = nx; p.y = ny; odswiez();
+  });
+  const pusc = () => { ciagnie = null; };
+  svg.addEventListener("pointerup", pusc); svg.addEventListener("pointercancel", pusc);
+  el.querySelectorAll(".wsp input").forEach((i) => i.addEventListener("input", () => {
+    const v = parseFloat(i.value.replace(",", ".")); if (isNaN(v)) return;
+    const p = P[i.dataset.n], nv = ogr(zaokr(v), i.dataset.w === "x" ? cfg.x : cfg.y);
+    const stare = p[i.dataset.w]; p[i.dataset.w] = nv;
+    if (cfg.wolno && !cfg.wolno(i.dataset.n, p.x, p.y, P, S)) { p[i.dataset.w] = stare; return; }
+    odswiez(true);
+  }));
+  if (cfg.podepnij) cfg.podepnij(el, S, odswiez, P);
+  odswiez();
+  return { P, S, odswiez };
+}
+
+/* ---------- checklista wymagań ---------- */
+function checklista(klucz) {
+  const boxes = [...document.querySelectorAll("#checklist input")];
+  if (!boxes.length) return;
+  let zap = [];
+  try { zap = JSON.parse(localStorage.getItem(klucz) || "[]"); } catch (e) {}
+  boxes.forEach((b, i) => { b.checked = !!zap[i]; b.addEventListener("change", upd); });
+  function upd() {
+    const st = boxes.map((b) => b.checked), n = st.filter(Boolean).length;
+    $("#bar").style.width = (100 * n / boxes.length) + "%";
+    $("#bar-txt").textContent = "Opanowane: " + n + " z " + boxes.length + (n === boxes.length ? " – jesteś gotowy na sprawdzian!" : "");
+    try { localStorage.setItem(klucz, JSON.stringify(st)); } catch (e) {}
+  }
+  upd();
+}
+
+/* ---------- trening ze sprawdzaniem odpowiedzi ---------- */
+// zadanie: {tresc, pola:[{e, typ:"liczba"|"punkt"|"okrag"|"wybor"|"uklad"|"punkty", opcje}], odp:[…], rozw, rys}
+const PODPOWIEDZI = {
+  liczba: "np. 5, 2√5 (albo 2sqrt5), 7/2, 3√2+1",
+  punkt: "np. (3, -2) albo (5/2; -1)",
+  okrag: "np. (x-2)^2+(y+1)^2=9",
+  uklad: "np. (2, -1), albo: sprzeczny / nieskończenie wiele",
+  punkty: "np. (1, 2), (3, -4), albo: brak",
+  liczby: "np. -2; 6 (kilka liczb oddziel średnikiem)",
+};
+function sprawdzPole(typ, t, odp) {
+  if (typ === "wybor") return t === String(odp);
+  if (!String(t).trim()) return null;
+  if (typ === "liczba") { const v = wyrazenie(t); return isNaN(v) ? null : blisko(v, odp); }
+  if (typ === "punkt") { const p = punkt(t); return p ? blisko(p[0], odp[0]) && blisko(p[1], odp[1]) : null; }
+  if (typ === "okrag") { const o = okrag(t); return o ? blisko(o.a, odp.a) && blisko(o.b, odp.b) && blisko(o.r2, odp.r2) : null; }
+  if (typ === "uklad") {
+    const n = normalizuj(t);
+    if (odp === "sprz") return /sprzecz|brak|∅|niema/.test(n);
+    if (odp === "nieozn") return /nieskończ|nieskoncz|nieoznacz|∞/.test(n);
+    const p = punkt(t); return p ? blisko(p[0], odp[0]) && blisko(p[1], odp[1]) : /sprzecz|brak|nieskończ|nieskoncz|nieoznacz/.test(n) ? false : null;
+  }
+  if (typ === "liczby") {
+    const cz = normalizuj(t).replace(/lub|oraz|albo|\bi\b/g, ";").replace(/^[a-z]+=/, "").split(/;|,(?!\d)|[a-z]+=/).filter(Boolean);
+    const v = cz.map(wyrazenie);
+    if (!v.length || v.some(isNaN)) return null;
+    const u = [...new Set(v.map((x) => +x.toFixed(9)))];
+    return u.length === odp.length && odp.every((o) => u.some((x) => blisko(x, o)));
+  }
+  if (typ === "punkty") {
+    const n = normalizuj(t);
+    if (/brak|∅|niema|nieprzecina/.test(n)) return odp.length === 0;
+    const grupy = [...String(t).matchAll(/\(([^()]*)\)/g)].map((m) => punkt(m[1]));
+    if (!grupy.length || grupy.some((g) => !g)) return null;
+    if (grupy.length !== odp.length) return false;
+    const wolne = odp.map((p) => [...p]);
+    return grupy.every((g) => { const i = wolne.findIndex((p) => blisko(g[0], p[0]) && blisko(g[1], p[1])); if (i < 0) return false; wolne.splice(i, 1); return true; });
+  }
+  return null;
+}
+function trening(el, gen) {
+  const klucze = Object.keys(gen);
+  el.innerHTML = `<div class="gen-controls"><label>Rodzaj: <select class="tr-typ">
+      ${klucze.length > 1 ? `<option value="mix">wszystkie po kolei</option>` : ""}
+      ${klucze.map((k) => `<option value="${k}">${gen[k].nazwa}</option>`).join("")}</select></label>
+      <button type="button" class="btn tr-nowe">Nowe zadanie</button></div>
+    <div class="zadanie-tr" aria-live="polite"></div><div class="pola-tr"></div>
+    <div class="przyciski-tr"><button type="button" class="btn tr-sprawdz">Sprawdź</button>
+      <button type="button" class="btn sec tr-pokaz">Pokaż rozwiązanie</button></div>
+    <p class="ocena-tr" aria-live="polite"></p><div class="rozw-tr" hidden></div><p class="tip tr-licznik"></p>`;
+  const sel = $(".tr-typ", el), zad = $(".zadanie-tr", el), pola = $(".pola-tr", el), ocena = $(".ocena-tr", el), rozw = $(".rozw-tr", el);
+  let z = null, nrMix = 0, dobre = 0, proby = 0, zaliczone = false, ident = 0;
+  function nowe(fokus) {
+    const k = sel.value === "mix" ? klucze[nrMix++ % klucze.length] : sel.value;
+    z = gen[k].f(); zaliczone = false; ident++;
+    zad.innerHTML = `<p style="margin:.2rem 0" class="tip">${gen[k].nazwa}</p><div>${z.tresc}</div>` + (z.rysZad ? `<div class="uklad">${ukladSVG(z.rysZad)}</div>` : "");
+    pola.innerHTML = z.pola.map((p, i) => {
+      const id = `tr${ident}-${i}-${Math.random().toString(36).slice(2, 6)}`;
+      if (p.typ === "wybor") return `<label>${p.e}</label><div class="opcje" role="radiogroup" data-i="${i}">${p.opcje.map((o, j) =>
+        `<label><input type="radio" name="${id}" value="${j}"> ${o}</label>`).join("")}</div>`;
+      return `<label for="${id}">${p.e}</label><input id="${id}" data-i="${i}" autocomplete="off" spellcheck="false" placeholder="${PODPOWIEDZI[p.typ] || ""}">`;
+    }).join("");
+    ocena.textContent = ""; ocena.className = "ocena-tr"; rozw.hidden = true; rozw.innerHTML = "";
+    renderTeX(zad); renderTeX(pola);
+    const pierwsze = $("input", pola); if (fokus && pierwsze && pierwsze.type !== "radio") pierwsze.focus({ preventScroll: true });
+  }
+  function sprawdz() {
+    if (!z) return;
+    const wyn = z.pola.map((p, i) => {
+      if (p.typ === "wybor") {
+        const zazn = pola.querySelector(`.opcje[data-i="${i}"] input:checked`);
+        return zazn ? sprawdzPole("wybor", zazn.value, z.odp[i]) : null;
+      }
+      const inp = pola.querySelector(`input[data-i="${i}"]`);
+      const w = sprawdzPole(p.typ, inp.value, z.odp[i]);
+      inp.classList.toggle("zle", w === false); inp.classList.toggle("dobre", w === true);
+      return w;
+    });
+    if (wyn.some((w) => w === null)) {
+      ocena.className = "ocena-tr zle";
+      ocena.textContent = "Uzupełnij wszystkie odpowiedzi w podanym formacie (" + z.pola.filter((p, i) => wyn[i] === null).map((p) => PODPOWIEDZI[p.typ] || "wybierz odpowiedź").join("; ") + ").";
+      return;
+    }
+    proby++;
+    if (wyn.every(Boolean)) {
+      if (!zaliczone) { dobre++; zaliczone = true; }
+      ocena.className = "ocena-tr dobrze"; ocena.textContent = "Dobrze! " + wybierz(["Świetnie.", "Tak trzymaj.", "Brawo.", "Bezbłędnie."]);
+    } else {
+      ocena.className = "ocena-tr zle";
+      ocena.textContent = z.pola.length > 1 ? `Poprawnie: ${wyn.filter(Boolean).length} z ${wyn.length}. Popraw zaznaczone pola albo zobacz rozwiązanie.` : "Jeszcze nie. Sprawdź obliczenia albo zobacz rozwiązanie.";
+    }
+    $(".tr-licznik", el).textContent = `Dobrze rozwiązane zadania: ${dobre} · sprawdzenia: ${proby}`;
+  }
+  function pokaz() {
+    if (!z) return;
+    rozw.hidden = false;
+    rozw.innerHTML = z.rozw + (z.rys ? `<div class="uklad">${ukladSVG(z.rys)}</div>` : "");
+    renderTeX(rozw);
+  }
+  $(".tr-nowe", el).addEventListener("click", () => nowe(true));
+  $(".tr-sprawdz", el).addEventListener("click", sprawdz);
+  $(".tr-pokaz", el).addEventListener("click", pokaz);
+  sel.addEventListener("change", () => nowe(true));
+  pola.addEventListener("keydown", (e) => { if (e.key === "Enter") sprawdz(); });
+  nowe();
+}
+
+/* ===== Generatory zadań — geometria analityczna 4T ===== */
+// Każdy generator zwraca {tresc, pola, odp, rozw, rys?}. Wszystkie wyniki liczone tutaj, nie wpisane ręcznie.
+const pkt = (a = -6, b = 6) => [losuj(a, b), losuj(a, b)];
+const rozne = (P, Q) => P[0] !== Q[0] || P[1] !== Q[1];
+const d2 = (P, Q) => (Q[0] - P[0]) ** 2 + (Q[1] - P[1]) ** 2;
+function ramka(pts, zapas = 1, min = 8) {   // zakres rysunku obejmujący punkty i początek układu
+  const xs = pts.map((p) => p[0]).concat(0), ys = pts.map((p) => p[1]).concat(0);
+  let x0 = Math.floor(Math.min(...xs)) - zapas, x1 = Math.ceil(Math.max(...xs)) + zapas;
+  let y0 = Math.floor(Math.min(...ys)) - zapas, y1 = Math.ceil(Math.max(...ys)) + zapas;
+  const s = Math.max(x1 - x0, y1 - y0, min);
+  const dx = s - (x1 - x0), dy = s - (y1 - y0);
+  x0 -= Math.floor(dx / 2); x1 += Math.ceil(dx / 2); y0 -= Math.floor(dy / 2); y1 += Math.ceil(dy / 2);
+  return { x: [x0, x1], y: [y0, y1] };
+}
+const P_ = (P, n, k = "a", poz) => ({ t: "p", x: P[0], y: P[1], n, k, poz, wsp: true });
+const odlRozw = (A, B, nA = "A", nB = "B") => {
+  const n = d2(A, B);
+  return `|${nA}${nB}|=\\sqrt{(${tl(B[0])}-${tn(A[0])})^2+(${tl(B[1])}-${tn(A[1])})^2}=\\sqrt{${tn(B[0] - A[0])}^2+${tn(B[1] - A[1])}^2}=\\sqrt{${n}}` + (tpierw(n) === "\\sqrt{" + n + "}" ? "" : "=" + tpierw(n));
+};
+const PITAGORAS = [[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 6, 10], [4, 3, 5], [12, 5, 13], [0, 5, 5], [5, 0, 5], [0, 3, 3], [4, 0, 4]];
+const dwaOkregi = ["rozłączne zewnętrznie", "styczne zewnętrznie", "przecinające się (dwa punkty wspólne)", "styczne wewnętrznie", "jeden wewnątrz drugiego (bez punktów wspólnych)"];
+function klasaOkregow(d2_, r1, r2) {
+  const s = (r1 + r2) ** 2, r = (r1 - r2) ** 2;
+  if (d2_ > s) return 0; if (d2_ === s) return 1; if (d2_ > r) return 2; if (d2_ === r && d2_ > 0) return 3; return 4;
+}
+// punkty kratowe na okręgu o środku (a,b) i promieniu² r2
+const kratowe = (a, b, r2) => { const w = []; const r = Math.floor(Math.sqrt(r2)); for (let x = -r; x <= r; x++) { const y2 = r2 - x * x; const y = Math.round(Math.sqrt(y2)); if (y * y === y2) { w.push([a + x, b + y]); if (y) w.push([a + x, b - y]); } } return w; };
+
+const G = {
+  /* ---------- 1. odległość ---------- */
+  odl: { nazwa: "długość odcinka", f() {
+    let A, B;
+    if (Math.random() < .5) { const [p, q] = wybierz(PITAGORAS); A = pkt(-5, 3); B = [A[0] + p * wybierz([1, -1]), A[1] + q * wybierz([1, -1])]; }
+    else do { A = pkt(); B = pkt(); } while (!rozne(A, B) || A[0] === B[0] || A[1] === B[1]);
+    const n = d2(A, B);
+    return { tresc: `Oblicz długość odcinka \\(AB\\), gdy \\(A=${tp(...A)}\\), \\(B=${tp(...B)}\\).`,
+      pola: [{ e: "|AB| =", typ: "liczba" }], odp: [Math.sqrt(n)],
+      rozw: `<p>\\(${odlRozw(A, B)}\\)</p>`,
+      rys: { ...ramka([A, B]), el: [{ t: "o", od: A, do: [B[0], A[1]], k: "m", s: "przer" }, { t: "o", od: [B[0], A[1]], do: B, k: "m", s: "przer" }, { t: "o", od: A, do: B, k: "c" }, P_(A, "A"), P_(B, "B")] } };
+  } },
+  obw: { nazwa: "obwód trójkąta", f() {
+    let A, B, C;
+    do { A = pkt(-5, 5); B = pkt(-5, 5); C = pkt(-5, 5); } while (!rozne(A, B) || !rozne(B, C) || !rozne(A, C) || (B[0] - A[0]) * (C[1] - A[1]) === (B[1] - A[1]) * (C[0] - A[0]));
+    const a = d2(A, B), b = d2(B, C), c = d2(A, C);
+    return { tresc: `Oblicz obwód trójkąta o wierzchołkach \\(A=${tp(...A)}\\), \\(B=${tp(...B)}\\), \\(C=${tp(...C)}\\).`,
+      pola: [{ e: "Obw =", typ: "liczba" }], odp: [Math.sqrt(a) + Math.sqrt(b) + Math.sqrt(c)],
+      rozw: `<p>\\(${odlRozw(A, B)}\\)<br>\\(${odlRozw(B, C, "B", "C")}\\)<br>\\(${odlRozw(A, C, "A", "C")}\\)</p><p>Obwód: \\(${tpierw(a)}+${tpierw(b)}+${tpierw(c)}\\). Jeśli pierwiastki są takie same, dodaj je jak wyrazy podobne.</p>`,
+      rys: { ...ramka([A, B, C]), el: [{ t: "w", pkt: [A, B, C], k: "c", wyp: true }, P_(A, "A"), P_(B, "B"), P_(C, "C")] } };
+  } },
+  prost: { nazwa: "czy trójkąt jest prostokątny?", f() {
+    let A, B, C, tak;
+    for (;;) {
+      A = pkt(-4, 4); const p = losujBez(-3, 3, 0), q = losuj(-3, 3), k = wybierz([1, 2, -1]);
+      B = [A[0] + p, A[1] + q]; C = [A[0] - k * q, A[1] + k * p];
+      tak = Math.random() < .55;
+      if (!tak) C = [C[0] + wybierz([1, -1]), C[1]];
+      const s = [d2(A, B), d2(B, C), d2(A, C)].sort((x, y) => x - y);
+      if ((s[0] + s[1] === s[2]) !== tak) continue;
+      if ((B[0] - A[0]) * (C[1] - A[1]) === (B[1] - A[1]) * (C[0] - A[0])) continue;
+      if ([A, B, C].every((P) => Math.abs(P[0]) <= 8 && Math.abs(P[1]) <= 8)) break;
+    }
+    const ab = d2(A, B), bc = d2(B, C), ac = d2(A, C), s = [ab, bc, ac].sort((x, y) => x - y);
+    return { tresc: `Czy trójkąt o wierzchołkach \\(A=${tp(...A)}\\), \\(B=${tp(...B)}\\), \\(C=${tp(...C)}\\) jest prostokątny?`,
+      pola: [{ e: "Odpowiedź:", typ: "wybor", opcje: ["tak", "nie"] }], odp: [tak ? 0 : 1],
+      rozw: `<p>Wystarczą kwadraty długości boków: \\(|AB|^2=${ab}\\), \\(|BC|^2=${bc}\\), \\(|AC|^2=${ac}\\).</p>
+        <p>Sprawdzamy twierdzenie odwrotne do twierdzenia Pitagorasa dla najdłuższego boku: \\(${s[0]}+${s[1]}=${s[0] + s[1]}\\) ${tak ? "=" : "\\ne"} \\(${s[2]}\\). <span class="wynik">${tak ? "Trójkąt jest prostokątny." : "Trójkąt nie jest prostokątny."}</span></p>`,
+      rys: { ...ramka([A, B, C]), el: [{ t: "w", pkt: [A, B, C], k: "c", wyp: true }, P_(A, "A"), P_(B, "B"), P_(C, "C")] } };
+  } },
+  param: { nazwa: "odległość z parametrem", f() {
+    const [p, q, d] = wybierz(PITAGORAS.filter((t) => t[0] && t[1]));
+    const B = pkt(-4, 4), x1 = B[0] - p * wybierz([1, -1]);
+    const m = [B[1] - q, B[1] + q].sort((a, b) => a - b);
+    return { tresc: `Dla jakich wartości \\(m\\) odległość punktów \\(A=(${tl(x1)},\\ m)\\) i \\(B=${tp(...B)}\\) jest równa \\(${d}\\)?`,
+      pola: [{ e: "m =", typ: "liczby" }], odp: [m],
+      rozw: `<p>\\((${tl(B[0])}-${tn(x1)})^2+(${tl(B[1])}-m)^2=${d}^2\\), czyli \\(${p * p}+(${tl(B[1])}-m)^2=${d * d}\\), skąd \\((${tl(B[1])}-m)^2=${q * q}\\).</p>
+        <p>\\(${tl(B[1])}-m=${q}\\) lub \\(${tl(B[1])}-m=-${q}\\), więc <span class="wynik">\\(m=${m[0]}\\) lub \\(m=${m[1]}\\)</span>.</p>` };
+  } },
+  osOX: { nazwa: "punkt na osi równoodległy", f() {
+    let A, B, p, os;
+    for (;;) {
+      A = pkt(-5, 5); B = pkt(-5, 5); os = wybierz(["OX", "OY"]);
+      const i = os === "OX" ? 0 : 1, j = 1 - i;
+      if (A[i] === B[i]) continue;
+      const lic = B[0] ** 2 + B[1] ** 2 - A[0] ** 2 - A[1] ** 2, mian = 2 * (B[i] - A[i]);
+      if (lic % mian) continue;
+      p = lic / mian; if (Math.abs(p) > 8) continue;
+      break;
+    }
+    const P = os === "OX" ? [p, 0] : [0, p], v = os === "OX" ? "x" : "y";
+    const zw = (Q) => os === "OX" ? `(${v}-${tn(Q[0])})^2+${tn(Q[1])}^2` : `${tn(Q[0])}^2+(${v}-${tn(Q[1])})^2`;
+    return { tresc: `Na osi \\(${os}\\) znajdź punkt \\(P\\), który jest jednakowo oddalony od punktów \\(A=${tp(...A)}\\) i \\(B=${tp(...B)}\\).`,
+      pola: [{ e: "P =", typ: "punkt" }], odp: [P],
+      rozw: `<p>Punkt na osi \\(${os}\\) ma postać \\(P=${os === "OX" ? "(x,\\ 0)" : "(0,\\ y)"}\\). Warunek \\(|PA|=|PB|\\) zapisujemy dla kwadratów odległości (bez pierwiastków):</p>
+        <p>\\(${zw(A)}=${zw(B)}\\). Po wymnożeniu \\(${v}^2\\) się redukuje i zostaje równanie liniowe: \\(${v}=${tl(p)}\\).</p><p><span class="wynik">\\(P=${tp(...P)}\\)</span></p>`,
+      rys: { ...ramka([A, B, P]), el: [{ t: "o", od: P, do: A, k: "m", s: "przer" }, { t: "o", od: P, do: B, k: "m", s: "przer" }, P_(A, "A"), P_(B, "B"), P_(P, "P", "c")] } };
+  } },
+
+  /* ---------- 2. środek odcinka ---------- */
+  sr: { nazwa: "środek odcinka", f() {
+    let A, B; do { A = pkt(-7, 7); B = pkt(-7, 7); } while (!rozne(A, B));
+    const S = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
+    return { tresc: `Wyznacz współrzędne środka \\(S\\) odcinka \\(AB\\), gdy \\(A=${tp(...A)}\\), \\(B=${tp(...B)}\\).`,
+      pola: [{ e: "S =", typ: "punkt" }], odp: [S],
+      rozw: `<p>\\(S=\\left(\\frac{${tl(A[0])}+${tn(B[0])}}{2},\\ \\frac{${tl(A[1])}+${tn(B[1])}}{2}\\right)=\\left(\\frac{${A[0] + B[0]}}{2},\\ \\frac{${A[1] + B[1]}}{2}\\right)\\)</p><p><span class="wynik">\\(S=${tp(...S)}\\)</span></p>`,
+      rys: { ...ramka([A, B]), el: [{ t: "o", od: A, do: B, k: "a" }, P_(A, "A"), P_(B, "B"), P_(S, "S", "c", "se")] } };
+  } },
+  kon: { nazwa: "drugi koniec odcinka", f() {
+    let A, S; do { A = pkt(-5, 5); S = pkt(-4, 4); } while (!rozne(A, S));
+    const B = [2 * S[0] - A[0], 2 * S[1] - A[1]];
+    return { tresc: `Punkt \\(S=${tp(...S)}\\) jest środkiem odcinka \\(AB\\), gdzie \\(A=${tp(...A)}\\). Wyznacz współrzędne punktu \\(B\\).`,
+      pola: [{ e: "B =", typ: "punkt" }], odp: [B],
+      rozw: `<p>Niech \\(B=(x,\\ y)\\). Ze wzoru na środek: \\(\\frac{${tl(A[0])}+x}{2}=${tl(S[0])}\\) i \\(\\frac{${tl(A[1])}+y}{2}=${tl(S[1])}\\).</p>
+        <p>\\(${tl(A[0])}+x=${tl(2 * S[0])}\\Rightarrow x=${tl(B[0])}\\), \\(\\ ${tl(A[1])}+y=${tl(2 * S[1])}\\Rightarrow y=${tl(B[1])}\\). <span class="wynik">\\(B=${tp(...B)}\\)</span></p>
+        <p class="tip">Skrót: \\(B=(2x_S-x_A,\\ 2y_S-y_A)\\).</p>`,
+      rys: { ...ramka([A, B]), el: [{ t: "o", od: A, do: B, k: "a" }, P_(A, "A"), P_(B, "B", "c"), P_(S, "S", "a", "se")] } };
+  } },
+  rown: { nazwa: "czwarty wierzchołek równoległoboku", f() {
+    let A, B, C, D;
+    do { A = pkt(-6, 3); B = [A[0] + losuj(2, 6), A[1] + losuj(-2, 2)]; C = [B[0] + losuj(-3, 3), B[1] + losuj(2, 5)]; D = [A[0] + C[0] - B[0], A[1] + C[1] - B[1]]; }
+    while ([A, B, C, D].some((P) => Math.abs(P[0]) > 8 || Math.abs(P[1]) > 8));
+    const S = [(A[0] + C[0]) / 2, (A[1] + C[1]) / 2];
+    return { tresc: `Punkty \\(A=${tp(...A)}\\), \\(B=${tp(...B)}\\), \\(C=${tp(...C)}\\) są kolejnymi wierzchołkami równoległoboku \\(ABCD\\). Wyznacz współrzędne wierzchołka \\(D\\).`,
+      pola: [{ e: "D =", typ: "punkt" }], odp: [D],
+      rozw: `<p>Przekątne równoległoboku dzielą się na połowy, więc środek \\(AC\\) jest środkiem \\(BD\\).</p>
+        <p>\\(S_{AC}=\\left(\\frac{${tl(A[0])}+${tn(C[0])}}{2},\\ \\frac{${tl(A[1])}+${tn(C[1])}}{2}\\right)=${tp(...S)}\\).</p>
+        <p>\\(D=(2\\cdot${tn(S[0])}-${tn(B[0])},\\ 2\\cdot${tn(S[1])}-${tn(B[1])})\\), czyli <span class="wynik">\\(D=${tp(...D)}\\)</span>.</p>`,
+      rys: { ...ramka([A, B, C, D]), el: [{ t: "w", pkt: [A, B, C, D], k: "c", wyp: true }, { t: "o", od: A, do: C, k: "m", s: "przer" }, { t: "o", od: B, do: D, k: "m", s: "przer" }, P_(A, "A", "a", "sw"), P_(B, "B", "a", "se"), P_(C, "C", "a", "ne"), P_(D, "D", "c", "nw")] } };
+  } },
+  srodkowa: { nazwa: "długość środkowej trójkąta", f() {
+    let A, B, C, M;
+    do { A = pkt(-6, 6); B = [A[0] + 2 * losujBez(-3, 3, 0), A[1] + 2 * losuj(-3, 3)]; C = pkt(-6, 6); M = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2]; }
+    while (!rozne(C, M) || Math.abs(B[0]) > 8 || Math.abs(B[1]) > 8 || (B[0] - A[0]) * (C[1] - A[1]) === (B[1] - A[1]) * (C[0] - A[0]));
+    const n = d2(C, M);
+    return { tresc: `Dany jest trójkąt \\(ABC\\): \\(A=${tp(...A)}\\), \\(B=${tp(...B)}\\), \\(C=${tp(...C)}\\). Oblicz długość środkowej \\(CM\\) poprowadzonej z wierzchołka \\(C\\).`,
+      pola: [{ e: "|CM| =", typ: "liczba" }], odp: [Math.sqrt(n)],
+      rozw: `<p>Środkowa łączy wierzchołek ze środkiem przeciwległego boku: \\(M=\\left(\\frac{${tl(A[0])}+${tn(B[0])}}{2},\\ \\frac{${tl(A[1])}+${tn(B[1])}}{2}\\right)=${tp(...M)}\\).</p><p>\\(${odlRozw(C, M, "C", "M")}\\)</p>`,
+      rys: { ...ramka([A, B, C]), el: [{ t: "w", pkt: [A, B, C], k: "a" }, { t: "o", od: C, do: M, k: "c" }, P_(A, "A"), P_(B, "B"), P_(C, "C"), P_(M, "M", "c", "se")] } };
+  } },
+
+  /* ---------- 3. okrąg — równanie ---------- */
+  okrOdczyt: { nazwa: "środek i promień z równania", f() {
+    const a = losuj(-6, 6), b = losuj(-6, 6), r2 = wybierz([1, 4, 9, 16, 25, 2, 5, 8, 12, 18, 20]);
+    return { tresc: `Wyznacz środek \\(S\\) i promień \\(r\\) okręgu \\(${tokr(a, b, r2)}\\).`,
+      pola: [{ e: "S =", typ: "punkt" }, { e: "r =", typ: "liczba" }], odp: [[a, b], Math.sqrt(r2)],
+      rozw: `<p>Porównujemy z postacią \\((x-a)^2+(y-b)^2=r^2\\). ${a ? `\\(${a > 0 ? `x-${a}` : `x+${-a}`}=x-(${tl(a)})\\)` : "\\(x^2=(x-0)^2\\)"}, ${b ? `\\(${b > 0 ? `y-${b}` : `y+${-b}`}=y-(${tl(b)})\\)` : "\\(y^2=(y-0)^2\\)"}.</p>
+        <p><span class="wynik">\\(S=${tp(a, b)}\\)</span>, \\(r^2=${r2}\\), więc <span class="wynik">\\(r=${tpierw(r2)}\\)</span>.</p>`,
+      rys: { ...ramka([[a - Math.sqrt(r2), b - Math.sqrt(r2)], [a + Math.sqrt(r2), b + Math.sqrt(r2)]]), el: [{ t: "k", x: a, y: b, r: Math.sqrt(r2), k: "c" }, P_([a, b], "S", "c")] } };
+  } },
+  okrZapis: { nazwa: "równanie z środka i promienia", f() {
+    const a = losuj(-6, 6), b = losuj(-6, 6), r = wybierz([1, 2, 3, 4, 5, 6, "√2", "√3", "√5", "2√3"]);
+    const r2 = { "√2": 2, "√3": 3, "√5": 5, "2√3": 12 }[r] || r * r, rt = typeof r === "string" ? tpierw(r2) : String(r);
+    return { tresc: `Napisz równanie okręgu o środku \\(S=${tp(a, b)}\\) i promieniu \\(r=${rt}\\).`,
+      pola: [{ e: "Równanie:", typ: "okrag" }], odp: [{ a, b, r2 }],
+      rozw: `<p>\\((x-${tn(a)})^2+(y-${tn(b)})^2=(${rt})^2\\)</p><p><span class="wynik">\\(${tokr(a, b, r2)}\\)</span></p>` };
+  } },
+  okrPunkt: { nazwa: "okrąg przez punkt", f() {
+    let S, P; do { S = pkt(-5, 5); P = pkt(-6, 6); } while (!rozne(S, P) || d2(S, P) > 50);
+    const r2 = d2(S, P);
+    return { tresc: `Napisz równanie okręgu o środku \\(S=${tp(...S)}\\), który przechodzi przez punkt \\(P=${tp(...P)}\\).`,
+      pola: [{ e: "Równanie:", typ: "okrag" }], odp: [{ a: S[0], b: S[1], r2 }],
+      rozw: `<p>Promień to odległość środka od punktu okręgu: \\(r^2=|SP|^2=(${tl(P[0])}-${tn(S[0])})^2+(${tl(P[1])}-${tn(S[1])})^2=${r2}\\).</p><p><span class="wynik">\\(${tokr(S[0], S[1], r2)}\\)</span></p>`,
+      rys: { ...ramka([[S[0] - Math.sqrt(r2), S[1] - Math.sqrt(r2)], [S[0] + Math.sqrt(r2), S[1] + Math.sqrt(r2)]]), el: [{ t: "k", x: S[0], y: S[1], r: Math.sqrt(r2), k: "c" }, { t: "o", od: S, do: P, k: "m", s: "przer" }, P_(S, "S", "c"), P_(P, "P")] } };
+  } },
+  okrSrednica: { nazwa: "okrąg o średnicy AB", f() {
+    let A, B; do { A = pkt(-6, 6); B = [A[0] + 2 * losuj(-3, 3), A[1] + 2 * losuj(-3, 3)]; } while (!rozne(A, B) || Math.abs(B[0]) > 8 || Math.abs(B[1]) > 8);
+    const S = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2], r2 = d2(A, B) / 4;
+    return { tresc: `Odcinek \\(AB\\), gdzie \\(A=${tp(...A)}\\), \\(B=${tp(...B)}\\), jest średnicą okręgu. Napisz równanie tego okręgu.`,
+      pola: [{ e: "Równanie:", typ: "okrag" }], odp: [{ a: S[0], b: S[1], r2 }],
+      rozw: `<p>Środek okręgu to środek średnicy: \\(S=${tp(...S)}\\).</p><p>\\(r^2=|SA|^2=(${tl(A[0])}-${tn(S[0])})^2+(${tl(A[1])}-${tn(S[1])})^2=${r2}\\).</p><p><span class="wynik">\\(${tokr(S[0], S[1], r2)}\\)</span></p>`,
+      rys: { ...ramka([[S[0] - Math.sqrt(r2), S[1] - Math.sqrt(r2)], [S[0] + Math.sqrt(r2), S[1] + Math.sqrt(r2)]]), el: [{ t: "k", x: S[0], y: S[1], r: Math.sqrt(r2), k: "c" }, { t: "o", od: A, do: B, k: "a" }, P_(A, "A"), P_(B, "B"), P_(S, "S", "c", "se")] } };
+  } },
+  okrStyczny: { nazwa: "okrąg styczny do osi", f() {
+    const a = losujBez(-6, 6, 0), b = losujBez(-6, 6, 0), os = wybierz(["OX", "OY"]), r = os === "OX" ? Math.abs(b) : Math.abs(a);
+    return { tresc: `Napisz równanie okręgu o środku \\(S=${tp(a, b)}\\), stycznego do osi \\(${os}\\).`,
+      pola: [{ e: "Równanie:", typ: "okrag" }], odp: [{ a, b, r2: r * r }],
+      rozw: `<p>Okrąg styczny do osi \\(${os}\\) dotyka jej w jednym punkcie, a promień jest odległością środka od tej osi: \\(r=|${os === "OX" ? "y_S" : "x_S"}|=|${tl(os === "OX" ? b : a)}|=${r}\\).</p><p><span class="wynik">\\(${tokr(a, b, r * r)}\\)</span></p>`,
+      rys: { ...ramka([[a - r, b - r], [a + r, b + r]]), el: [{ t: "k", x: a, y: b, r, k: "c" }, P_([a, b], "S", "c"), os === "OX" ? P_([a, 0], "", "ok") : P_([0, b], "", "ok")] } };
+  } },
+
+  /* ---------- 4. okrąg — położenie ---------- */
+  okrPolozenie: { nazwa: "punkt a okrąg", f() {
+    const a = losuj(-4, 4), b = losuj(-4, 4), r2 = wybierz([9, 16, 25, 10, 13, 20]);
+    const kl = losuj(0, 2); let P;
+    const kand = []; for (let x = a - 6; x <= a + 6; x++) for (let y = b - 6; y <= b + 6; y++) { const d = d2([a, b], [x, y]); if ((kl === 0 && d === r2) || (kl === 1 && d < r2 && d > 0) || (kl === 2 && d > r2 && d < r2 + 15)) kand.push([x, y]); }
+    P = wybierz(kand); const d = d2([a, b], P);
+    return { tresc: `Jak położony jest punkt \\(P=${tp(...P)}\\) względem okręgu \\(${tokr(a, b, r2)}\\)?`,
+      pola: [{ e: "Punkt P leży", typ: "wybor", opcje: ["na okręgu", "wewnątrz okręgu", "na zewnątrz okręgu"] }], odp: [kl],
+      rozw: `<p>\\(S=${tp(a, b)}\\), \\(r^2=${r2}\\). Podstawiamy \\(P\\) do lewej strony równania: \\((${tl(P[0])}-${tn(a)})^2+(${tl(P[1])}-${tn(b)})^2=${d}\\).</p>
+        <p>\\(${d}${kl === 0 ? "=" : kl === 1 ? "\\lt" : "\\gt"}${r2}\\), więc <span class="wynik">punkt leży ${["na okręgu", "wewnątrz okręgu", "na zewnątrz okręgu"][kl]}</span>.</p>`,
+      rys: { ...ramka([[a - Math.sqrt(r2), b - Math.sqrt(r2)], [a + Math.sqrt(r2), b + Math.sqrt(r2)], P]), el: [{ t: "k", x: a, y: b, r: Math.sqrt(r2), k: "c" }, P_([a, b], "S", "c"), P_(P, "P", "b")] } };
+  } },
+  okrDwa: { nazwa: "wzajemne położenie dwóch okręgów", f() {
+    const cel = losuj(0, 4); let S1, S2, r1, r2, d;
+    for (let n = 0; n < 2000; n++) {
+      S1 = pkt(-4, 4); r1 = losuj(1, 5); r2 = losuj(1, 5);
+      const [p, q] = wybierz([[0, 1], [1, 0], [3, 4], [4, 3], [0, 1], [1, 1], [1, 2]]);
+      const k = losuj(0, 4); S2 = [S1[0] + p * k * wybierz([1, -1]), S1[1] + q * k * wybierz([1, -1])];
+      d = d2(S1, S2);
+      if (klasaOkregow(d, r1, r2) === cel && !(d === 0 && r1 === r2)) break;
+    }
+    const kl = klasaOkregow(d, r1, r2), s = r1 + r2, r = Math.abs(r1 - r2);
+    return { tresc: `Określ wzajemne położenie okręgów \\(o_1:\\ ${tokr(S1[0], S1[1], r1 * r1)}\\) i \\(o_2:\\ ${tokr(S2[0], S2[1], r2 * r2)}\\).`,
+      pola: [{ e: "Okręgi są", typ: "wybor", opcje: dwaOkregi }], odp: [kl],
+      rozw: `<p>\\(S_1=${tp(...S1)}\\), \\(r_1=${r1}\\); \\(S_2=${tp(...S2)}\\), \\(r_2=${r2}\\).</p>
+        <p>\\(|S_1S_2|=\\sqrt{${d}}${czyKwadrat(d) ? "=" + Math.sqrt(d) : "\\approx" + txt(+Math.sqrt(d).toFixed(2)).replace("−", "-").replace(",", "{,}")}\\), \\(r_1+r_2=${s}\\), \\(|r_1-r_2|=${r}\\).</p>
+        <p>${kl === 0 ? `\\(|S_1S_2|\\gt r_1+r_2\\)` : kl === 1 ? `\\(|S_1S_2|=r_1+r_2\\)` : kl === 2 ? `\\(|r_1-r_2|\\lt|S_1S_2|\\lt r_1+r_2\\)` : kl === 3 ? `\\(|S_1S_2|=|r_1-r_2|\\)` : `\\(|S_1S_2|\\lt|r_1-r_2|\\)`} – okręgi są <span class="wynik">${dwaOkregi[kl]}</span>.</p>`,
+      rys: { ...ramka([[S1[0] - r1, S1[1] - r1], [S1[0] + r1, S1[1] + r1], [S2[0] - r2, S2[1] - r2], [S2[0] + r2, S2[1] + r2]]), el: [{ t: "k", x: S1[0], y: S1[1], r: r1, k: "a" }, { t: "k", x: S2[0], y: S2[1], r: r2, k: "b" }, P_(S1, "S₁", "a"), P_(S2, "S₂", "b", "se")] } };
+  } },
+  okrOgolna: { nazwa: "★ równanie rozwinięte → środek i promień", f() {
+    const a = losuj(-5, 5), b = losujBez(-5, 5, a === 0 ? 0 : 99), r2 = wybierz([4, 9, 16, 25, 5, 10, 13]);
+    const D = -2 * a, E = -2 * b, F = a * a + b * b - r2;
+    const czl = (k, v) => (k === 0 ? "" : (k > 0 ? "+" : "-") + (Math.abs(k) === 1 ? "" : Math.abs(k)) + v);
+    const rown = `x^2+y^2${czl(D, "x")}${czl(E, "y")}${F === 0 ? "" : (F > 0 ? "+" : "-") + Math.abs(F)}=0`;
+    const uzup = (v, k, s) => (k === 0 ? `${v}^2` : `(${v}${s > 0 ? "-" : "+"}${Math.abs(s)})^2-${s * s}`);
+    return { tresc: `Wyznacz środek \\(S\\) i promień \\(r\\) okręgu \\(${rown}\\).`,
+      pola: [{ e: "S =", typ: "punkt" }, { e: "r =", typ: "liczba" }], odp: [[a, b], Math.sqrt(r2)],
+      rozw: `<p>Uzupełniamy do pełnych kwadratów (wzór \\((x-a)^2=x^2-2ax+a^2\\)):</p>
+        <p>\\(${uzup("x", D, a)}+${uzup("y", E, b)}${F === 0 ? "" : (F > 0 ? "+" : "-") + Math.abs(F)}=0\\)</p>
+        <p>\\(${tokr(a, b, r2)}\\), więc <span class="wynik">\\(S=${tp(a, b)}\\), \\(r=${tpierw(r2)}\\)</span>.</p>` };
+  } },
+
+  /* ---------- 5. układy równań ---------- */
+  uklad: { nazwa: "układ dwóch równań liniowych", f() {
+    const rodzaj = Math.random() < .8 ? "jeden" : wybierz(["sprz", "nieozn"]);
+    let a1, b1, a2, b2, x, y, c1, c2;
+    do { a1 = losujBez(-5, 5, 0); b1 = losujBez(-5, 5, 0); a2 = losujBez(-5, 5, 0); b2 = losujBez(-5, 5, 0); } while (a1 * b2 - a2 * b1 === 0 || ![a1, b1, a2, b2].some((k) => Math.abs(k) === 1));
+    x = losuj(-5, 5); y = losuj(-5, 5); c1 = a1 * x + b1 * y; c2 = a2 * x + b2 * y;
+    if (rodzaj !== "jeden") { const k = wybierz([2, -2, 3, -1]); a2 = k * a1; b2 = k * b1; c2 = k * c1 + (rodzaj === "sprz" ? wybierz([1, 2, -3]) : 0); }
+    const tresc = `Rozwiąż układ równań \\(\\begin{cases}${tlin(a1, b1, c1)}\\\\ ${tlin(a2, b2, c2)}\\end{cases}\\)`;
+    let rozw;
+    if (rodzaj === "jeden") {
+      // metoda przeciwnych współczynników: eliminujemy y
+      const W = a1 * b2 - a2 * b1;
+      rozw = `<p>Metoda przeciwnych współczynników: mnożymy pierwsze równanie przez \\(${tn(b2)}\\), drugie przez \\(${tn(-b1)}\\) i dodajemy (znika \\(y\\)):</p>
+        <p>\\(${tlin(a1 * b2, b1 * b2, c1 * b2)}\\)<br>\\(${tlin(-a2 * b1, -b2 * b1, -c2 * b1)}\\)<br>\\(${tl(W)}x=${tl(c1 * b2 - c2 * b1)}\\Rightarrow x=${tl(x)}\\)</p>
+        <p>Podstawiamy do pierwszego równania: \\(${tl(a1)}\\cdot${tn(x)}${b1 > 0 ? "+" : "-"}${Math.abs(b1) === 1 ? "" : Math.abs(b1)}y=${tl(c1)}\\Rightarrow y=${tl(y)}\\).</p>
+        <p><span class="wynik">\\(x=${tl(x)},\\ y=${tl(y)}\\)</span> – proste przecinają się w punkcie \\(${tp(x, y)}\\).</p>`;
+    } else {
+      rozw = `<p>Drugie równanie ma lewą stronę \\(${tl(a2 / a1)}\\) razy większą niż pierwsze: \\(${tl(a2 / a1)}\\cdot(${tlin(a1, b1, c1).split("=")[0]})=${tl(a2 / a1 * c1)}\\). W układzie jest \\(${tl(c2)}\\).</p>
+        <p>${rodzaj === "sprz" ? `Sprzeczność (\\(${tl(a2 / a1 * c1)}\\ne${tl(c2)}\\)) – proste są równoległe i się nie przecinają. <span class="wynik">Układ sprzeczny.</span>` : `Równania są równoważne – to ta sama prosta. <span class="wynik">Układ ma nieskończenie wiele rozwiązań.</span>`}</p>`;
+    }
+    const zakres = { x: [-8, 8], y: [-8, 8] };
+    return { tresc, pola: [{ e: "Rozwiązanie:", typ: "uklad" }], odp: [rodzaj === "jeden" ? [x, y] : rodzaj], rozw,
+      rys: { ...zakres, el: [{ t: "l", a: a1, b: b1, c: c1, k: "a", n: "1" }, { t: "l", a: a2, b: b2, c: c2, k: "b", n: "2", s: rodzaj === "nieozn" ? "przer" : "" }].concat(rodzaj === "jeden" && Math.abs(x) < 8 && Math.abs(y) < 8 ? [P_([x, y], "", "c")] : []) } };
+  } },
+  proste: { nazwa: "punkt przecięcia prostych y = ax + b", f() {
+    let m1, m2, x, y; do { m1 = losuj(-3, 3); m2 = losuj(-3, 3); } while (m1 === m2);
+    x = losuj(-4, 4); y = losuj(-5, 5);
+    const k1 = y - m1 * x, k2 = y - m2 * x;
+    const pr = (m, k) => `y=${m === 0 ? "" : m === 1 ? "x" : m === -1 ? "-x" : m + "x"}${k === 0 ? (m === 0 ? "0" : "") : (k > 0 && m !== 0 ? "+" : "") + k}`;
+    return { tresc: `Wyznacz punkt przecięcia prostych \\(${pr(m1, k1)}\\) i \\(${pr(m2, k2)}\\).`,
+      pola: [{ e: "P =", typ: "punkt" }], odp: [[x, y]],
+      rozw: `<p>W punkcie wspólnym oba \\(y\\) są równe: \\(${pr(m1, k1).slice(2)}=${pr(m2, k2).slice(2)}\\).</p>
+        <p>\\(${tl(m1 - m2)}x=${tl(k2 - k1)}\\Rightarrow x=${tl(x)}\\), a z pierwszego wzoru \\(y=${tl(m1)}\\cdot${tn(x)}${k1 >= 0 ? "+" : ""}${k1}=${tl(y)}\\).</p><p><span class="wynik">\\(P=${tp(x, y)}\\)</span></p>`,
+      rys: { x: [-8, 8], y: [-8, 8], el: [{ t: "l", a: -m1, b: 1, c: k1, k: "a" }, { t: "l", a: -m2, b: 1, c: k2, k: "b" }].concat(Math.abs(y) < 8 ? [P_([x, y], "P", "c")] : []) } };
+  } },
+  prostaOkrag: { nazwa: "★ punkty wspólne prostej i okręgu", f() {
+    for (let n = 0; n < 500; n++) {
+      const a = losuj(-3, 3), b = losuj(-3, 3), r2 = wybierz([5, 10, 13, 25, 2, 8, 9, 4, 20]);
+      const K = kratowe(a, b, r2); if (K.length < 2) continue;
+      const typ = wybierz([2, 2, 1, 0]);
+      let L;                                   // prosta: {sw: "y" (y = m·x + k) albo "x" (x = m·y + k)}
+      if (typ === 2) {
+        const P = wybierz(K), Q = wybierz(K); if (!rozne(P, Q)) continue;
+        const dx = Q[0] - P[0], dy = Q[1] - P[1];
+        if (dx !== 0 && dy % dx === 0) L = { sw: "y", m: dy / dx, k: P[1] - (dy / dx) * P[0] };
+        else if (dy !== 0 && dx % dy === 0) L = { sw: "x", m: dx / dy, k: P[0] - (dx / dy) * P[1] };
+        else continue;
+      } else if (typ === 1) {
+        const P = wybierz(K), u = P[0] - a, v = P[1] - b;   // styczna ⟂ SP
+        if (u === 0) L = { sw: "y", m: 0, k: P[1] }; else if (v === 0) L = { sw: "x", m: 0, k: P[0] };
+        else if (u % v === 0) L = { sw: "y", m: -u / v, k: P[1] + (u / v) * P[0] };
+        else if (v % u === 0) L = { sw: "x", m: -v / u, k: P[0] + (v / u) * P[1] };
+        else continue;
+      } else {
+        const r = Math.sqrt(r2); L = wybierz([{ sw: "y", m: 0, k: b + Math.floor(r) + losuj(1, 2) }, { sw: "x", m: 0, k: a - Math.floor(r) - losuj(1, 2) }, { sw: "y", m: 1, k: b - a + Math.ceil(r * 1.5) + 1 }]);
+      }
+      // podstawienie: (u - A)^2 + (m·u + k - B)^2 = r2, gdzie u to zmienna niezależna
+      const [u, w, A, B] = L.sw === "y" ? ["x", "y", a, b] : ["y", "x", b, a];
+      const qa = 1 + L.m * L.m, qb = -2 * A + 2 * L.m * (L.k - B), qc = A * A + (L.k - B) ** 2 - r2;
+      const delta = qb * qb - 4 * qa * qc;
+      const ile = delta > 0 ? 2 : delta === 0 ? 1 : 0;
+      if (ile !== typ || !Number.isInteger(L.k)) continue;
+      const pierw = ile ? [(-qb - Math.sqrt(delta)) / (2 * qa), (-qb + Math.sqrt(delta)) / (2 * qa)] : [];
+      if (pierw.some((t) => !Number.isInteger(t))) continue;
+      const pts = [...new Set(pierw)].map((t) => (L.sw === "y" ? [t, L.m * t + L.k] : [L.m * t + L.k, t]));
+      const prawa = `${L.m === 0 ? "" : L.m === 1 ? u : L.m === -1 ? "-" + u : L.m + u}${L.k === 0 ? (L.m === 0 ? "0" : "") : (L.k > 0 && L.m !== 0 ? "+" : "") + L.k}`;
+      const g = nwd(nwd(qa, qb), qc), [ga, gb, gc] = [qa / g, qb / g, qc / g];
+      const kw = `${ga === 1 ? "" : ga}${u}^2${gb === 0 ? "" : (gb > 0 ? "+" : "-") + (Math.abs(gb) === 1 ? "" : Math.abs(gb)) + u}${gc === 0 ? "" : (gc > 0 ? "+" : "") + gc}=0`;
+      const dl = gb * gb - 4 * ga * gc;
+      return { tresc: `Wyznacz punkty wspólne prostej \\(${w}=${prawa}\\) i okręgu \\(${tokr(a, b, r2)}\\).`,
+        pola: [{ e: "Punkty:", typ: "punkty" }], odp: [pts],
+        rozw: `<p>Podstawiamy \\(${w}=${prawa}\\) do równania okręgu:</p>
+          <p>\\(${L.sw === "y" ? `(x-${tn(a)})^2+(${prawa}-${tn(b)})^2=${r2}` : `(${prawa}-${tn(a)})^2+(y-${tn(b)})^2=${r2}`}\\)</p>
+          <p>Po wymnożeniu i uporządkowaniu${g > 1 ? ` (dzielimy przez \\(${g}\\))` : ""}: \\(${kw}\\), \\(\\Delta=${dl}\\).</p>
+          <p>${ile === 0 ? `\\(\\Delta\\lt0\\) – brak rozwiązań. <span class="wynik">Prosta i okrąg nie mają punktów wspólnych.</span>` :
+            ile === 1 ? `\\(\\Delta=0\\) – jedno rozwiązanie \\(${u}=${tl(pierw[0])}\\), więc \\(${w}=${tl(L.sw === "y" ? pts[0][1] : pts[0][0])}\\). Prosta jest <strong>styczna</strong> do okręgu: <span class="wynik">\\(${tp(...pts[0])}\\)</span>.` :
+            `\\(${u}_1=${tl(pierw[0])}\\), \\(${u}_2=${tl(pierw[1])}\\). Obliczamy \\(${w}\\) ze wzoru prostej. <span class="wynik">\\(${tp(...pts[0])}\\) i \\(${tp(...pts[1])}\\)</span>.`}</p>`,
+        rys: { ...ramka([[a - Math.sqrt(r2), b - Math.sqrt(r2)], [a + Math.sqrt(r2), b + Math.sqrt(r2)]], 2), el: [{ t: "k", x: a, y: b, r: Math.sqrt(r2), k: "c" }, L.sw === "y" ? { t: "l", a: -L.m, b: 1, c: L.k, k: "a" } : { t: "l", a: 1, b: -L.m, c: L.k, k: "a" }].concat(pts.map((P) => P_(P, "", "b"))) } };
+    }
+    return G.proste.f();
+  } },
+
+  /* ---------- 6. symetria osiowa ---------- */
+  symOsPkt: { nazwa: "obraz punktu w symetrii względem osi", f() {
+    const A = [losujBez(-7, 7, 0), losujBez(-7, 7, 0)], os = wybierz(["OX", "OY"]), B = os === "OX" ? [A[0], -A[1]] : [-A[0], A[1]];
+    return { tresc: `Wyznacz obraz \\(A'\\) punktu \\(A=${tp(...A)}\\) w symetrii względem osi \\(${os}\\).`,
+      pola: [{ e: "A′ =", typ: "punkt" }], odp: [B],
+      rozw: `<p>W symetrii względem osi \\(${os}\\) ${os === "OX" ? "pierwsza współrzędna zostaje, druga zmienia znak: \\((x,\\ y)\\to(x,\\ -y)\\)" : "pierwsza współrzędna zmienia znak, druga zostaje: \\((x,\\ y)\\to(-x,\\ y)\\)"}.</p><p><span class="wynik">\\(A'=${tp(...B)}\\)</span></p>`,
+      rys: { ...ramka([A, B]), el: [{ t: "o", od: A, do: B, k: "m", s: "przer" }, P_(A, "A"), P_(B, "A′", "b")] } };
+  } },
+  symOsTr: { nazwa: "obraz trójkąta w symetrii względem osi", f() {
+    let A, B, C; do { A = pkt(-6, 6); B = pkt(-6, 6); C = pkt(-6, 6); } while ((B[0] - A[0]) * (C[1] - A[1]) === (B[1] - A[1]) * (C[0] - A[0]));
+    const os = wybierz(["OX", "OY"]), f = (P) => (os === "OX" ? [P[0], -P[1]] : [-P[0], P[1]]);
+    return { tresc: `Trójkąt \\(ABC\\): \\(A=${tp(...A)}\\), \\(B=${tp(...B)}\\), \\(C=${tp(...C)}\\). Wyznacz wierzchołki jego obrazu w symetrii względem osi \\(${os}\\).`,
+      pola: [{ e: "A′ =", typ: "punkt" }, { e: "B′ =", typ: "punkt" }, { e: "C′ =", typ: "punkt" }], odp: [f(A), f(B), f(C)],
+      rozw: `<p>\\((x,\\ y)\\to${os === "OX" ? "(x,\\ -y)" : "(-x,\\ y)"}\\): <span class="wynik">\\(A'=${tp(...f(A))}\\), \\(B'=${tp(...f(B))}\\), \\(C'=${tp(...f(C))}\\)</span>.</p><p class="tip">Obraz ma te same długości boków i kąty – symetria jest izometrią.</p>`,
+      rys: { x: [-8, 8], y: [-8, 8], el: [{ t: "w", pkt: [A, B, C], k: "a", wyp: true }, { t: "w", pkt: [f(A), f(B), f(C)], k: "b", wyp: true }, P_(A, "A", "a"), P_(B, "B", "a"), P_(C, "C", "a"), P_(f(A), "A′", "b"), P_(f(B), "B′", "b"), P_(f(C), "C′", "b")].map((e) => (e.t === "p" ? { ...e, wsp: false } : e)) } };
+  } },
+  symOsOkr: { nazwa: "obraz okręgu w symetrii względem osi", f() {
+    const a = losujBez(-6, 6, 0), b = losujBez(-6, 6, 0), r2 = wybierz([1, 4, 9, 2, 5, 10]), os = wybierz(["OX", "OY"]);
+    const [a2, b2] = os === "OX" ? [a, -b] : [-a, b];
+    return { tresc: `Napisz równanie obrazu okręgu \\(${tokr(a, b, r2)}\\) w symetrii względem osi \\(${os}\\).`,
+      pola: [{ e: "Równanie:", typ: "okrag" }], odp: [{ a: a2, b: b2, r2 }],
+      rozw: `<p>Symetria nie zmienia promienia, przenosi tylko środek: \\(S=${tp(a, b)}\\to S'=${tp(a2, b2)}\\), \\(r^2=${r2}\\).</p><p><span class="wynik">\\(${tokr(a2, b2, r2)}\\)</span></p>`,
+      rys: { ...ramka([[a - 3, b - 3], [a + 3, b + 3], [a2 - 3, b2 - 3], [a2 + 3, b2 + 3]], 0), el: [{ t: "k", x: a, y: b, r: Math.sqrt(r2), k: "a" }, { t: "k", x: a2, y: b2, r: Math.sqrt(r2), k: "b" }, P_([a, b], "S", "a"), P_([a2, b2], "S′", "b")] } };
+  } },
+  symOsParam: { nazwa: "punkty symetryczne – parametry", f() {
+    const os = wybierz(["OX", "OY"]), x = losujBez(-6, 6, 0), y = losujBez(-6, 6, 0), p = losujBez(-4, 4, 0), q = losujBez(-4, 4, 0);
+    // A = (m + p, y), B = (x2, n + q) symetryczne względem osi
+    const B = os === "OX" ? [x, -y] : [-x, y];
+    const m = x - p, n = B[1] - q;
+    const zm = (v, s) => `${v}${s > 0 ? "+" : "-"}${Math.abs(s)}`;
+    return { tresc: `Punkty \\(A=(${zm("m", p)},\\ ${tl(y)})\\) i \\(B=(${tl(B[0])},\\ ${zm("n", q)})\\) są symetryczne względem osi \\(${os}\\). Oblicz \\(m\\) i \\(n\\).`,
+      pola: [{ e: "m =", typ: "liczba" }, { e: "n =", typ: "liczba" }], odp: [m, n],
+      rozw: `<p>${os === "OX" ? "Względem osi OX: pierwsze współrzędne równe, drugie przeciwne." : "Względem osi OY: pierwsze współrzędne przeciwne, drugie równe."}</p>
+        <p>${os === "OX" ? `\\(${zm("m", p)}=${tl(B[0])}\\Rightarrow m=${m}\\); \\(\\ ${zm("n", q)}=-${tn(y)}\\Rightarrow n=${n}\\).` : `\\(${zm("m", p)}=-${tn(B[0])}\\Rightarrow m=${m}\\); \\(\\ ${zm("n", q)}=${tl(y)}\\Rightarrow n=${n}\\).`}</p><p><span class="wynik">\\(m=${m},\\ n=${n}\\)</span></p>` };
+  } },
+
+  /* ---------- 7. symetria środkowa ---------- */
+  symOPkt: { nazwa: "obraz punktu w symetrii względem O", f() {
+    const A = [losujBez(-7, 7, 0), losuj(-7, 7)], B = [-A[0], -A[1]];
+    return { tresc: `Wyznacz obraz \\(A'\\) punktu \\(A=${tp(...A)}\\) w symetrii środkowej względem początku układu współrzędnych \\(O=(0,\\ 0)\\).`,
+      pola: [{ e: "A′ =", typ: "punkt" }], odp: [B],
+      rozw: `<p>\\((x,\\ y)\\to(-x,\\ -y)\\) – obie współrzędne zmieniają znak. <span class="wynik">\\(A'=${tp(...B)}\\)</span></p>`,
+      rys: { ...ramka([A, B]), el: [{ t: "o", od: A, do: B, k: "m", s: "przer" }, P_(A, "A"), P_(B, "A′", "b"), P_([0, 0], "O", "c", "se")] } };
+  } },
+  symSPkt: { nazwa: "★ obraz punktu w symetrii względem punktu S", f() {
+    let A, S; do { A = pkt(-5, 5); S = pkt(-3, 3); } while (!rozne(A, S));
+    const B = [2 * S[0] - A[0], 2 * S[1] - A[1]];
+    return { tresc: `Wyznacz obraz \\(A'\\) punktu \\(A=${tp(...A)}\\) w symetrii środkowej względem punktu \\(S=${tp(...S)}\\).`,
+      pola: [{ e: "A′ =", typ: "punkt" }], odp: [B],
+      rozw: `<p>\\(S\\) jest środkiem odcinka \\(AA'\\), więc \\(A'=(2x_S-x_A,\\ 2y_S-y_A)=(2\\cdot${tn(S[0])}-${tn(A[0])},\\ 2\\cdot${tn(S[1])}-${tn(A[1])})\\).</p><p><span class="wynik">\\(A'=${tp(...B)}\\)</span></p>`,
+      rys: { ...ramka([A, B, S]), el: [{ t: "o", od: A, do: B, k: "m", s: "przer" }, P_(A, "A"), P_(B, "A′", "b"), P_(S, "S", "c", "se")] } };
+  } },
+  symOOkr: { nazwa: "obraz okręgu w symetrii względem O", f() {
+    const a = losuj(-6, 6), b = losujBez(-6, 6, a === 0 ? 0 : 99), r2 = wybierz([1, 4, 9, 2, 5, 8]);
+    return { tresc: `Napisz równanie obrazu okręgu \\(${tokr(a, b, r2)}\\) w symetrii względem początku układu współrzędnych.`,
+      pola: [{ e: "Równanie:", typ: "okrag" }], odp: [{ a: -a, b: -b, r2 }],
+      rozw: `<p>Środek \\(S=${tp(a, b)}\\to S'=${tp(-a, -b)}\\), promień bez zmian (\\(r^2=${r2}\\)).</p><p><span class="wynik">\\(${tokr(-a, -b, r2)}\\)</span></p>`,
+      rys: { ...ramka([[a - 3, b - 3], [a + 3, b + 3], [-a - 3, -b - 3], [-a + 3, -b + 3]], 0), el: [{ t: "k", x: a, y: b, r: Math.sqrt(r2), k: "a" }, { t: "k", x: -a, y: -b, r: Math.sqrt(r2), k: "b" }, { t: "o", od: [a, b], do: [-a, -b], k: "m", s: "przer" }, P_([a, b], "S", "a"), P_([-a, -b], "S′", "b")] } };
+  } },
+  symOTr: { nazwa: "obraz trójkąta w symetrii względem O", f() {
+    let A, B, C; do { A = pkt(-6, 6); B = pkt(-6, 6); C = pkt(-6, 6); } while ((B[0] - A[0]) * (C[1] - A[1]) === (B[1] - A[1]) * (C[0] - A[0]));
+    const f = (P) => [-P[0], -P[1]];
+    return { tresc: `Trójkąt \\(ABC\\): \\(A=${tp(...A)}\\), \\(B=${tp(...B)}\\), \\(C=${tp(...C)}\\). Wyznacz wierzchołki jego obrazu w symetrii względem początku układu współrzędnych.`,
+      pola: [{ e: "A′ =", typ: "punkt" }, { e: "B′ =", typ: "punkt" }, { e: "C′ =", typ: "punkt" }], odp: [f(A), f(B), f(C)],
+      rozw: `<p>\\((x,\\ y)\\to(-x,\\ -y)\\): <span class="wynik">\\(A'=${tp(...f(A))}\\), \\(B'=${tp(...f(B))}\\), \\(C'=${tp(...f(C))}\\)</span>.</p><p class="tip">Symetria środkowa to obrót o 180° wokół środka symetrii.</p>`,
+      rys: { x: [-8, 8], y: [-8, 8], el: [{ t: "w", pkt: [A, B, C], k: "a", wyp: true }, { t: "w", pkt: [f(A), f(B), f(C)], k: "b", wyp: true }, P_(A, "A", "a"), P_(B, "B", "a"), P_(C, "C", "a"), P_(f(A), "A′", "b"), P_(f(B), "B′", "b"), P_(f(C), "C′", "b")].map((e) => (e.t === "p" ? { ...e, wsp: false } : e)) } };
+  } },
+  symOParam: { nazwa: "punkty symetryczne względem O – parametry", f() {
+    const x = losujBez(-6, 6, 0), y = losujBez(-6, 6, 0), p = losujBez(-4, 4, 0), q = losujBez(-4, 4, 0);
+    const m = x - p, n = -y - q, zm = (v, s) => `${v}${s > 0 ? "+" : "-"}${Math.abs(s)}`;
+    return { tresc: `Punkty \\(A=(${zm("m", p)},\\ ${tl(y)})\\) i \\(B=(${tl(-x)},\\ ${zm("n", q)})\\) są symetryczne względem początku układu współrzędnych. Oblicz \\(m\\) i \\(n\\).`,
+      pola: [{ e: "m =", typ: "liczba" }, { e: "n =", typ: "liczba" }], odp: [m, n],
+      rozw: `<p>Współrzędne punktów symetrycznych względem \\(O\\) są liczbami przeciwnymi: \\(${zm("m", p)}=-${tn(-x)}\\Rightarrow m=${m}\\); \\(\\ ${zm("n", q)}=-${tn(y)}\\Rightarrow n=${n}\\).</p><p><span class="wynik">\\(m=${m},\\ n=${n}\\)</span></p>` };
+  } },
+};
+const genZ = (...k) => Object.fromEntries(k.map((x) => [x, G[x]]));
+
+/* ---------- narzędzie: obraz trójkąta w symetrii ---------- */
+const TRYBY_SYM = {
+  OX: ["względem osi OX", "(x,\\ y)\\to(x,\\ -y)", (p) => [p[0], -p[1]]],
+  OY: ["względem osi OY", "(x,\\ y)\\to(-x,\\ y)", (p) => [-p[0], p[1]]],
+  xk: ["★ względem prostej x = k", "(x,\\ y)\\to(2k-x,\\ y)", (p, S) => [2 * S.k - p[0], p[1]]],
+  yk: ["★ względem prostej y = k", "(x,\\ y)\\to(x,\\ 2k-y)", (p, S) => [p[0], 2 * S.k - p[1]]],
+  O: ["względem punktu O = (0, 0)", "(x,\\ y)\\to(-x,\\ -y)", (p) => [-p[0], -p[1]]],
+  S: ["★ względem punktu S", "(x,\\ y)\\to(2a-x,\\ 2b-y)", (p, S, P) => [2 * P.S.x - p[0], 2 * P.S.y - p[1]]],
+};
+function narzedzieSymetrii(el, tryby) {
+  const zS = tryby.includes("S"), zK = tryby.includes("xk") || tryby.includes("yk");
+  const pkt = { A: { x: 1, y: 1, k: "a", poz: "sw" }, B: { x: 5, y: 2, k: "a" }, C: { x: 2, y: 5, k: "a", poz: "nw" } };
+  if (zS) pkt.S = { x: -1, y: 0, k: "c", poz: "se", ukryty: true };
+  plansza(el, {
+    x: [-7, 7], y: [-7, 7], stan: { tryb: tryby[0], k: 2 }, pkt,
+    kontrolki: `<label class="tip">Symetria: <select data-tryb>${tryby.map((t) => `<option value="${t}">${TRYBY_SYM[t][0]}</option>`).join("")}</select></label>
+      ${zK ? `<label class="tip" data-k-wrap style="display:none;gap:.5rem;align-items:center;margin:.3rem 0">\\(k\\) = <input type="range" min="-4" max="4" step="1" value="2" data-k style="flex:1"><output>2</output></label>` : ""}`,
+    podepnij(root, S, odswiez, P) {
+      const kw = root.querySelector("[data-k-wrap]");
+      root.querySelector("[data-tryb]").addEventListener("change", (e) => {
+        S.tryb = e.target.value;
+        if (P.S) P.S.ukryty = S.tryb !== "S";
+        if (kw) kw.style.display = S.tryb === "xk" || S.tryb === "yk" ? "flex" : "none";
+        root.querySelectorAll('.wsp input[data-n="S"]').forEach((i) => { i.closest("label").style.display = S.tryb === "S" ? "" : "none"; });
+        odswiez();
+      });
+      if (kw) kw.querySelector("input").addEventListener("input", (e) => { S.k = +e.target.value; kw.querySelector("output").textContent = e.target.value; odswiez(); });
+      root.querySelectorAll('.wsp input[data-n="S"]').forEach((i) => { i.closest("label").style.display = "none"; });
+    },
+    rysuj(P, S) {
+      const f = TRYBY_SYM[S.tryb][2], W = ["A", "B", "C"].map((n) => [P[n].x, P[n].y]), O = W.map((p) => f(p, S, P));
+      const el2 = [];
+      if (S.tryb === "xk") el2.push({ t: "l", a: 1, b: 0, c: S.k, k: "ok", n: "x = " + txt(S.k) });
+      if (S.tryb === "yk") el2.push({ t: "l", a: 0, b: 1, c: S.k, k: "ok", n: "y = " + txt(S.k) });
+      if (S.tryb === "OX") el2.push({ t: "l", a: 0, b: 1, c: 0, k: "ok" });
+      if (S.tryb === "OY") el2.push({ t: "l", a: 1, b: 0, c: 0, k: "ok" });
+      el2.push({ t: "w", pkt: W, k: "a", wyp: true }, { t: "w", pkt: O, k: "b", wyp: true });
+      W.forEach((p, i) => el2.push({ t: "o", od: p, do: O[i], k: "m", s: "przer" }));
+      O.forEach((p, i) => el2.push({ t: "p", x: p[0], y: p[1], n: "ABC"[i] + "′", k: "b" }));
+      if (S.tryb === "O") el2.push({ t: "p", x: 0, y: 0, n: "O", k: "c", poz: "se" });
+      return el2;
+    },
+    opis(P, S) {
+      const [nazwa, wzor, f] = TRYBY_SYM[S.tryb];
+      const W = ["A", "B", "C"].map((n) => [P[n].x, P[n].y]);
+      const wz = S.tryb === "xk" || S.tryb === "yk" ? wzor.replace(/k/g, tl(S.k)).replace("2" + tl(S.k), "2\\cdot" + tn(S.k)) : S.tryb === "S" ? wzor.replace("2a", "2\\cdot" + tn(P.S.x)).replace("2b", "2\\cdot" + tn(P.S.y)) : wzor;
+      return `<p>Symetria ${nazwa.replace("★ ", "")}${S.tryb === "S" ? `, \\(S=${tp(P.S.x, P.S.y)}\\)` : ""}${S.tryb === "xk" || S.tryb === "yk" ? `, \\(k=${tl(S.k)}\\)` : ""}:</p><p>\\(${wz}\\)</p>
+        ${W.map((p, i) => `<p>\\(${"ABC"[i]}=${tp(...p)}\\ \\to\\ ${"ABC"[i]}'=${tp(...f(p, S, P))}\\)</p>`).join("")}
+        <p class="tip">${S.tryb === "O" || S.tryb === "S" ? "Symetria środkowa to obrót o 180° – kolejność wierzchołków się nie odwraca." : "Obraz jest lustrzanym odbiciem – kierunek obiegu A → B → C się odwraca."}</p>`;
+    },
+  });
+}
+
+/* ===== strona ===== */
+rysujStatyczne();
+checklista("4t-sym-osiowa-checklist");
+narzedzieSymetrii($("#narzedzie-sym"), ["OX", "OY", "xk", "yk"]);
+trening($("#trening-tr"), genZ("symOsPkt", "symOsTr", "symOsOkr", "symOsParam"));
+
+</script>
+</body>
+</html>

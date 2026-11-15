@@ -1,0 +1,1494 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zastosowanie przekształceń algebraicznych – matematyka 1A</title>
+<meta name="description" content="Matematyka 1A, dział Język matematyki, temat 10: Upraszczanie i obliczanie wartości wyrażeń, równania po przekształceniach, dowody podzielności i nierówności.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
+  onload="window.renderMath=function(el){renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});};renderMath(document.body);"></script>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --text:#1d2330; --muted:#5b6475; --line:#dde1e8;
+    --accent:#2563eb; --accent-soft:#e8efff; --a:#2563eb; --b:#dc2626; --c:#7c3aed; --c-soft:#efe9ff;
+    --ok:#15803d; --ok-soft:#e7f6ec; --warn:#b45309; --warn-soft:#fdf3e3; --siatka:#e7eaf0;
+    --mat:"Cambria Math","STIX Two Math","Times New Roman",serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12151b; --card:#1b1f27; --text:#e6e9ef; --muted:#9aa3b2; --line:#2c323d;
+      --accent:#7aa2ff; --accent-soft:#1e2a44; --a:#7aa2ff; --b:#ff7a7a; --c:#c4a1ff; --c-soft:#2a2342;
+      --ok:#4ade80; --ok-soft:#163323; --warn:#fbbf24; --warn-soft:#3a2d12; --siatka:#252a34;
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-padding-top:4rem}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  a{color:var(--accent)}
+  header{background:var(--accent);color:#fff;padding:2rem 1rem}
+  header .wrap{max-width:920px;margin:auto}
+  header p{margin:.2rem 0;opacity:.92}
+  header a{color:#fff}
+  header h1{margin:.3rem 0;font-size:1.9rem;line-height:1.25}
+  nav{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+  nav .wrap{max-width:920px;margin:auto;display:flex;gap:.2rem .9rem;flex-wrap:wrap;padding:.5rem 1rem}
+  nav a{text-decoration:none;font-size:.9rem}
+  nav a:hover{text-decoration:underline}
+  main{max-width:920px;margin:auto;padding:1rem;overflow-x:clip}
+  section{background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:1.2rem 1.4rem;margin:1.2rem 0}
+  @media (max-width:600px){section{padding:1rem}}
+  h2{margin-top:0;font-size:1.4rem;border-bottom:2px solid var(--accent-soft);padding-bottom:.3rem}
+  h3{font-size:1.1rem;margin:1.2rem 0 .3rem}
+  .box{border-left:4px solid var(--accent);background:var(--accent-soft);padding:.6rem 1rem;border-radius:6px;margin:1rem 0}
+  .box.ok{border-color:var(--ok);background:var(--ok-soft)}
+  .box.warn{border-color:var(--warn);background:var(--warn-soft)}
+  .box.gw{border-color:var(--c);background:var(--c-soft)}
+  .box>strong:first-child{display:block}
+  .wzor{font-size:1.15rem;text-align:center;margin:.4rem 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start}
+  @media (max-width:760px){.grid2{grid-template-columns:1fr}}
+  figure{margin:.6rem 0;text-align:center}
+  figcaption{font-size:.9rem;color:var(--muted)}
+  table{border-collapse:collapse;width:100%;font-size:.95rem}
+  th,td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:middle}
+  th{background:var(--accent-soft)}
+  .table-wrap{overflow-x:auto}
+  details{border:1px solid var(--line);border-radius:6px;padding:.4rem .8rem;margin:.5rem 0}
+  summary{cursor:pointer;color:var(--accent);font-weight:600}
+  ol.tasks>li{margin-bottom:1rem}
+  .katex-display{overflow-x:auto;overflow-y:hidden;padding:.2rem 0}
+  .tip{color:var(--muted);font-size:.95rem}
+  .wynik{color:var(--c);font-weight:600}
+  .gw-tag{display:inline-block;font-size:.75rem;font-weight:700;padding:.05rem .45rem;border-radius:99px;
+    background:var(--c-soft);color:var(--c);vertical-align:middle;margin-left:.3rem}
+  /* checklista */
+  .check{list-style:none;padding:0;margin:0}
+  .check li{display:flex;gap:.6rem;align-items:flex-start;padding:.35rem 0;border-bottom:1px dashed var(--line)}
+  .check input{margin-top:.35rem;width:1.1rem;height:1.1rem;accent-color:var(--ok);flex:none}
+  .check a{margin-left:auto;white-space:nowrap;font-size:.9rem;padding-left:.5rem}
+  .progress{height:10px;background:var(--accent-soft);border-radius:99px;overflow:hidden;margin:.6rem 0}
+  .progress div{height:100%;background:var(--ok);width:0;transition:width .3s}
+  /* układ współrzędnych */
+  .uklad svg{width:100%;height:auto;display:block;margin:auto;touch-action:none}
+  .uklad{max-width:380px;margin:.6rem auto}
+  .uklad.szeroki{max-width:520px}
+  .uklad .siatka{stroke:var(--siatka);stroke-width:1}
+  .uklad .os{stroke:var(--muted);stroke-width:1.4}
+  .uklad .os-g{fill:var(--muted)}
+  .uklad text{font:12px system-ui,sans-serif;fill:var(--muted)}
+  .uklad text.pkt{font:italic 700 15px var(--mat);fill:var(--text)}
+  .uklad text.nap{font:600 13px system-ui,sans-serif}
+  .uklad .k-a{stroke:var(--a);fill:var(--a)} .uklad .k-b{stroke:var(--b);fill:var(--b)}
+  .uklad .k-c{stroke:var(--c);fill:var(--c)} .uklad .k-ok{stroke:var(--ok);fill:var(--ok)}
+  .uklad .k-m{stroke:var(--muted);fill:var(--muted)} .uklad .k-w{stroke:var(--warn);fill:var(--warn)}
+  .uklad .lin{fill:none;stroke-width:2.2}
+  .uklad .przer{stroke-dasharray:6 5;stroke-width:1.6}
+  .uklad .wyp{fill-opacity:.12;stroke-width:2.2}
+  .uklad .uchwyt{cursor:grab;fill-opacity:.18;stroke:none}
+  .uklad .uchwyt:hover,.uklad .uchwyt.ciagnie{fill-opacity:.32}
+  .uklad text{paint-order:stroke;stroke:var(--card);stroke-width:3.5px;stroke-linejoin:round}
+  .uklad text.k-a,.uklad text.k-b,.uklad text.k-c,.uklad text.k-ok,.uklad text.k-w,.uklad text.k-m{stroke:var(--card)}
+  /* plansza interaktywna */
+  .plansza{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem;align-items:start}
+  @media (max-width:760px){.plansza{grid-template-columns:minmax(0,1fr)}}
+  .plansza .uklad{max-width:420px;margin:0 auto}
+  .wsp{display:flex;flex-wrap:wrap;gap:.4rem .9rem;margin:.3rem 0 .6rem}
+  .wsp label{font:italic 700 1.05rem var(--mat);display:flex;align-items:center;gap:.25rem}
+  .wsp input{width:4.2rem;font:1rem var(--mat);padding:.25rem .35rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text)}
+  .info{border:1px solid var(--line);border-radius:8px;padding:.5rem .9rem;min-width:0;overflow-x:auto}
+  .info p{margin:.35rem 0}
+  .info .werdykt{font-weight:700;color:var(--c)}
+  input:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .gen-controls{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+  select,button.btn,.pole-tekst{padding:.45rem .7rem;font-size:1rem;border:1px solid var(--line);border-radius:6px;
+    background:var(--bg);color:var(--text)}
+  button.btn{cursor:pointer;background:var(--accent);color:#fff;border-color:var(--accent)}
+  button.btn.sec{background:var(--card);color:var(--accent)}
+  .przyklady{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0 .8rem}
+  .przyklady button{font:.9rem var(--mat);padding:.25rem .6rem;border:1px solid var(--line);border-radius:99px;background:var(--bg);color:var(--text);cursor:pointer}
+  .blad{color:var(--b);font-size:.95rem}
+  /* trening */
+  .zadanie-tr{margin-top:1rem;padding:.8rem 1rem;border:1px solid var(--line);border-radius:8px;font-size:1.05rem;min-height:3rem}
+  .pola-tr{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.5rem .7rem;align-items:center;margin-top:.8rem;max-width:560px}
+  .pola-tr label{font-family:var(--mat);font-style:italic;font-weight:700;font-size:1.08rem}
+  .pola-tr input{font:1.05rem var(--mat);padding:.4rem .6rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);width:100%;min-width:0}
+  .pola-tr input.zle{border-color:var(--b)} .pola-tr input.dobre{border-color:var(--ok)}
+  .pola-tr .opcje{display:flex;flex-wrap:wrap;gap:.3rem .9rem;font-family:inherit;font-style:normal}
+  .pola-tr .opcje label{font:1rem system-ui,sans-serif;font-style:normal;font-weight:400}
+  .przyciski-tr{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem}
+  .ocena-tr{font-weight:600;min-height:1.6em;margin:.6rem 0 .2rem}
+  .ocena-tr.dobrze{color:var(--ok)} .ocena-tr.zle{color:var(--b)}
+  .rozw-tr{border-top:1px dashed var(--line);margin-top:.4rem}
+  .podpowiedz{font-size:.85rem;color:var(--muted);grid-column:2}
+  /* nawigacja między tematami */
+  .tematy-nav{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin:1.5rem 0 .5rem}
+  .tematy-nav a{text-decoration:none;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:.5rem .9rem}
+  footer{max-width:920px;margin:auto;padding:1rem;color:var(--muted);font-size:.9rem;text-align:center}
+  @media print{nav,.gen-controls,.trening,.plansza-sekcja,.progress,.tematy-nav{display:none}details{border:none}details>*{display:block}
+    section{break-inside:avoid;border:none}header{background:none;color:#000}header a{color:#000}}
+  /* oś liczbowa */
+  .os{margin:.6rem 0}
+  .os svg{width:100%;max-width:640px;height:auto;display:block}
+  .os text{font:13px system-ui,sans-serif;fill:var(--muted)}
+  .os text.etyk{font:italic 600 15px var(--mat)}
+  /* tabelka iloczynów, kalkulatory, rysunki pól */
+  table.tab-il{width:auto;margin:.4rem 0}
+  table.tab-il th,table.tab-il td{text-align:center;min-width:4.2rem}
+  table.tab-il td{background:var(--c-soft)}
+  .kalk-pola{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.5rem .7rem;align-items:center;max-width:620px;margin:.4rem 0 .6rem}
+  .kalk-pola label{font-weight:600;color:var(--muted);font-size:.95rem}
+  .kalk-pola input{font:1.1rem var(--mat);width:100%;min-width:0}
+  .rys-pole{max-width:360px;margin:.6rem auto}
+  .rys-pole svg{width:100%;height:auto;display:block}
+  .rys-pole text{font:italic 600 15px var(--mat);fill:var(--text);text-anchor:middle}
+  .rys-pole text.bok{fill:var(--muted);font-style:italic}
+  .dowod{border-left:3px solid var(--line);padding:.2rem 0 .2rem .9rem;margin:.5rem 0}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p><a href="matematyka-1a.html">← Matematyka 1A · Dział 2. Język matematyki</a></p>
+    <h1>Zastosowanie przekształceń algebraicznych</h1>
+    <p>Temat 10 · 1 godzina lekcyjna. Upraszczanie i obliczanie wartości wyrażeń, równania po przekształceniach, dowody podzielności i nierówności.</p>
+  </div>
+</header>
+
+<nav><div class="wrap">
+  <a href="#wymagania">Wymagania</a>
+  <a href="#upraszczanie">Upraszczanie</a>
+  <a href="#wartosc">Wartość wyrażenia</a>
+  <a href="#rownania">Równania</a>
+  <a href="#dowody">Dowody</a>
+  <a href="#tresc">Zadania z treścią</a>
+  <a href="#narzedzie">Sprawdź tożsamość</a>
+  <a href="#zadania">Zadania</a>
+  <a href="#trening">Trening</a>
+</div></nav>
+
+<main>
+<section id="wymagania" data-nav="Wymagania">
+  <h2>Wymagania – co musisz umieć</h2>
+  <p class="tip">Zaznacz to, co już umiesz. Postęp zapisuje się w tej przeglądarce.</p>
+  <div class="progress"><div id="bar"></div></div>
+  <p id="bar-txt" class="tip"></p>
+  <ul class="check" id="checklist">
+    <li><input type="checkbox" id="w1"><label for="w1">Upraszczam wyrażenia, w których występuje kilka wzorów i iloczynów.</label><a href="#upraszczanie">→ 1</a></li>
+    <li><input type="checkbox" id="w2"><label for="w2">Obliczam wartość wyrażenia, najpierw je upraszczając.</label><a href="#wartosc">→ 2</a></li>
+    <li><input type="checkbox" id="w3"><label for="w3">Rozwiązuję równania, które po przekształceniu stają się liniowe.</label><a href="#rownania">→ 3</a></li>
+    <li><input type="checkbox" id="w4"><label for="w4">Zapisuję kolejne liczby całkowite, parzyste i nieparzyste za pomocą \(n\).</label><a href="#dowody">→ 4</a></li>
+    <li><input type="checkbox" id="w5"><label for="w5">Przeprowadzam proste dowody podzielności i nierówności.</label><a href="#dowody">→ 4</a></li>
+    <li><input type="checkbox" id="w6"><label for="w6">Rozwiązuję zadania z treścią, układając i upraszczając wyrażenie.</label><a href="#tresc">→ 5</a></li>
+  </ul>
+</section>
+
+<section id="upraszczanie" data-nav="Upraszczanie">
+  <h2>1. Upraszczanie wyrażeń</h2>
+  <p>Kolejność: najpierw wzory skróconego mnożenia i mnożenia, potem redukcja. Część, przed którą stoi minus, <strong>zawsze bierzemy w nawias</strong>:</p>
+  <p>$$(x+2)^2-(x-1)(x+1)=x^2+4x+4-(x^2-1)=x^2+4x+4-x^2+1=4x+5$$</p>
+  <div class="box warn"><strong>Najczęstszy błąd</strong>
+    \(-(x-1)(x+1)=-x^2+1\), a nie \(-x^2-1\). Bez nawiasu minus „zabiera” tylko pierwszy wyraz.</div>
+</section>
+
+<section id="wartosc" data-nav="Wartość wyrażenia">
+  <h2>2. Obliczanie wartości wyrażeń</h2>
+  <p>Oblicz wartość wyrażenia \((2x-1)^2-4x(x-1)\) dla \(x=2026\).</p>
+  <p>Upraszczamy: \(4x^2-4x+1-4x^2+4x=1\). Wyrażenie ma wartość <span class="wynik">1</span> – dla <em>każdego</em> \(x\), nie tylko dla 2026. Bez upraszczania trzeba by podnosić do kwadratu 4051.</p>
+</section>
+
+<section id="rownania" data-nav="Równania">
+  <h2>3. Równania po przekształceniach</h2>
+  <p>Rozwiąż równanie \((x+3)^2-x(x+2)=17\).</p>
+  <p>$$x^2+6x+9-x^2-2x=17\ \Rightarrow\ 4x+9=17\ \Rightarrow\ 4x=8\ \Rightarrow\ x=2$$</p>
+  <p><span class="wynik">\(x=2\)</span>. Sprawdzenie: \((2+3)^2-2\cdot4=25-8=17\) ✓.</p>
+</section>
+
+<section id="dowody" data-nav="Dowody">
+  <h2>4. Dowody</h2>
+  <div class="box"><strong>Zapis liczb za pomocą \(n\) (\(n\) – liczba całkowita)</strong>
+    kolejne liczby: \(n,\ n+1,\ n+2\); &nbsp; liczba parzysta: \(2n\); &nbsp; nieparzysta: \(2n+1\); &nbsp; kolejne nieparzyste: \(2n-1,\ 2n+1\); &nbsp; wielokrotność 3: \(3n\).</div>
+  <h3>Przykład 1. Suma trzech kolejnych liczb całkowitych jest podzielna przez 3.</h3>
+  <div class="dowod"><p>Kolejne liczby: \(n-1\), \(n\), \(n+1\). Suma: \((n-1)+n+(n+1)=3n\) – to wielokrotność 3. ■</p></div>
+  <h3>Przykład 2. Różnica kwadratów dwóch kolejnych liczb nieparzystych jest podzielna przez 8.</h3>
+  <div class="dowod"><p>\((2n+1)^2-(2n-1)^2=4n^2+4n+1-(4n^2-4n+1)=8n\) – wielokrotność 8. ■</p></div>
+  <h3>Przykład 3. Dla dowolnych liczb \(a\), \(b\): \(a^2+b^2\ge2ab\).</h3>
+  <div class="dowod"><p>Przenosimy wszystko na jedną stronę: \(a^2+b^2-2ab=(a-b)^2\). Kwadrat liczby jest nieujemny, więc \(a^2+b^2-2ab\ge0\), czyli \(a^2+b^2\ge2ab\). ■</p></div>
+  <p class="tip">Schemat dowodu podzielności: zapisz liczby za pomocą \(n\), uprość i wyłącz przed nawias szukany dzielnik.</p>
+</section>
+
+<section id="tresc" data-nav="Zadania z treścią">
+  <h2>5. Zadania z treścią</h2>
+  <p>Pole kwadratu o boku \(a+3\) jest o 39 większe od pola kwadratu o boku \(a\). Oblicz \(a\).</p>
+  <p>\((a+3)^2-a^2=39\Rightarrow6a+9=39\Rightarrow\)<span class="wynik"> \(a=5\)</span>.</p>
+</section>
+
+<section id="narzedzie" data-nav="Sprawdź tożsamość" class="plansza-sekcja">
+  <h2>6. Narzędzie: czy to tożsamość?</h2>
+  <p class="tip">Wpisz lewą i prawą stronę. Narzędzie uprości obie i sprawdzi, czy są równe dla <em>każdej</em> wartości zmiennych. Przydatne do sprawdzenia własnego upraszczania – ale w dowodzie trzeba pokazać przekształcenia.</p>
+  <div id="kalk"></div>
+</section>
+
+<section id="zadania" data-nav="Zadania">
+  <h2>7. Zadania z rozwiązaniami</h2>
+  <p class="tip">Rozwiąż w zeszycie, dopiero potem rozwiń rozwiązanie.</p>
+  <ol class="tasks">
+    <li>Uprość: \((a-3)^2-(a+3)(a-3)\).
+      <details><summary>Rozwiązanie</summary>
+        <p>\(a^2-6a+9-(a^2-9)=\)<span class="wynik"> \(-6a+18\)</span>.</p>
+      </details></li>
+    <li>Oblicz wartość wyrażenia \((x+5)^2-(x-5)^2\) dla \(x=0{,}1\).
+      <details><summary>Rozwiązanie</summary>
+        <p>Po uproszczeniu: \(20x\). Dla \(x=0{,}1\): <span class="wynik">2</span>.</p>
+      </details></li>
+    <li>Rozwiąż równanie \((x-4)^2-(x+2)(x-2)=0\).
+      <details><summary>Rozwiązanie</summary>
+        <p>\(x^2-8x+16-x^2+4=0\Rightarrow-8x+20=0\Rightarrow\)<span class="wynik"> \(x=\frac52\)</span>.</p>
+      </details></li>
+    <li>Wykaż, że suma kwadratów dwóch kolejnych liczb całkowitych jest liczbą nieparzystą.
+      <details><summary>Rozwiązanie</summary>
+        <div class="dowod"><p>\(n^2+(n+1)^2=2n^2+2n+1=2(n^2+n)+1\) – liczba postaci \(2k+1\), czyli nieparzysta. ■</p></div>
+      </details></li>
+    <li>Wykaż, że iloczyn dwóch kolejnych liczb parzystych jest podzielny przez 8.
+      <details><summary>Rozwiązanie</summary>
+        <div class="dowod"><p>\(2n(2n+2)=4n(n+1)\). Iloczyn \(n(n+1)\) kolejnych liczb jest parzysty: \(n(n+1)=2k\). Zatem \(4n(n+1)=8k\). ■</p></div>
+      </details></li>
+    <li>Bok kwadratu zwiększono o 2 cm i jego pole wzrosło o 24 cm². Oblicz długość boku tego kwadratu.
+      <details><summary>Rozwiązanie</summary>
+        <p>\((a+2)^2-a^2=24\Rightarrow4a+4=24\Rightarrow\)<span class="wynik"> \(a=5\) cm</span>.</p>
+      </details></li>
+  </ol>
+</section>
+
+<section id="trening" data-nav="Trening" class="trening">
+  <h2>8. Trening ze sprawdzaniem odpowiedzi</h2>
+  <p class="tip">Wyrażenie wpisz w najprostszej postaci, np. <code>4x+5</code>; liczbę – także jako ułamek, np. <code>-7/2</code>.</p>
+  <div id="trening-tr"></div>
+</section>
+<div class="tematy-nav"><a href="1a-wzory-skroconego-mnozenia.html">← 9. Wzory skróconego mnożenia</a><a href="1a-wartosc-bezwzgledna.html">11. Wartość bezwzględna →</a></div>
+</main>
+
+<footer>Matematyka 1A · Dział 2. Język matematyki · Temat 10. Zastosowanie przekształceń algebraicznych</footer>
+
+<script>
+/* ===== Matematyka 1A — wspólny silnik: liczby, rysunki, trening ze sprawdzaniem (ten sam co w 4T) ===== */
+"use strict";
+const $ = (s, el = document) => el.querySelector(s);
+const renderTeX = (el) => { if (window.renderMath && el) window.renderMath(el); };
+
+/* ---------- liczby ---------- */
+const nwd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a || 1; };
+const losuj = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const losujBez = (a, b, ...bez) => { let x; do { x = losuj(a, b); } while (bez.includes(x)); return x; };
+const wybierz = (t) => t[Math.floor(Math.random() * t.length)];
+function ulamek(x) {                      // [licznik, mianownik] dla małych mianowników albo null
+  if (Number.isInteger(x)) return [x, 1];
+  for (let d = 2; d <= 12; d++) { const n = Math.round(x * d); if (Math.abs(n / d - x) < 1e-9) return [n, d]; }
+  return null;
+}
+function tl(x) {                          // liczba w TeX-u: −3, \frac{5}{2}
+  if (Math.abs(x) < 1e-12) x = 0;
+  const u = ulamek(x);
+  if (!u) return String(+x.toFixed(3)).replace(".", "{,}");
+  const [n, d] = u;
+  return d === 1 ? String(n) : (n < 0 ? "-" : "") + "\\frac{" + Math.abs(n) + "}{" + d + "}";
+}
+const tn = (x) => (x < 0 ? "(" + tl(x) + ")" : tl(x));          // ujemna w nawiasie (do podstawiania)
+const tp = (x, y) => "(" + tl(x) + ",\\ " + tl(y) + ")";          // punkt
+function txt(x) {                         // liczba w zwykłym tekście (podpisy na rysunku)
+  if (Math.abs(x) < 1e-12) x = 0;
+  const u = ulamek(x);
+  const s = !u ? String(+x.toFixed(2)).replace(".", ",") : u[1] === 1 ? String(u[0]) : u[1] === 2 ? String(x).replace(".", ",") : u[0] + "/" + u[1];
+  return s.replace("-", "−");
+}
+function upr(n) { let k = 1, m = n; for (let i = 2; i * i <= m; i++) while (m % (i * i) === 0) { m /= i * i; k *= i; } return [k, m]; }
+function tpierw(n) {                      // √n uproszczony; n wymierne ≥ 0 (np. 45 → 3\sqrt{5}, 25/4 → \frac{5}{2})
+  if (n < 1e-12) return "0";
+  const [p, q] = ulamek(n) || [n, 1];
+  const [k0, m] = upr(p * q);             // √(p/q) = √(pq)/q
+  const g = nwd(k0, q), k = k0 / g, d = q / g;
+  const pierw = m === 1 ? "" : "\\sqrt{" + m + "}";
+  if (d === 1) return (k === 1 && m !== 1 ? "" : String(k)) + pierw;
+  return "\\frac{" + (k === 1 && m !== 1 ? "" : k) + pierw + "}{" + d + "}";
+}
+const czyKwadrat = (n) => Number.isInteger(Math.sqrt(n));
+function tokr(a, b, r2) {                 // (x−a)²+(y−b)²=r²
+  const cz = (v, s) => (s === 0 ? v + "^2" : "(" + v + (s > 0 ? "-" : "+") + tl(Math.abs(s)) + ")^2");
+  return cz("x", a) + "+" + cz("y", b) + "=" + tl(r2);
+}
+function tlin(a, b, c) {                  // ax + by = c
+  const w = (k, v, pierwszy) => {
+    if (k === 0) return "";
+    const z = k < 0 ? "-" : pierwszy ? "" : "+";
+    return z + (Math.abs(k) === 1 ? "" : tl(Math.abs(k))) + v;
+  };
+  const l = w(a, "x", true) + w(b, "y", a === 0);
+  return (l || "0") + "=" + tl(c);
+}
+
+/* ---------- odczyt odpowiedzi ucznia ---------- */
+function normalizuj(s) {
+  return String(s).toLowerCase().replace(/[−–—]/g, "-").replace(/[·×]/g, "*").replace(/²/g, "^2")
+    .replace(/\s+/g, "").replace(/pierw(iastek)?/g, "sqrt");
+}
+function wyrazenie(s) {                   // liczba z wyrażenia: 2√5, 3sqrt(2)+1, (1+√5)/2, -7/3, 2,5
+  const t = normalizuj(s).replace(/,/g, ".");
+  let i = 0;
+  const zobacz = () => t[i];
+  const liczba = () => {
+    const m = /^\d+(\.\d+)?|^\.\d+/.exec(t.slice(i));
+    if (!m) throw 0;
+    i += m[0].length; return parseFloat(m[0]);
+  };
+  function atom() {
+    if (zobacz() === "(") { i++; const v = suma(); if (zobacz() !== ")") throw 0; i++; return v; }
+    if (zobacz() === "√" || t.startsWith("sqrt", i)) {
+      i += zobacz() === "√" ? 1 : 4;
+      const v = atom(); if (v < 0) throw 0; return Math.sqrt(v);
+    }
+    if (t.startsWith("pi", i)) { i += 2; return Math.PI; }
+    if (zobacz() === "π") { i++; return Math.PI; }
+    return liczba();
+  }
+  function potega() { let v = atom(); if (zobacz() === "^") { i++; v = Math.pow(v, czynnik()); } return v; }
+  function czynnik() {
+    if (zobacz() === "-") { i++; return -czynnik(); }
+    if (zobacz() === "+") { i++; return czynnik(); }
+    return potega();
+  }
+  function iloczyn() {
+    let v = czynnik();
+    for (;;) {
+      const c = zobacz();
+      if (c === "*") { i++; v *= czynnik(); }
+      else if (c === "/") { i++; const d = czynnik(); if (d === 0) throw 0; v /= d; }
+      else if (c === "(" || c === "√" || c === "π" || t.startsWith("sqrt", i) || t.startsWith("pi", i)) v *= potega();
+      else return v;
+    }
+  }
+  function suma() {
+    let v = iloczyn();
+    for (;;) {
+      if (zobacz() === "+") { i++; v += iloczyn(); }
+      else if (zobacz() === "-") { i++; v -= iloczyn(); }
+      else return v;
+    }
+  }
+  try { if (!t) return NaN; const v = suma(); return i === t.length && isFinite(v) ? v : NaN; } catch (e) { return NaN; }
+}
+function punkt(s) {                       // (3, -2), (2,5; -1), [1/2; 3], S=(1,2)
+  let t = String(s).trim().replace(/^[a-ząćęłńóśźż'′]*\s*=\s*/i, "").replace(/^[([{]\s*/, "").replace(/\s*[)\]}]$/, "");
+  const cz = t.includes(";") ? t.split(";") : t.split(",");
+  if (cz.length !== 2) return null;
+  const x = wyrazenie(cz[0]), y = wyrazenie(cz[1]);
+  return isNaN(x) || isNaN(y) ? null : [x, y];
+}
+function okrag(s) {                       // (x-2)^2+(y+1)^2=9 → {a:2, b:-1, r2:9}
+  const t = normalizuj(s).replace(/,/g, ".");
+  const st = t.split("=");
+  if (st.length !== 2) return null;
+  const r2 = wyrazenie(st[1]);
+  const czlon = /^(?:\(([xy])([+-][^()]+)\)\^2|([xy])\^2)/;
+  let l = st[0], w = {};
+  for (let n = 0; n < 2; n++) {
+    const m = czlon.exec(l);
+    if (!m) return null;
+    const v = m[1] || m[3];
+    w[v] = m[1] ? -wyrazenie(m[2]) : 0;
+    l = l.slice(m[0].length);
+    if (n === 0) { if (l[0] !== "+") return null; l = l.slice(1); }
+  }
+  if (l || !("x" in w) || !("y" in w) || isNaN(w.x) || isNaN(w.y) || isNaN(r2)) return null;
+  return { a: w.x, b: w.y, r2 };
+}
+const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const blisko = (a, b) => Math.abs(a - b) < 1e-6 * Math.max(1, Math.abs(b));
+
+/* ---------- rysunek układu współrzędnych ---------- */
+// spec: {x:[x0,x1], y:[y0,y1], sz, el:[…]}; elementy:
+//  {t:"p", x, y, n, k, poz, wsp}  punkt     {t:"o", od:[x,y], do:[x,y], k, s}  odcinek
+//  {t:"w", pkt:[[x,y]…], k, wyp}  wielokąt  {t:"k", x, y, r, k, wyp, s}       okrąg
+//  {t:"l", a, b, c, k, s, n}      prosta ax+by=c        {t:"n", x, y, tekst, k, kot}  napis
+function ukladTresc(spec) {
+  const [x0, x1] = spec.x, [y0, y1] = spec.y, sz = spec.sz || 380, pad = 16;
+  const u = sz / (x1 - x0), w = sz + 2 * pad, h = u * (y1 - y0) + 2 * pad;
+  const X = (x) => +(pad + (x - x0) * u).toFixed(2), Y = (y) => +(pad + (y1 - y) * u).toFixed(2);
+  const zakres = Math.max(x1 - x0, y1 - y0), krok = spec.krok || (zakres > 16 ? 2 : 1);
+  const o = [];
+  for (let x = Math.ceil(x0); x <= x1; x++) o.push(`<line class="siatka" x1="${X(x)}" y1="${Y(y0)}" x2="${X(x)}" y2="${Y(y1)}"/>`);
+  for (let y = Math.ceil(y0); y <= y1; y++) o.push(`<line class="siatka" x1="${X(x0)}" y1="${Y(y)}" x2="${X(x1)}" y2="${Y(y)}"/>`);
+  if (y0 <= 0 && y1 >= 0) {
+    o.push(`<line class="os" x1="${X(x0)}" y1="${Y(0)}" x2="${X(x1) + 8}" y2="${Y(0)}"/>`,
+      `<path class="os-g" d="M${X(x1) + 12} ${Y(0)} l-8 -4 v8z"/>`, `<text x="${X(x1) + 6}" y="${Y(0) - 7}" font-style="italic">x</text>`);
+    for (let x = Math.ceil(x0 / krok) * krok; x < x1; x += krok) if (x !== 0)
+      o.push(`<line class="os" x1="${X(x)}" y1="${Y(0) - 3}" x2="${X(x)}" y2="${Y(0) + 3}"/>`, `<text x="${X(x)}" y="${Y(0) + 15}" text-anchor="middle">${txt(x)}</text>`);
+  }
+  if (x0 <= 0 && x1 >= 0) {
+    o.push(`<line class="os" x1="${X(0)}" y1="${Y(y0)}" x2="${X(0)}" y2="${Y(y1) - 8}"/>`,
+      `<path class="os-g" d="M${X(0)} ${Y(y1) - 12} l-4 8 h8z"/>`, `<text x="${X(0) + 8}" y="${Y(y1) - 2}" font-style="italic">y</text>`);
+    for (let y = Math.ceil(y0 / krok) * krok; y < y1; y += krok) if (y !== 0)
+      o.push(`<line class="os" x1="${X(0) - 3}" y1="${Y(y)}" x2="${X(0) + 3}" y2="${Y(y)}"/>`, `<text x="${X(0) - 6}" y="${Y(y) + 4}" text-anchor="end">${txt(y)}</text>`);
+    if (y0 <= 0 && y1 >= 0) o.push(`<text x="${X(0) - 6}" y="${Y(0) + 15}" text-anchor="end">0</text>`);
+  }
+  const POZ = { ne: [7, -7, "start"], nw: [-7, -7, "end"], se: [7, 17, "start"], sw: [-7, 17, "end"], n: [0, -9, "middle"], s: [0, 20, "middle"], e: [9, 5, "start"], w: [-9, 5, "end"] };
+  const kl = (e, inne) => `class="k-${e.k || "a"} ${inne}"`;
+  const napisy = [];
+  for (const e of spec.el || []) {
+    if (e.t === "o") o.push(`<line ${kl(e, "lin " + (e.s || ""))} x1="${X(e.od[0])}" y1="${Y(e.od[1])}" x2="${X(e.do[0])}" y2="${Y(e.do[1])}"/>`);
+    else if (e.t === "w") o.push(`<polygon ${kl(e, (e.wyp ? "wyp" : "lin") + " " + (e.s || ""))} points="${e.pkt.map(([x, y]) => X(x) + "," + Y(y)).join(" ")}"/>`);
+    else if (e.t === "k") o.push(`<circle ${kl(e, (e.wyp ? "wyp" : "lin") + " " + (e.s || ""))} cx="${X(e.x)}" cy="${Y(e.y)}" r="${+(e.r * u).toFixed(2)}"/>`);
+    else if (e.t === "l") {
+      const p = [];                           // przecięcie prostej z ramką widoku
+      if (e.b !== 0) for (const x of [x0, x1]) { const y = (e.c - e.a * x) / e.b; if (y >= y0 - 1e-9 && y <= y1 + 1e-9) p.push([x, y]); }
+      if (e.a !== 0) for (const y of [y0, y1]) { const x = (e.c - e.b * y) / e.a; if (x >= x0 - 1e-9 && x <= x1 + 1e-9) p.push([x, y]); }
+      if (p.length >= 2) {
+        p.sort((s, t) => s[0] - t[0] || s[1] - t[1]);
+        const [A, B] = [p[0], p[p.length - 1]];
+        o.push(`<line ${kl(e, "lin " + (e.s || ""))} x1="${X(A[0])}" y1="${Y(A[1])}" x2="${X(B[0])}" y2="${Y(B[1])}"/>`);
+        if (e.n) napisy.push(`<text class="nap k-${e.k || "a"}" x="${X(B[0]) - 4}" y="${Y(B[1]) + (B[1] > (y0 + y1) / 2 ? 16 : -6)}" text-anchor="end">${e.n}</text>`);
+      }
+    } else if (e.t === "p") {
+      o.push(`<circle class="k-${e.k || "a"}" cx="${X(e.x)}" cy="${Y(e.y)}" r="4"/>`);
+      const [dx, dy, kot] = POZ[e.poz || "ne"];
+      const opis = (e.n || "") + (e.wsp ? `${e.n ? "=" : ""}(${txt(e.x)}, ${txt(e.y)})` : "");
+      if (opis) napisy.push(`<text class="pkt" x="${X(e.x) + dx}" y="${Y(e.y) + dy}" text-anchor="${kot}">${opis}</text>`);
+    } else if (e.t === "n") napisy.push(`<text class="nap k-${e.k || "m"}" x="${X(e.x)}" y="${Y(e.y)}" text-anchor="${e.kot || "middle"}">${e.tekst}</text>`);
+  }
+  return { w: +w.toFixed(1), h: +h.toFixed(1), tresc: o.join("") + napisy.join(""), X, Y, u, pad };
+}
+function ukladSVG(spec, opis) {
+  const r = ukladTresc(spec);
+  return `<svg viewBox="0 0 ${r.w} ${r.h}" role="img" aria-label="${opis || "Rysunek w układzie współrzędnych"}">${r.tresc}</svg>`;
+}
+function rysujStatyczne(root = document) {
+  root.querySelectorAll(".uklad[data-rys]").forEach((el) => {
+    try { el.innerHTML = ukladSVG(JSON.parse(el.dataset.rys), el.dataset.opis); } catch (e) { el.textContent = "(rysunek niedostępny)"; console.error(e, el.dataset.rys); }
+  });
+}
+
+/* ---------- plansza: punkty do przeciągania + opis obliczeń ---------- */
+// cfg: {x, y, sz, pkt:{A:{x,y,k}}, krok (siatka przyciągania), rysuj(P,S) → elementy, opis(P,S) → html,
+//       kontrolki: html, podepnij(root, S, odswiez), stan: {...}}
+function plansza(el, cfg) {
+  const P = {}; for (const [n, p] of Object.entries(cfg.pkt)) P[n] = { ...p };
+  const S = cfg.stan || {};
+  const krok = cfg.krok || 1;
+  el.classList.add("plansza");
+  el.innerHTML = `<div><div class="uklad"><svg></svg></div><p class="tip" style="text-align:center">Przeciągnij punkty albo wpisz ich współrzędne.</p></div>
+    <div><div class="wsp">${Object.keys(P).filter((n) => !P[n].staly).map((n) => `<label>${n} = (<input type="number" step="${krok}" data-n="${n}" data-w="x" aria-label="${n}: pierwsza współrzędna">,
+      <input type="number" step="${krok}" data-n="${n}" data-w="y" aria-label="${n}: druga współrzędna">)</label>`).join("")}</div>
+      ${cfg.kontrolki || ""}<div class="info" aria-live="polite"></div></div>`;
+  const svg = $("svg", el), info = $(".info", el);
+  const zaokr = (v) => Math.round(v / krok) * krok;
+  const ogr = (v, [a, b]) => Math.min(b, Math.max(a, v));
+  let geo = null;
+  function odswiez(bezPol) {
+    const el2 = cfg.rysuj(P, S);
+    for (const [n, p] of Object.entries(P)) if (!p.staly && !p.ukryty) el2.push({ t: "p", x: p.x, y: p.y, n, k: p.k || "a", poz: p.poz });
+    geo = ukladTresc({ x: cfg.x, y: cfg.y, sz: cfg.sz || 400, el: el2 });
+    const uchwyty = Object.entries(P).filter(([, p]) => !p.staly && !p.ukryty)
+      .map(([n, p]) => `<circle class="uchwyt k-${p.k || "a"}" data-n="${n}" cx="${geo.X(p.x)}" cy="${geo.Y(p.y)}" r="15"><title>${n} – przeciągnij</title></circle>`).join("");
+    svg.setAttribute("viewBox", `0 0 ${geo.w} ${geo.h}`);
+    svg.innerHTML = geo.tresc + uchwyty;
+    if (!bezPol) el.querySelectorAll(".wsp input").forEach((i) => { i.value = +P[i.dataset.n][i.dataset.w].toFixed(3); });
+    info.innerHTML = cfg.opis(P, S);
+    renderTeX(info);
+  }
+  let ciagnie = null;
+  const doUkladu = (ev) => {
+    const pt = svg.createSVGPoint(); pt.x = ev.clientX; pt.y = ev.clientY;
+    const q = pt.matrixTransform(svg.getScreenCTM().inverse());
+    return [cfg.x[0] + (q.x - geo.pad) / geo.u, cfg.y[1] - (q.y - geo.pad) / geo.u];
+  };
+  svg.addEventListener("pointerdown", (ev) => {
+    const c = ev.target.closest(".uchwyt"); if (!c) return;
+    ciagnie = c.dataset.n; svg.setPointerCapture(ev.pointerId); ev.preventDefault();
+  });
+  svg.addEventListener("pointermove", (ev) => {
+    if (!ciagnie) return;
+    const [x, y] = doUkladu(ev), p = P[ciagnie];
+    const nx = ogr(zaokr(x), cfg.x), ny = ogr(zaokr(y), cfg.y);
+    if (nx === p.x && ny === p.y) return;
+    if (cfg.wolno && !cfg.wolno(ciagnie, nx, ny, P, S)) return;
+    p.x = nx; p.y = ny; odswiez();
+  });
+  const pusc = () => { ciagnie = null; };
+  svg.addEventListener("pointerup", pusc); svg.addEventListener("pointercancel", pusc);
+  el.querySelectorAll(".wsp input").forEach((i) => i.addEventListener("input", () => {
+    const v = parseFloat(i.value.replace(",", ".")); if (isNaN(v)) return;
+    const p = P[i.dataset.n], nv = ogr(zaokr(v), i.dataset.w === "x" ? cfg.x : cfg.y);
+    const stare = p[i.dataset.w]; p[i.dataset.w] = nv;
+    if (cfg.wolno && !cfg.wolno(i.dataset.n, p.x, p.y, P, S)) { p[i.dataset.w] = stare; return; }
+    odswiez(true);
+  }));
+  if (cfg.podepnij) cfg.podepnij(el, S, odswiez, P);
+  odswiez();
+  return { P, S, odswiez };
+}
+
+/* ---------- checklista wymagań ---------- */
+function checklista(klucz) {
+  const boxes = [...document.querySelectorAll("#checklist input")];
+  if (!boxes.length) return;
+  let zap = [];
+  try { zap = JSON.parse(localStorage.getItem(klucz) || "[]"); } catch (e) {}
+  boxes.forEach((b, i) => { b.checked = !!zap[i]; b.addEventListener("change", upd); });
+  function upd() {
+    const st = boxes.map((b) => b.checked), n = st.filter(Boolean).length;
+    $("#bar").style.width = (100 * n / boxes.length) + "%";
+    $("#bar-txt").textContent = "Opanowane: " + n + " z " + boxes.length + (n === boxes.length ? " – jesteś gotowy na sprawdzian!" : "");
+    try { localStorage.setItem(klucz, JSON.stringify(st)); } catch (e) {}
+  }
+  upd();
+}
+
+/* ---------- trening ze sprawdzaniem odpowiedzi ---------- */
+// zadanie: {tresc, pola:[{e, typ:"liczba"|"punkt"|"okrag"|"wybor"|"uklad"|"punkty", opcje}], odp:[…], rozw, rys}
+const PODPOWIEDZI = {
+  liczba: "np. 5, 2√5 (albo 2sqrt5), 7/2, 3√2+1",
+  punkt: "np. (3, -2) albo (5/2; -1)",
+  okrag: "np. (x-2)^2+(y+1)^2=9",
+  uklad: "np. (2, -1), albo: sprzeczny / nieskończenie wiele",
+  punkty: "np. (1, 2), (3, -4), albo: brak",
+  liczby: "np. -2; 6 (kilka liczb oddziel średnikiem), albo: brak",
+  wyr: "np. 3x^2-2x+1, (x-3)^2, 2√3",
+  zbior: "np. (-inf; 3>, <-1; 5), (-inf; -2) u (4; inf)",
+};
+function sprawdzPole(typ, t, odp) {
+  if (typ === "wybor") return t === String(odp);
+  if (!String(t).trim()) return null;
+  if (typ === "liczba") { const v = wyrazenie(t); return isNaN(v) ? null : blisko(v, odp); }
+  if (typ === "punkt") { const p = punkt(t); return p ? blisko(p[0], odp[0]) && blisko(p[1], odp[1]) : null; }
+  if (typ === "okrag") { const o = okrag(t); return o ? blisko(o.a, odp.a) && blisko(o.b, odp.b) && blisko(o.r2, odp.r2) : null; }
+  if (typ === "uklad") {
+    const n = normalizuj(t);
+    if (odp === "sprz") return /sprzecz|brak|∅|niema/.test(n);
+    if (odp === "nieozn") return /nieskończ|nieskoncz|nieoznacz|∞/.test(n);
+    const p = punkt(t); return p ? blisko(p[0], odp[0]) && blisko(p[1], odp[1]) : /sprzecz|brak|nieskończ|nieskoncz|nieoznacz/.test(n) ? false : null;
+  }
+  if (typ === "wyr") return sprawdzWyr(t, odp);
+  if (typ === "zbior") {
+    try { const z = zbiorZTekstu(String(t).replace(/−/g, "-")); return zbiorTekst(z) === zbiorTekst(odp); }
+    catch (e) { return { ok: null, uwaga: e.message }; }
+  }
+  if (typ === "liczby") {
+    if (/brak|∅|niema|nie ma|sprzeczn/.test(normalizuj(t))) return odp.length === 0;
+    const cz = normalizuj(t).replace(/lub|oraz|albo|\bi\b/g, ";").replace(/^[a-z]+=/, "").split(/;|,(?!\d)|[a-z]+=/).filter(Boolean);
+    const v = cz.map(wyrazenie);
+    if (!v.length || v.some(isNaN)) return null;
+    const u = [...new Set(v.map((x) => +x.toFixed(9)))];
+    return u.length === odp.length && odp.every((o) => u.some((x) => blisko(x, o)));
+  }
+  if (typ === "punkty") {
+    const n = normalizuj(t);
+    if (/brak|∅|niema|nieprzecina/.test(n)) return odp.length === 0;
+    const grupy = [...String(t).matchAll(/\(([^()]*)\)/g)].map((m) => punkt(m[1]));
+    if (!grupy.length || grupy.some((g) => !g)) return null;
+    if (grupy.length !== odp.length) return false;
+    const wolne = odp.map((p) => [...p]);
+    return grupy.every((g) => { const i = wolne.findIndex((p) => blisko(g[0], p[0]) && blisko(g[1], p[1])); if (i < 0) return false; wolne.splice(i, 1); return true; });
+  }
+  return null;
+}
+function trening(el, gen) {
+  const klucze = Object.keys(gen);
+  el.innerHTML = `<div class="gen-controls"><label>Rodzaj: <select class="tr-typ">
+      ${klucze.length > 1 ? `<option value="mix">wszystkie po kolei</option>` : ""}
+      ${klucze.map((k) => `<option value="${k}">${gen[k].nazwa}</option>`).join("")}</select></label>
+      <button type="button" class="btn tr-nowe">Nowe zadanie</button></div>
+    <div class="zadanie-tr" aria-live="polite"></div><div class="pola-tr"></div>
+    <div class="przyciski-tr"><button type="button" class="btn tr-sprawdz">Sprawdź</button>
+      <button type="button" class="btn sec tr-pokaz">Pokaż rozwiązanie</button></div>
+    <p class="ocena-tr" aria-live="polite"></p><div class="rozw-tr" hidden></div><p class="tip tr-licznik"></p>`;
+  const sel = $(".tr-typ", el), zad = $(".zadanie-tr", el), pola = $(".pola-tr", el), ocena = $(".ocena-tr", el), rozw = $(".rozw-tr", el);
+  let z = null, nrMix = 0, dobre = 0, proby = 0, zaliczone = false, ident = 0;
+  function nowe(fokus) {
+    const k = sel.value === "mix" ? klucze[nrMix++ % klucze.length] : sel.value;
+    z = gen[k].f(); zaliczone = false; ident++;
+    zad.innerHTML = `<p style="margin:.2rem 0" class="tip">${gen[k].nazwa}</p><div>${z.tresc}</div>` + (z.rysZad ? `<div class="uklad">${ukladSVG(z.rysZad)}</div>` : "");
+    pola.innerHTML = z.pola.map((p, i) => {
+      const id = `tr${ident}-${i}-${Math.random().toString(36).slice(2, 6)}`;
+      if (p.typ === "wybor") return `<label>${p.e}</label><div class="opcje" role="radiogroup" data-i="${i}">${p.opcje.map((o, j) =>
+        `<label><input type="radio" name="${id}" value="${j}"> ${o}</label>`).join("")}</div>`;
+      return `<label for="${id}">${p.e}</label><input id="${id}" data-i="${i}" autocomplete="off" spellcheck="false" placeholder="${PODPOWIEDZI[p.typ] || ""}">`;
+    }).join("");
+    ocena.textContent = ""; ocena.className = "ocena-tr"; rozw.hidden = true; rozw.innerHTML = "";
+    renderTeX(zad); renderTeX(pola);
+    const pierwsze = $("input", pola); if (fokus && pierwsze && pierwsze.type !== "radio") pierwsze.focus({ preventScroll: true });
+  }
+  function sprawdz() {
+    if (!z) return;
+    const uwagi = [];
+    const wyn = z.pola.map((p, i) => {
+      if (p.typ === "wybor") {
+        const zazn = pola.querySelector(`.opcje[data-i="${i}"] input:checked`);
+        return zazn ? sprawdzPole("wybor", zazn.value, z.odp[i]) : null;
+      }
+      const inp = pola.querySelector(`input[data-i="${i}"]`);
+      let w = sprawdzPole(p.typ, inp.value, z.odp[i]);
+      if (w && typeof w === "object") { if (w.uwaga) uwagi.push(w.uwaga); w = w.ok; }
+      inp.classList.toggle("zle", w === false); inp.classList.toggle("dobre", w === true);
+      return w;
+    });
+    const dopisz = () => { if (uwagi.length) { ocena.innerHTML = esc(ocena.textContent) + " " + uwagi.join(" "); renderTeX(ocena); } };
+    if (wyn.some((w) => w === null)) {
+      ocena.className = "ocena-tr zle";
+      ocena.textContent = "Uzupełnij wszystkie odpowiedzi w podanym formacie (" + z.pola.filter((p, i) => wyn[i] === null).map((p) => PODPOWIEDZI[p.typ] || "wybierz odpowiedź").join("; ") + ").";
+      dopisz(); return;
+    }
+    proby++;
+    if (wyn.every(Boolean)) {
+      if (!zaliczone) { dobre++; zaliczone = true; }
+      ocena.className = "ocena-tr dobrze"; ocena.textContent = "Dobrze! " + wybierz(["Świetnie.", "Tak trzymaj.", "Brawo.", "Bezbłędnie."]);
+    } else {
+      ocena.className = "ocena-tr zle";
+      ocena.textContent = uwagi.length ? "Prawie." : z.pola.length > 1 ? `Poprawnie: ${wyn.filter(Boolean).length} z ${wyn.length}. Popraw zaznaczone pola albo zobacz rozwiązanie.` : "Jeszcze nie. Sprawdź obliczenia albo zobacz rozwiązanie.";
+    }
+    dopisz();
+    $(".tr-licznik", el).textContent = `Dobrze rozwiązane zadania: ${dobre} · sprawdzenia: ${proby}`;
+  }
+  function pokaz() {
+    if (!z) return;
+    rozw.hidden = false;
+    rozw.innerHTML = z.rozw + (z.rys ? `<div class="uklad">${ukladSVG(z.rys)}</div>` : "");
+    renderTeX(rozw);
+  }
+  $(".tr-nowe", el).addEventListener("click", () => nowe(true));
+  $(".tr-sprawdz", el).addEventListener("click", sprawdz);
+  $(".tr-pokaz", el).addEventListener("click", pokaz);
+  sel.addEventListener("change", () => nowe(true));
+  pola.addEventListener("keydown", (e) => { if (e.key === "Enter") sprawdz(); });
+  nowe();
+}
+
+/* ===== ALGEBRA PRZEDZIAŁÓW (wspólna dla rysunków, kalkulatora i generatora) ===== */
+const INF = Infinity;
+// Zbiór = tablica rozłącznych, uporządkowanych przedziałów {a, b, lz, pz}; punkt {p} to a === b, lz = pz = true.
+function liczbaTekst(x) {
+  if (x === INF) return "+∞";
+  if (x === -INF) return "−∞";
+  if (!Number.isInteger(x)) {            // ułamek zwykły, gdy mianownik jest mały: 10/3, −7/4
+    for (let d = 2; d <= 12; d++) {          // najmniejszy mianownik; połówki, ćwiartki i piąte zostają dziesiętne
+      const n = Math.round(x * d);
+      if (Math.abs(n / d - x) < 1e-9) {
+        if ([2, 4, 5, 8, 10].includes(d)) break;
+        return (n < 0 ? "−" : "") + Math.abs(n) + "/" + d;
+      }
+    }
+  }
+  return String(x).replace(".", ",").replace("-", "−");
+}
+function przedzialTekst(p) {
+  if (p.a === p.b) return "{" + liczbaTekst(p.a) + "}";
+  return (p.lz ? "⟨" : "(") + liczbaTekst(p.a) + "; " + liczbaTekst(p.b) + (p.pz ? "⟩" : ")");
+}
+function zbiorTekst(z) {
+  if (!z.length) return "∅";
+  if (z.length === 1 && z[0].a === -INF && z[0].b === INF) return "ℝ";
+  return z.map(przedzialTekst).join(" ∪ ");
+}
+function liczbaZTekstu(t) {
+  t = t.trim().replace(/−/g, "-").replace(",", ".").replace(/\s+/g, "").toLowerCase();
+  if (/^\+?(∞|inf|oo)$/.test(t)) return INF;
+  if (/^-(∞|inf|oo)$/.test(t)) return -INF;
+  let m = /^(-?)(\d+)\/(\d+)$/.exec(t);
+  if (m) { if (+m[3] === 0) throw new Error("Mianownik nie może być zerem"); return (m[1] ? -1 : 1) * (+m[2]) / (+m[3]); }
+  if (!/^-?\d+(\.\d+)?$/.test(t)) throw new Error("„" + t + "” nie jest liczbą");
+  return parseFloat(t);
+}
+// Tekst → zbiór. Rozumie: ⟨ albo < (domknięty), ( ) , ⟩ albo >, ∞/inf, sumę „∪” albo „u”, punkt {3}, ∅, R.
+function zbiorZTekstu(tekst) {
+  let t = tekst.trim();
+  if (!t) throw new Error("Wpisz przedział");
+  if (/^(∅|pusty|\{\s*\})$/i.test(t)) return [];
+  if (/^(ℝ|r)$/i.test(t)) return [{ a: -INF, b: INF, lz: false, pz: false }];
+  const czesci = t.split(/\s*(?:∪|\bu\b|U)\s*/);
+  let wynik = [];
+  for (const c of czesci) {
+    let m;
+    if ((m = /^\{\s*([^{}]+)\s*\}$/.exec(c))) {
+      for (const x of m[1].split(";")) { const v = liczbaZTekstu(x); wynik = suma(wynik, [{ a: v, b: v, lz: true, pz: true }]); }
+      continue;
+    }
+    m = /^([(<⟨\[])\s*([^;]+);\s*([^)>⟩\]]+)\s*([)>⟩\]])$/.exec(c);
+    if (!m) throw new Error("Nie rozumiem zapisu „" + c + "”. Przykład: <-3; 5)");
+    const a = liczbaZTekstu(m[2]), b = liczbaZTekstu(m[3]);
+    let lz = m[1] !== "(", pz = m[4] !== ")";
+    if (a === -INF && lz) throw new Error("Przy −∞ nawias jest zawsze otwarty: (−∞; …");
+    if (b === INF && pz) throw new Error("Przy +∞ nawias jest zawsze otwarty: …; +∞)");
+    if (a > b) throw new Error("Lewy koniec musi być mniejszy od prawego");
+    if (a === b && !(lz && pz)) { continue; }   // (a; a) — pusty
+    wynik = suma(wynik, [{ a, b, lz, pz }]);
+  }
+  return wynik;
+}
+function nalezy(z, x) {
+  return z.some((p) => (x > p.a || (x === p.a && p.lz)) && (x < p.b || (x === p.b && p.pz)));
+}
+// Buduje zbiór z funkcji przynależności, sprawdzając punkty końcowe i odcinki między nimi.
+function zFunkcji(f, zbiory) {
+  const pts = [...new Set(zbiory.flatMap((z) => z.flatMap((p) => [p.a, p.b])).filter(isFinite))].sort((x, y) => x - y);
+  const kawalki = [];
+  const srodek = (u, v) => u === -INF ? (v === INF ? 0 : v - 1) : v === INF ? u + 1 : (u + v) / 2;
+  let u = -INF;
+  for (const p of pts) { kawalki.push({ typ: "o", u, v: p }); kawalki.push({ typ: "p", u: p, v: p }); u = p; }
+  kawalki.push({ typ: "o", u, v: INF });
+  const wynik = []; let cur = null, prev = null;
+  for (const k of kawalki) {
+    const x = k.typ === "p" ? k.u : srodek(k.u, k.v);
+    const jest = f(x);
+    if (jest && !cur) cur = { a: k.u, lz: k.typ === "p" };
+    if (!jest && cur) { wynik.push({ a: cur.a, lz: cur.lz, b: prev.typ === "p" ? prev.u : prev.v, pz: prev.typ === "p" }); cur = null; }
+    prev = k;
+  }
+  if (cur) wynik.push({ a: cur.a, lz: cur.lz, b: INF, pz: false });
+  return wynik;
+}
+const suma = (A, B) => zFunkcji((x) => nalezy(A, x) || nalezy(B, x), [A, B]);
+const iloczyn = (A, B) => zFunkcji((x) => nalezy(A, x) && nalezy(B, x), [A, B]);
+const roznica = (A, B) => zFunkcji((x) => nalezy(A, x) && !nalezy(B, x), [A, B]);
+const dopelnienie = (A) => zFunkcji((x) => !nalezy(A, x), [A]);
+
+/* ===== RYSOWANIE OSI LICZBOWEJ ===== */
+const KOLORY = { a: "var(--a)", b: "var(--b)", c: "var(--c)" };
+function zakres(zbiory, od, doo) {
+  const pts = zbiory.flatMap((z) => z.flatMap((p) => [p.a, p.b])).filter(isFinite);
+  let lo = pts.length ? Math.floor(Math.min(...pts)) - 2 : -3, hi = pts.length ? Math.ceil(Math.max(...pts)) + 2 : 3;
+  if (od !== undefined && !isNaN(od)) lo = Math.min(lo, od);
+  if (doo !== undefined && !isNaN(doo)) hi = Math.max(hi, doo);
+  if (od !== undefined && !isNaN(od) && pts.every((p) => p >= od + 1)) lo = od;
+  if (doo !== undefined && !isNaN(doo) && pts.every((p) => p <= doo - 1)) hi = doo;
+  if (hi - lo < 6) { const d = Math.ceil((6 - (hi - lo)) / 2); lo -= d; hi += d; }
+  return [lo, hi];
+}
+// wiersze: [{etyk, zbior, kolor}]
+function os(wiersze, od, doo) {
+  const [lo, hi] = zakres(wiersze.map((w) => w.zbior), od, doo);
+  const W = 640, ml = wiersze.some((w) => w.etyk) ? 46 : 18, mr = 22, wys = 26, H = 12 + wiersze.length * wys + 32;
+  const x = (v) => ml + (Math.max(lo - .5, Math.min(hi + .5, v)) - (lo - .5)) / (hi - lo + 1) * (W - ml - mr);
+  const osY = H - 24, krok = hi - lo > 30 ? 5 : hi - lo > 16 ? 2 : 1;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Oś liczbowa">`;
+  s += `<line x1="${ml - 8}" y1="${osY}" x2="${W - 8}" y2="${osY}" stroke="var(--muted)" stroke-width="1.5"/><path d="M${W - 6} ${osY} l-9 -5 v10 z" fill="var(--muted)"/>`;
+  for (let v = Math.ceil(lo / krok) * krok; v <= hi; v += krok) {
+    s += `<line x1="${x(v)}" y1="${osY - 5}" x2="${x(v)}" y2="${osY + 5}" stroke="var(--muted)"/><text x="${x(v)}" y="${osY + 19}" text-anchor="middle">${liczbaTekst(v)}</text>`;
+  }
+  wiersze.forEach((w, i) => {
+    const y = 12 + i * wys + wys / 2, k = w.kolor;
+    w.zbior.forEach((p) => {
+      const xa = p.a === -INF ? ml - 8 : x(p.a), xb = p.b === INF ? W - 14 : x(p.b);
+      if (p.a !== p.b) {
+        s += `<line x1="${xa}" y1="${y}" x2="${xb}" y2="${y}" stroke="${k}" stroke-width="5"/>`;
+        if (p.a === -INF) s += `<path d="M${xa - 3} ${y} l10 -6 v12 z" fill="${k}"/>`;
+        if (p.b === INF) s += `<path d="M${xb + 3} ${y} l-10 -6 v12 z" fill="${k}"/>`;
+      }
+      for (const [v, zam] of (p.a === p.b ? [[p.a, true]] : [[p.a, p.lz], [p.b, p.pz]])) {
+        if (!isFinite(v)) continue;
+        s += `<line x1="${x(v)}" y1="${y}" x2="${x(v)}" y2="${osY}" stroke="${k}" stroke-dasharray="3 3"/>`;
+        s += `<circle cx="${x(v)}" cy="${y}" r="6" fill="${zam ? k : "var(--card)"}" stroke="${k}" stroke-width="2.5"/>`;
+        if (v !== Math.round(v)) s += `<text x="${x(v)}" y="${y - 10}" text-anchor="middle" style="fill:${k}">${liczbaTekst(v)}</text>`;
+      }
+    });
+    if (w.etyk) s += `<text class="etyk" x="${ml - 16}" y="${y + 5}" text-anchor="end" style="fill:${k}">${w.etyk}</text>`;
+  });
+  return s + "</svg>";
+}
+function rysujZAtrybutu(el) {
+  const kolejne = ["a", "b", "c"];
+  const wiersze = el.dataset.os.split("|").map((cz, i) => {
+    const m = /^([^:<(⟨{]+):(.*)$/.exec(cz);
+    const etyk = m ? m[1].trim() : "", zb = zbiorZTekstu(m ? m[2] : cz);
+    return { etyk, zbior: zb, kolor: KOLORY[(i === 0 && el.dataset.kolor) || kolejne[i]] };
+  });
+  el.innerHTML = os(wiersze, parseFloat(el.dataset.od), parseFloat(el.dataset.do));
+}
+const rysujOsie = (root = document) => root.querySelectorAll(".os[data-os]").forEach(rysujZAtrybutu);
+
+
+/* ===== Algebra wyrażeń: wielomiany wielu zmiennych o współczynnikach wymiernych (z pierwiastkami √n) ===== */
+// Wielomian = Map: klucz jednomianu → ułamek [licznik, mianownik]. Klucz: "a^2*b*√3" (zmienne alfabetycznie, potem pierwiastki).
+const qn = (n, d = 1) => { if (d < 0) { n = -n; d = -d; } const g = nwd(n, d); return [n / g, d / g]; };
+const qAdd = (a, b) => qn(a[0] * b[1] + b[0] * a[1], a[1] * b[1]);
+const qMul = (a, b) => qn(a[0] * b[0], a[1] * b[1]);
+const qZero = (a) => a[0] === 0;
+const qTeX = (a) => (a[1] === 1 ? String(a[0]) : (a[0] < 0 ? "-" : "") + "\\frac{" + Math.abs(a[0]) + "}{" + a[1] + "}");
+function zDziesietnej(s) { const [c, u = ""] = s.split("."); return qn(parseInt(c + u, 10), 10 ** u.length); }
+
+function kluczZ(m) {          // m: {zmienna: wykładnik}
+  const zm = Object.keys(m).filter((v) => m[v] && v[0] !== "√").sort();
+  const pw = Object.keys(m).filter((v) => m[v] && v[0] === "√").sort((a, b) => +a.slice(1) - +b.slice(1));
+  return zm.concat(pw).map((v) => (m[v] === 1 ? v : v + "^" + m[v])).join("*");
+}
+function zKlucza(k) { const m = {}; if (k) for (const cz of k.split("*")) { const [v, e] = cz.split("^"); m[v] = e ? +e : 1; } return m; }
+const W = {
+  stala: (q) => { const w = new Map(); if (!qZero(q)) w.set("", q); return w; },
+  zm: (v) => new Map([[v, [1, 1]]]),
+  pierw(n) {                    // √n uproszczony: √12 = 2√3
+    if (!Number.isInteger(n) || n < 0) throw new Error("Pod pierwiastkiem wpisz liczbę naturalną");
+    const [k, m] = upr(n);
+    if (n === 0) return new Map();
+    return m === 1 ? W.stala([k, 1]) : new Map([["√" + m, [k, 1]]]);
+  },
+  dodaj(a, b) { const w = new Map(a); for (const [k, q] of b) { const s = w.has(k) ? qAdd(w.get(k), q) : q; if (qZero(s)) w.delete(k); else w.set(k, s); } return w; },
+  razy(a, b) {
+    let w = new Map();
+    for (const [k1, q1] of a) for (const [k2, q2] of b) {
+      const m = zKlucza(k1), m2 = zKlucza(k2);
+      for (const v in m2) m[v] = (m[v] || 0) + m2[v];
+      let q = qMul(q1, q2);
+      for (const v in m) if (v[0] === "√" && m[v] >= 2) { const n = +v.slice(1); q = qMul(q, [n ** Math.floor(m[v] / 2), 1]); m[v] %= 2; }
+      w = W.dodaj(w, new Map([[kluczZ(m), q]]));
+    }
+    return w;
+  },
+  skaluj: (a, q) => W.razy(a, W.stala(q)),
+  potega(a, e) { let w = W.stala([1, 1]); for (let i = 0; i < e; i++) w = W.razy(w, a); return w; },
+  rowne(a, b) { if (a.size !== b.size) return false; for (const [k, q] of a) { const r = b.get(k); if (!r || r[0] !== q[0] || r[1] !== q[1]) return false; } return true; },
+  stopien: (k) => Object.entries(zKlucza(k)).filter(([v]) => v[0] !== "√").reduce((s, [, e]) => s + e, 0),
+  wartosc(a, wart) {            // wartość dla podstawionych liczb (ułamki) → [l, m]; pierwiastki – przybliżenie niepotrzebne w zadaniach
+    let s = [0, 1];
+    for (const [k, q] of a) { let t = q; const m = zKlucza(k); for (const v in m) { if (v[0] === "√") return null; t = qMul(t, qPot(wart[v], m[v])); } s = qAdd(s, t); }
+    return s;
+  },
+};
+const qPot = (q, e) => { let w = [1, 1]; for (let i = 0; i < e; i++) w = qMul(w, q); return w; };
+function porzadek(a) {          // kolejność wyrazów: stopień malejąco, potem alfabetycznie (x² przed xy przed y²)
+  return [...a.entries()].sort(([k1], [k2]) => {
+    const d = W.stopien(k2) - W.stopien(k1); if (d) return d;
+    const m1 = zKlucza(k1), m2 = zKlucza(k2);
+    for (const v of [...new Set([...Object.keys(m1), ...Object.keys(m2)])].filter((v) => v[0] !== "√").sort()) { const e = (m2[v] || 0) - (m1[v] || 0); if (e) return e; }
+    return (k1.includes("√") ? 1 : 0) - (k2.includes("√") ? 1 : 0);
+  });
+}
+function jednTeX(k, q, pierwszy) {
+  const m = zKlucza(k);
+  const czesci = Object.keys(m).filter((v) => v[0] !== "√").sort().map((v) => v + (m[v] > 1 ? "^{" + m[v] + "}" : ""));
+  const pw = Object.keys(m).filter((v) => v[0] === "√").map((v) => "\\sqrt{" + v.slice(1) + "}");
+  const lit = pw.join("") + czesci.join("");
+  const ujemny = q[0] < 0, abs = [Math.abs(q[0]), q[1]];
+  let wsp = lit && abs[0] === 1 && abs[1] === 1 ? "" : qTeX(abs);
+  return (ujemny ? "-" : pierwszy ? "" : "+") + wsp + lit;
+}
+function wTeX(a) { if (!a.size) return "0"; return porzadek(a).map(([k, q], i) => jednTeX(k, q, i === 0)).join(""); }
+function wTekst(a) {           // do wpisywania / porównań w komunikatach: 3x^2-2xy+1
+  return wTeX(a).replace(/\\sqrt\{(\d+)\}/g, "√$1").replace(/\\frac\{(\d+)\}\{(\d+)\}/g, "$1/$2").replace(/\^\{(\d+)\}/g, "^$1");
+}
+
+/* ---------- parser ---------- */
+// Drzewo: {t:"num",q} {t:"zm",v} {t:"pierw",n} {t:"neg",a} {t:"suma",a:[…]} {t:"il",a:[…]} {t:"dz",a,b} {t:"pot",a,e}
+function parsujWyr(tekst) {
+  const t = String(tekst).replace(/[−–—]/g, "-").replace(/[·×]/g, "*").replace(/:/g, "/").replace(/²/g, "^2").replace(/³/g, "^3")
+    .replace(/,/g, ".").replace(/\s+/g, "").replace(/pierw(iastek)?|sqrt/gi, "√").replace(/\[/g, "(").replace(/\]/g, ")");
+  if (!t) throw new Error("Wpisz wyrażenie");
+  if (/[^0-9a-zA-Z.+\-*/^()√]/.test(t)) throw new Error("Nieznany znak: " + t.match(/[^0-9a-zA-Z.+\-*/^()√]/)[0]);
+  let i = 0;
+  const zobacz = () => t[i];
+  function suma() {
+    const a = [];
+    let el = czynnikZeZnakiem(); a.push(el);
+    while (zobacz() === "+" || zobacz() === "-") {
+      const z = t[i++]; el = iloczyn(); a.push(z === "-" ? { t: "neg", a: el } : el);
+    }
+    return a.length === 1 ? a[0] : { t: "suma", a };
+  }
+  function czynnikZeZnakiem() {
+    if (zobacz() === "-") { i++; return { t: "neg", a: iloczyn() }; }
+    if (zobacz() === "+") { i++; }
+    return iloczyn();
+  }
+  function iloczyn() {
+    let el = potega(); const a = [el];
+    for (;;) {
+      const c = zobacz();
+      if (c === "*") { i++; a.push(potega()); }
+      else if (c === "/") { i++; const d = potega(); a[a.length - 1] = { t: "dz", a: a[a.length - 1], b: d }; }
+      else if (c && /[a-zA-Z(√]/.test(c)) a.push(potega());
+      else if (c && /[0-9.]/.test(c) && a[a.length - 1].t !== "num") throw new Error("Liczbę piszemy przed literą: 3x, nie x3");
+      else break;
+    }
+    return a.length === 1 ? a[0] : { t: "il", a };
+  }
+  function potega() {
+    const a = atom();
+    if (zobacz() === "^") {
+      i++; const m = /^\d+/.exec(t.slice(i));
+      if (!m) throw new Error("Wykładnik potęgi musi być liczbą naturalną");
+      i += m[0].length; return { t: "pot", a, e: +m[0] };
+    }
+    return a;
+  }
+  function atom() {
+    const c = zobacz();
+    if (c === "(") { i++; const a = suma(); if (zobacz() !== ")") throw new Error("Brakuje nawiasu zamykającego"); i++; return { t: "naw", a }; }
+    if (c === "√") {
+      i++;
+      if (zobacz() === "(") { i++; const m = /^\d+/.exec(t.slice(i)); if (!m) throw new Error("Pod pierwiastkiem wpisz liczbę"); i += m[0].length; if (zobacz() !== ")") throw new Error("Brakuje nawiasu"); i++; return { t: "pierw", n: +m[0] }; }
+      const m = /^\d+/.exec(t.slice(i)); if (!m) throw new Error("Pod pierwiastkiem wpisz liczbę"); i += m[0].length; return { t: "pierw", n: +m[0] };
+    }
+    if (c && /[a-zA-Z]/.test(c)) { i++; return { t: "zm", v: c.toLowerCase() }; }
+    const m = /^\d+(\.\d+)?|^\.\d+/.exec(t.slice(i));
+    if (m) { i += m[0].length; return { t: "num", q: zDziesietnej(m[0].startsWith(".") ? "0" + m[0] : m[0]) }; }
+    throw new Error(c ? "Nie rozumiem zapisu w miejscu „" + t.slice(i, i + 4) + "”" : "Wyrażenie urywa się – czegoś brakuje na końcu");
+  }
+  const d = suma();
+  if (i < t.length) throw new Error(t[i] === ")" ? "Za dużo nawiasów zamykających" : "Nie rozumiem zapisu w miejscu „" + t.slice(i, i + 4) + "”");
+  return d;
+}
+function wDrzewa(d) {
+  switch (d.t) {
+    case "num": return W.stala(d.q);
+    case "zm": return W.zm(d.v);
+    case "pierw": return W.pierw(d.n);
+    case "naw": return wDrzewa(d.a);
+    case "neg": return W.skaluj(wDrzewa(d.a), [-1, 1]);
+    case "suma": return d.a.reduce((s, x) => W.dodaj(s, wDrzewa(x)), new Map());
+    case "il": return d.a.reduce((s, x) => W.razy(s, wDrzewa(x)), W.stala([1, 1]));
+    case "pot": return W.potega(wDrzewa(d.a), d.e);
+    case "dz": {
+      const b = wDrzewa(d.b);
+      if (b.size !== 1 || !b.has("")) throw new Error("Dzielić można tylko przez liczbę");
+      const q = b.get(""); return W.skaluj(wDrzewa(d.a), [q[1], q[0]]);
+    }
+  }
+}
+const wyr = (s) => wDrzewa(parsujWyr(s));
+const bezNaw = (d) => (d.t === "naw" ? bezNaw(d.a) : d);
+function maSume(d) {
+  switch (d.t) {
+    case "suma": return true;
+    case "naw": case "neg": case "pot": return maSume(d.a);
+    case "il": return d.a.some(maSume);
+    case "dz": return maSume(d.a) || maSume(d.b);
+    default: return false;
+  }
+}
+function wyrazy(d) { d = bezNaw(d); return d.t === "suma" ? d.a : [d]; }
+// postać rozwinięta: suma jednomianów, bez nawiasów z sumą w środku, bez wyrazów podobnych
+function czyRozwinieta(d, w) {
+  const wz = wyrazy(d);
+  if (wz.some(maSume)) return "Wynik zapisz bez nawiasów – wykonaj mnożenie.";
+  if (wz.length !== Math.max(w.size, 1)) return "Zredukuj wyrazy podobne (albo usuń zera).";
+  return true;
+}
+// postać iloczynowa: na górze iloczyn albo potęga, w której jest co najmniej jedna suma
+function czynniki(d) {
+  d = bezNaw(d); let znak = 1;
+  while (d.t === "neg") { znak = -znak; d = bezNaw(d.a); }
+  if (d.t === "il") return { znak, cz: d.a };
+  return { znak, cz: [d] };
+}
+function czyIloczyn(d) {
+  const { cz } = czynniki(d);
+  const sumy = cz.filter((c) => maSume(c));
+  if (!sumy.length || (cz.length === 1 && bezNaw(cz[0]).t !== "pot")) return "Zapisz wynik w postaci iloczynu, np. 3x(x − 2).";
+  return true;
+}
+function czynnikPrzed(d) {       // jednomian stojący przed nawiasem (iloczyn czynników bez sum)
+  const { znak, cz } = czynniki(d);
+  return W.skaluj(cz.filter((c) => !maSume(c)).reduce((s, x) => W.razy(s, wDrzewa(x)), W.stala([1, 1])), [znak, 1]);
+}
+// największy wspólny czynnik jednomianowy (dodatni współczynnik całkowity)
+function nwdWielomianu(w) {
+  const wpis = [...w.entries()];
+  if (!wpis.length) return W.stala([1, 1]);
+  let g = 0; for (const [, q] of wpis) g = nwd(g, q[0]);
+  const ms = wpis.map(([k]) => zKlucza(k));
+  const m = {};
+  for (const v of Object.keys(ms[0])) if (v[0] !== "√") { const e = Math.min(...ms.map((x) => x[v] || 0)); if (e) m[v] = e; }
+  return new Map([[kluczZ(m), [g || 1, 1]]]);
+}
+function podziel(w, jedn) {      // w : jednomian (zakładamy podzielność)
+  const [[kj, qj]] = [...jedn.entries()], mj = zKlucza(kj), wynik = new Map();
+  for (const [k, q] of w) { const m = zKlucza(k); for (const v in mj) m[v] -= mj[v]; wynik.set(kluczZ(m), qMul(q, [qj[1], qj[0]])); }
+  return wynik;
+}
+// sprawdzanie odpowiedzi ucznia typu "wyr": odp = {w: Map, forma: "rozw"|"iloczyn"|"dowolna", czynnik?: Map}
+function sprawdzWyr(tekst, odp) {
+  let d, w;
+  try { d = parsujWyr(tekst); w = wDrzewa(d); } catch (e) { return { ok: null, uwaga: e.message }; }
+  if (!W.rowne(w, odp.w)) return { ok: false };
+  if (odp.forma === "rozw") { const r = czyRozwinieta(d, odp.w); if (r !== true) return { ok: false, uwaga: "Wynik jest równy poprawnemu, ale nie jest uproszczony. " + r }; }
+  if (odp.forma === "iloczyn") {
+    const r = czyIloczyn(d); if (r !== true) return { ok: false, uwaga: "Wyrażenie jest równe, ale to nie jest postać iloczynowa. " + r };
+    if (odp.czynnik) {
+      const c = czynnikPrzed(d);
+      if (!W.rowne(c, odp.czynnik) && !(odp.dowolnyZnak && W.rowne(c, W.skaluj(odp.czynnik, [-1, 1]))))
+        return { ok: false, uwaga: `Iloczyn jest poprawny, ale przed nawiasem powinno stać \\(${wTeX(odp.czynnik)}\\)${odp.dowolnyZnak ? " (albo liczba przeciwna)" : ""}.` };
+    }
+  }
+  return { ok: true };
+}
+
+/* ===== Zapis TeX wyrażeń i rozwiązania krok po kroku (wspólne dla narzędzi i generatorów) ===== */
+const tx = (s) => String(s).replace(/\*/g, "\\cdot ").replace(/\^(\d+)/g, "^{$1}").replace(/√(\d+)/g, "\\sqrt{$1}");
+const TW = (s) => wTeX(wyr(s));                          // wynik uporządkowany
+function czl(c, lit, pierwszy) {                         // wyraz ze znakiem: czl(-3,"x^2") → "-3x^2"
+  if (c === 0) return "";
+  const z = c < 0 ? "-" : pierwszy ? "" : "+", a = Math.abs(c);
+  return z + (a === 1 && lit ? "" : a) + lit;
+}
+function zloz(wyr_) {                                     // [[c, lit], …] → "3x^2-2x+1" (bez zer)
+  let s = "";
+  for (const [c, lit] of wyr_) if (c) s += czl(c, lit, !s);
+  return s || "0";
+}
+// drzewo → TeX (tak, jak uczeń to wpisał)
+function dTeX(d) {
+  switch (d.t) {
+    case "num": return qTeX(d.q);
+    case "zm": return d.v;
+    case "pierw": return "\\sqrt{" + d.n + "}";
+    case "naw": return "\\left(" + dTeX(d.a) + "\\right)";
+    case "neg": return "-" + dTeX(d.a);
+    case "suma": return d.a.map((x, i) => (x.t === "neg" ? "-" + dTeX(x.a) : (i ? "+" : "") + dTeX(x))).join("");
+    case "il": return d.a.map((x, i) => (i && (x.t === "num" || (x.t === "pierw" && d.a[i - 1].t === "pierw")) ? "\\cdot " : "") + dTeX(x)).join("");
+    case "dz": return "\\frac{" + dTeX(d.a) + "}{" + dTeX(d.b) + "}";
+    case "pot": return (["zm", "num", "naw"].includes(d.a.t) ? dTeX(d.a) : "\\left(" + dTeX(d.a) + "\\right)") + "^{" + d.e + "}";
+  }
+}
+const wNaw = (w) => (w.size > 1 || [...w.values()].some((q) => q[0] < 0) || [...w.keys()].some((k) => k.includes("√") || (k && [...w.values()][0][0] !== 1)) ? "\\left(" + wTeX(w) + "\\right)" : wTeX(w));
+// wyrazy sumy jako wielomiany (ze znakami)
+const wyrazyW = (d) => wyrazy(d).map((x) => wDrzewa(x));
+
+// mnożenie jednomianu przez sumę: kroki
+function krokiJednomian(d) {
+  const { znak, cz } = czynniki(d);
+  const sumy = cz.filter(maSume);
+  if (sumy.length !== 1 || bezNaw(sumy[0]).t !== "suma") return null;
+  const M = W.skaluj(cz.filter((c) => !maSume(c)).reduce((s, x) => W.razy(s, wDrzewa(x)), W.stala([1, 1])), [znak, 1]);
+  const T = wyrazyW(sumy[0]);
+  const iloczyny = T.map((t) => W.razy(M, t));
+  return [
+    T.map((t, i) => (i ? "+" : "") + wNaw(M) + "\\cdot " + wNaw(t)).join(""),
+    iloczyny.map((w, i) => (i && [...w.values()][0][0] >= 0 ? "+" : "") + wTeX(w)).join(""),
+  ];
+}
+// mnożenie dwóch sum: tabelka iloczynów i redukcja
+function krokiSum(A, B) {          // A, B – tablice wyrazów (wielomiany jednowyrazowe)
+  const wiersze = A.map((a) => B.map((b) => W.razy(a, b)));
+  const lista = wiersze.flat();
+  const suma_ = lista.reduce((s, w) => W.dodaj(s, w), new Map());
+  return {
+    tabela: `<div class="table-wrap"><table class="tab-il"><tr><th>\\(\\cdot\\)</th>${B.map((b) => `<th>\\(${wTeX(b)}\\)</th>`).join("")}</tr>` +
+      A.map((a, i) => `<tr><th>\\(${wTeX(a)}\\)</th>${wiersze[i].map((w) => `<td>\\(${wTeX(w)}\\)</td>`).join("")}</tr>`).join("") + "</table></div>",
+    lista: lista.map((w, i) => (i && [...w.values()][0][0] >= 0 ? "+" : "") + wTeX(w)).join(""),
+    wynik: wTeX(suma_),
+  };
+}
+// największy wspólny czynnik: opis
+function krokiWylacz(w) {
+  const g = nwdWielomianu(w), reszta = podziel(w, g);
+  const wsp = [...w.values()].map((q) => Math.abs(q[0]));
+  return { g, reszta, opis: `NWD współczynników \\(${wsp.join(",\\ ")}\\) to \\(${[...g.values()][0][0]}\\)` + (wTeX(g).replace(/^\d+/, "") ? `; każdy wyraz zawiera \\(${wTeX(g).replace(/^\d+/, "")}\\) (najniższe potęgi liter).` : "; nie ma litery wspólnej dla wszystkich wyrazów.") };
+}
+// rozpoznanie wzoru skróconego mnożenia na drzewie
+function krokiWzoru(d) {
+  d = bezNaw(d);
+  if (d.t === "pot" && d.e === 2 && bezNaw(d.a).t === "suma" && wyrazy(d.a).length === 2) {
+    const [a, b] = wyrazyW(d.a);
+    const minus = [...b.values()][0][0] < 0, bb = minus ? W.skaluj(b, [-1, 1]) : b;
+    const A2 = W.razy(a, a), AB2 = W.skaluj(W.razy(a, bb), [2, 1]), B2 = W.razy(bb, bb);
+    return {
+      nazwa: minus ? "kwadrat różnicy" : "kwadrat sumy",
+      wzor: minus ? "(a-b)^2=a^2-2ab+b^2" : "(a+b)^2=a^2+2ab+b^2",
+      ab: `a=${wTeX(a)},\\ b=${wTeX(bb)}`,
+      podst: `${wNaw(a)}^2${minus ? "-" : "+"}2\\cdot ${wNaw(a)}\\cdot ${wNaw(bb)}+${wNaw(bb)}^2`,
+      wynik: `${wTeX(A2)}${minus ? "-" : "+"}${wTeX(AB2)}+${wTeX(B2)}`,
+    };
+  }
+  if (d.t === "il" && d.a.length === 2 && d.a.every((x) => bezNaw(x).t === "suma" && wyrazy(x).length === 2)) {
+    const [a1, b1] = wyrazyW(d.a[0]), [a2, b2] = wyrazyW(d.a[1]);
+    let a, b;
+    if (W.rowne(a1, a2) && W.rowne(b1, W.skaluj(b2, [-1, 1]))) { a = a1; b = [...b1.values()][0][0] < 0 ? b2 : b1; }
+    else if (W.rowne(b1, b2) && W.rowne(a1, W.skaluj(a2, [-1, 1]))) { a = b1; b = [...a1.values()][0][0] < 0 ? a2 : a1; }
+    if (a) return { nazwa: "różnica kwadratów", wzor: "(a-b)(a+b)=a^2-b^2", ab: `a=${wTeX(a)},\\ b=${wTeX(b)}`,
+      podst: `${wNaw(a)}^2-${wNaw(b)}^2`, wynik: `${wTeX(W.razy(a, a))}-${wTeX(W.razy(b, b))}` };
+  }
+  return null;
+}
+// zwijanie: czy wielomian jest kwadratem dwumianu albo różnicą kwadratów
+function pierwJednomianu(k, q) {       // √(q·k) gdy to jednomian o dodatnim kwadratowym współczynniku i parzystych potęgach
+  if (q[0] <= 0 || q[1] !== 1 || !czyKwadrat(q[0]) || k.includes("√")) return null;
+  const m = zKlucza(k); for (const v in m) { if (m[v] % 2) return null; m[v] /= 2; }
+  return new Map([[kluczZ(m), [Math.sqrt(q[0]), 1]]]);
+}
+function zwin(w) {
+  const t = porzadek(w);
+  if (t.length === 2) {
+    const [p, r] = t, A = pierwJednomianu(...p), B = pierwJednomianu(r[0], [-r[1][0], r[1][1]]);
+    if (A && B) return { nazwa: "różnica kwadratów", wynik: `\\left(${wTeX(A)}-${wTeX(B)}\\right)\\left(${wTeX(A)}+${wTeX(B)}\\right)`, a: A, b: B };
+    const A2 = pierwJednomianu(r[0], r[1]), B2 = pierwJednomianu(p[0], [-p[1][0], p[1][1]]);
+    if (A2 && B2) return { nazwa: "różnica kwadratów", wynik: `\\left(${wTeX(A2)}-${wTeX(B2)}\\right)\\left(${wTeX(A2)}+${wTeX(B2)}\\right)`, a: A2, b: B2 };
+  }
+  if (t.length === 3) {
+    const [p, s, r] = t, A = pierwJednomianu(...p), B = pierwJednomianu(...r);
+    if (A && B) {
+      const AB2 = W.skaluj(W.razy(A, B), [2, 1]);
+      const srodek = new Map([s]);
+      if (W.rowne(srodek, AB2)) return { nazwa: "kwadrat sumy", wynik: `\\left(${wTeX(A)}+${wTeX(B)}\\right)^2`, a: A, b: B, znak: "+" };
+      if (W.rowne(srodek, W.skaluj(AB2, [-1, 1]))) return { nazwa: "kwadrat różnicy", wynik: `\\left(${wTeX(A)}-${wTeX(B)}\\right)^2`, a: A, b: B, znak: "-" };
+    }
+  }
+  return null;
+}
+
+/* ---------- kalkulator: pola tekstowe + opis wyniku ---------- */
+// cfg: {pola: [{etyk, start}], przyklady: [[…wartości pól]], opis(drzewa, wielomiany) → html}
+function kalkulator(el, cfg) {
+  const id = "k" + Math.random().toString(36).slice(2, 7);
+  el.innerHTML = `<div class="przyklady">${cfg.przyklady.map((p, i) => `<button type="button" data-i="${i}">${esc(p.join("  i  "))}</button>`).join("")}</div>
+    <div class="kalk-pola">${cfg.pola.map((p, i) => `<label for="${id}-${i}">${p.etyk}</label><input id="${id}-${i}" class="pole-tekst" value="${esc(p.start)}" autocomplete="off" spellcheck="false">`).join("")}</div>
+    <div class="info" aria-live="polite"></div>`;
+  const wej = [...el.querySelectorAll(".kalk-pola input")], info = $(".info", el);
+  function odswiez() {
+    try {
+      const d = wej.map((i) => parsujWyr(i.value)), w = d.map(wDrzewa);
+      info.innerHTML = cfg.opis(d, w);
+    } catch (e) { info.innerHTML = `<p class="blad">${esc(e.message)}</p><p class="tip">Przykład zapisu: <code>-3x(2x^2-5x+1)</code>, <code>(x+3)(x-2)</code>, <code>(2a-b)^2</code>, <code>√3</code> albo <code>sqrt3</code>.</p>`; }
+    renderTeX(info);
+  }
+  wej.forEach((i) => i.addEventListener("input", odswiez));
+  el.querySelector(".przyklady").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; cfg.przyklady[+b.dataset.i].forEach((v, j) => { wej[j].value = v; }); odswiez(); });
+  odswiez();
+}
+
+/* ===== Generatory zadań — Matematyka 1A, dział 2. Język matematyki ===== */
+// Każdy generator zwraca {tresc, pola, odp, rozw}. Wyniki liczy silnik wielomianów (alg.js), nie są wpisane ręcznie.
+const RW = (s, forma = "rozw", dod = {}) => ({ w: wyr(s), forma, ...dod });
+const POLE_W = (e = "Wynik:") => [{ e, typ: "wyr" }];
+const pz = (k, pierwszy) => (k < 0 ? "-" : pierwszy ? "" : "+") + (Math.abs(k) === 1 ? "" : Math.abs(k));   // współczynnik przed nawiasem
+const sg = (k) => (k < 0 ? "-" : "+") + Math.abs(k);                                                           // +3 / −3
+const lit = (v, e) => (e === 0 ? "" : e === 1 ? v : v + "^" + e);
+const nz = (a, b) => losujBez(a, b, 0);
+const losUlamek = () => wybierz([[1, 2], [-1, 2], [1, 3], [-2, 3], [3, 2], [-3, 2], [1, 4]]);
+const qTxt = (q) => qTeX(q);
+const rownaj = (lewa, ...kroki) => `\\(${[lewa, ...kroki].join("=")}\\)`;
+const osZ = (wiersze) => `<div class="os">${os(wiersze.map(([etyk, zbior, k]) => ({ etyk, zbior, kolor: KOLORY[k || "c"] })))}</div>`;
+
+function trojmian(v, wsp) {    // [a2, a1, a0] → "a2v^2+a1v+a0"
+  return zloz([[wsp[0], lit(v, 2)], [wsp[1], v], [wsp[2], ""]]);
+}
+
+const G = {
+  /* ---------- 6. mnożenie sumy algebraicznej przez jednomian ---------- */
+  jednomiany: { nazwa: "iloczyn jednomianów", f() {
+    const [v, u] = wybierz([["x", "y"], ["a", "b"]]), dwie = Math.random() < .4;
+    const c1 = nz(-6, 6), c2 = nz(-6, 6), e1 = losuj(1, 4), e2 = losuj(1, 4), f1 = dwie ? losuj(0, 2) : 0, f2 = dwie ? losuj(1, 2) : 0;
+    const m1 = czl(c1, lit(v, e1) + lit(u, f1), true), m2 = czl(c2, lit(v, e2) + lit(u, f2), true);
+    const s = `(${m1})*(${m2})`;
+    return { tresc: `Oblicz iloczyn jednomianów: \\(\\left(${tx(m1)}\\right)\\cdot\\left(${tx(m2)}\\right)\\)`, pola: POLE_W(), odp: [RW(s)],
+      rozw: `<p>Mnożymy współczynniki: \\(${tn(c1)}\\cdot${tn(c2)}=${c1 * c2}\\). Potęgi tej samej litery mnożymy, dodając wykładniki: \\(${v}^{${e1}}\\cdot ${v}^{${e2}}=${v}^{${e1 + e2}}\\)${dwie ? `, \\(${u}^{${f1}}\\cdot ${u}^{${f2}}=${u}^{${f1 + f2}}\\)` : ""}.</p><p>Wynik: <span class="wynik">\\(${TW(s)}\\)</span></p>` };
+  } },
+  redukcja: { nazwa: "redukcja wyrazów podobnych", f() {
+    const v = wybierz(["x", "a"]), A = [nz(-5, 5), nz(-6, 6), losuj(-9, 9)];
+    const czesci = [];
+    for (const [i, e] of [[0, 2], [1, 1]]) { const p = nz(-7, 7); const r = A[i] - p || 1; czesci.push([p, lit(v, e)], [A[i] - p === 0 ? r : A[i] - p, lit(v, e)]); }
+    czesci.push([losuj(-9, 9) || 4, ""]);
+    for (let i = czesci.length - 1; i > 0; i--) { const j = losuj(0, i); [czesci[i], czesci[j]] = [czesci[j], czesci[i]]; }
+    const s = zloz(czesci);
+    const gr = (e) => czesci.filter(([, l]) => l === lit(v, e)).map(([c], i) => (i ? (c < 0 ? "" : "+") : "") + c).join("");
+    return { tresc: `Zredukuj wyrazy podobne: \\(${tx(s)}\\)`, pola: POLE_W(), odp: [RW(s)],
+      rozw: `<p>Wyrazy podobne mają te same litery w tych samych potęgach – dodajemy tylko ich współczynniki:</p>
+        <p>\\(${v}^2\\): \\(${gr(2)}\\); \\(\\ ${v}\\): \\(${gr(1)}\\); liczby: \\(${gr(0)}\\).</p><p>Wynik: <span class="wynik">\\(${TW(s)}\\)</span></p>` };
+  } },
+  jednXsuma: { nazwa: "jednomian razy suma", f() {
+    const v = wybierz(["x", "a", "y"]), k = nz(-5, 5), p = losuj(0, 2);
+    const M = czl(k, lit(v, p), true) || String(k), S = trojmian(v, [nz(-5, 5), nz(-7, 7), nz(-9, 9)]);
+    const s = `${M === "-" ? "-1" : M}(${S})`, kr = krokiJednomian(parsujWyr(s));
+    return { tresc: `Wykonaj mnożenie: \\(${tx(M)}\\left(${tx(S)}\\right)\\)`, pola: POLE_W(), odp: [RW(s)],
+      rozw: `<p>Mnożymy jednomian przez <strong>każdy</strong> wyraz sumy:</p><p>\\(${kr[0]}\\)</p><p>\\(=${kr[1]}\\)</p><p>Wynik: <span class="wynik">\\(${TW(s)}\\)</span></p>` };
+  } },
+  zRedukcja: { nazwa: "mnożenie i redukcja", f() {
+    const v = "x", k1 = nz(-4, 4), k2 = nz(-4, 4), b1 = nz(-6, 6), b2 = nz(-6, 6);
+    const e1 = `${pz(k1, true)}${v}(${zloz([[1, v], [b1, ""]])})`, e2 = `${pz(k2, false)}(${zloz([[1, lit(v, 2)], [b2, v]])})`;
+    const s = e1 + e2;
+    return { tresc: `Uprość wyrażenie: \\(${tx(s).replace(/\(/g, "\\left(").replace(/\)/g, "\\right)")}\\)`, pola: POLE_W(), odp: [RW(s)],
+      rozw: `<p>Najpierw mnożenie, potem redukcja:</p><p>\\(${wTeX(wyr(e1))}${(() => { const t = wTeX(wyr(e2)); return t[0] === "-" ? t : "+" + t; })()}\\)</p><p>Wynik: <span class="wynik">\\(${TW(s)}\\)</span></p>
+        <p class="tip">Minus przed nawiasem zmienia znaki wszystkich wyrazów w nawiasie.</p>` };
+  } },
+  wartosc: { nazwa: "wartość wyrażenia po uproszczeniu", f() {
+    const a = nz(-4, 4), b = nz(-5, 5), c = nz(-6, 6), d = losuj(-9, 9);
+    if (a * b - c === 0) return G.wartosc.f();
+    const s = `${pz(a, true)}x(x${sg(b)})-x(${a}x${sg(c)})${d ? sg(d) : ""}`;
+    const x0 = wybierz([nz(-4, 4), nz(-4, 4), ...[[1, 2], [-1, 2]].map((q) => q)]), q0 = Array.isArray(x0) ? x0 : [x0, 1];
+    const w = wyr(s), val = W.wartosc(w, { x: q0 });
+    return { tresc: `Uprość wyrażenie \\(${tx(s).replace(/\(/g, "\\left(").replace(/\)/g, "\\right)")}\\) i oblicz jego wartość dla \\(x=${qTxt(q0)}\\).`,
+      pola: [{ e: "Wartość:", typ: "liczba" }], odp: [val[0] / val[1]],
+      rozw: `<p>Po wymnożeniu i redukcji: \\(${wTeX(w)}\\) – jednomiany \\(x^2\\) się zredukowały.</p>
+        <p>Dla \\(x=${qTxt(q0)}\\): <span class="wynik">\\(${qTeX(val)}\\)</span>.</p><p class="tip">Najpierw upraszczamy, dopiero potem podstawiamy – mniej liczenia i mniej okazji do błędu.</p>` };
+  } },
+
+  /* ---------- 7. wyłączanie jednomianu przed nawias ---------- */
+  wylacz: { nazwa: "wyłącz wspólny czynnik", f() {
+    const v = wybierz(["x", "a", "y"]);
+    let k, p, wsp;
+    do { k = losuj(1, 6); p = losuj(0, 2); wsp = [losuj(1, 6), nz(-7, 7), nz(-9, 9)]; } while ((k === 1 && p === 0) || nwd(nwd(wsp[0], wsp[1]), wsp[2]) !== 1);
+    const e = wybierz([[2, 1, 0], [3, 1, 0], [2, 1, 0], [3, 2, 0]]);
+    const g = czl(k, lit(v, p), true), inner = zloz(wsp.map((c, i) => [c, lit(v, e[i])]));
+    const s = TW(`${g}(${inner})`), w = wyr(`${g}(${inner})`), kr = krokiWylacz(w);
+    return { tresc: `Wyłącz przed nawias największy wspólny czynnik: \\(${s}\\)`, pola: POLE_W("Postać iloczynowa:"),
+      odp: [{ w, forma: "iloczyn", czynnik: wyr(g), dowolnyZnak: true }],
+      rozw: `<p>${kr.opis}</p><p>Dzielimy każdy wyraz przez \\(${wTeX(kr.g)}\\): <span class="wynik">\\(${wTeX(kr.g)}\\left(${wTeX(kr.reszta)}\\right)\\)</span></p>
+        <p class="tip">Sprawdzenie: wymnóż – musi wyjść wyrażenie z treści.</p>` };
+  } },
+  wylaczDwie: { nazwa: "wyłącz czynnik – dwie zmienne", f() {
+    let k, i, j, wsp;
+    do { k = losuj(1, 6); i = losuj(0, 2); j = losuj(0, 2); wsp = [losuj(1, 5), nz(-6, 6), losuj(-5, 5)]; } while ((i + j === 0) || (k === 1 && i + j < 2) || nwd(nwd(wsp[0], wsp[1]), wsp[2] || wsp[0]) !== 1);
+    const g = czl(k, lit("a", i) + lit("b", j), true), inner = zloz([[wsp[0], "a"], [wsp[1], "b"], [wsp[2], ""]]);
+    const w = wyr(`${g}(${inner})`), kr = krokiWylacz(w);
+    return { tresc: `Wyłącz przed nawias największy wspólny czynnik: \\(${wTeX(w)}\\)`, pola: POLE_W("Postać iloczynowa:"),
+      odp: [{ w, forma: "iloczyn", czynnik: kr.g, dowolnyZnak: true }],
+      rozw: `<p>${kr.opis}</p><p><span class="wynik">\\(${wTeX(kr.g)}\\left(${wTeX(kr.reszta)}\\right)\\)</span></p>` };
+  } },
+  wylaczMinus: { nazwa: "wyłącz podany czynnik ujemny", f() {
+    const v = wybierz(["x", "a"]), k = losuj(1, 4), p = losuj(0, 1);
+    const g = czl(-k, lit(v, p), true) === "-" ? "-1" : czl(-k, lit(v, p), true);
+    const inner = trojmian(v, [losuj(1, 5), nz(-6, 6), nz(-7, 7)]);
+    const w = wyr(`${g}(${inner})`), reszta = podziel(w, wyr(g));
+    return { tresc: `Wyłącz przed nawias czynnik \\(${tx(g === "-1" ? "-1" : g)}\\): \\(${wTeX(w)}\\)`, pola: POLE_W("Postać iloczynowa:"),
+      odp: [{ w, forma: "iloczyn", czynnik: wyr(g) }],
+      rozw: `<p>Każdy wyraz dzielimy przez \\(${tx(g)}\\) – przy dzieleniu przez liczbę ujemną zmieniają się <strong>wszystkie</strong> znaki w nawiasie.</p>
+        <p><span class="wynik">\\(${tx(g === "-1" ? "-" : g)}\\left(${wTeX(reszta)}\\right)\\)</span></p>` };
+  } },
+  sprytne: { nazwa: "sprytne liczenie", f() {
+    const k = losuj(12, 99), dop = wybierz([100, 100, 1000, 10]), m = losuj(1, dop - 1), n = dop - m, minus = Math.random() < .35;
+    const [a, b] = minus ? [m + dop, m] : [m, n];
+    return { tresc: `Oblicz sprytnie, wyłączając wspólny czynnik: \\(${k}\\cdot${a}${minus ? "-" : "+"}${k}\\cdot${b}\\)`, pola: [{ e: "Wynik:", typ: "liczba" }], odp: [minus ? k * dop : k * dop],
+      rozw: `<p>\\(${k}\\cdot${a}${minus ? "-" : "+"}${k}\\cdot${b}=${k}\\cdot(${a}${minus ? "-" : "+"}${b})=${k}\\cdot${dop}=\\)<span class="wynik"> \\(${k * dop}\\)</span></p>` };
+  } },
+  wspolnaSuma: { nazwa: "★ wspólny czynnik w nawiasie", f() {
+    const r = nz(-6, 6), q = nz(-5, 5), y = wybierz(["y", "a", "2y", "3a"]);
+    const S = zloz([[1, "x"], [r, ""]]);
+    const s = `${y}(${S})${q < 0 ? "-" : "+"}${Math.abs(q) === 1 ? "" : Math.abs(q)}(${S})`;
+    return { tresc: `Zapisz w postaci iloczynu: \\(${tx(s).replace(/\(/g, "\\left(").replace(/\)/g, "\\right)")}\\)`, pola: POLE_W("Postać iloczynowa:"),
+      odp: [{ w: wyr(s), forma: "iloczyn" }],
+      rozw: `<p>Oba składniki zawierają ten sam nawias \\((${tx(S)})\\) – wyłączamy go jak jednomian:</p><p><span class="wynik">\\(\\left(${tx(S)}\\right)\\left(${tx(y)}${sg(q).replace(/^([+-])1$/, "$11")}\\right)\\)</span></p>` };
+  } },
+
+  /* ---------- 8. mnożenie sum algebraicznych ---------- */
+  sumy2: { nazwa: "(x + a)(x + b)", f() {
+    const v = wybierz(["x", "a", "y"]), a = nz(-8, 8), b = nz(-8, 8);
+    const A = zloz([[1, v], [a, ""]]), B = zloz([[1, v], [b, ""]]);
+    return zadIloczynu(`(${A})(${B})`, [A, B]);
+  } },
+  sumyAB: { nazwa: "(ax + b)(cx + d)", f() {
+    const v = wybierz(["x", "a"]), A = zloz([[nz(-4, 5), v], [nz(-7, 7), ""]]), B = zloz([[nz(-4, 5), v], [nz(-7, 7), ""]]);
+    return zadIloczynu(`(${A})(${B})`, [A, B]);
+  } },
+  sumy3: { nazwa: "dwumian razy trójmian", f() {
+    const A = zloz([[1, "x"], [nz(-5, 5), ""]]), B = trojmian("x", [1, nz(-5, 5), nz(-6, 6)]);
+    return zadIloczynu(`(${A})(${B})`, [A, B]);
+  } },
+  sumyDwieZm: { nazwa: "dwie zmienne", f() {
+    const A = zloz([[nz(-3, 4), "a"], [nz(-4, 4), "b"]]), B = zloz([[nz(-3, 4), "a"], [nz(-4, 4), "b"]]);
+    return zadIloczynu(`(${A})(${B})`, [A, B]);
+  } },
+  roznicaIl: { nazwa: "różnica iloczynów", f() {
+    const [a, b, c, d] = [nz(-6, 6), nz(-6, 6), nz(-6, 6), nz(-6, 6)];
+    const L = `(${zloz([[1, "x"], [a, ""]])})(${zloz([[1, "x"], [b, ""]])})`, P = `(${zloz([[1, "x"], [c, ""]])})(${zloz([[1, "x"], [d, ""]])})`;
+    const s = `${L}-${P}`;
+    return { tresc: `Uprość wyrażenie: \\(${tx(s).replace(/\(/g, "\\left(").replace(/\)/g, "\\right)")}\\)`, pola: POLE_W(), odp: [RW(s)],
+      rozw: `<p>Każdy iloczyn mnożymy osobno, a drugi wynik bierzemy w nawias – stoi przed nim minus:</p>
+        <p>\\(${TW(L)}-\\left(${TW(P)}\\right)\\)</p><p>\\(=${TW(L)}${wTeX(W.skaluj(wyr(P), [-1, 1])).replace(/^(?!-)/, "+")}\\)</p><p>Wynik: <span class="wynik">\\(${TW(s)}\\)</span></p>` };
+  } },
+  trzyCz: { nazwa: "iloczyn trzech czynników", f() {
+    const [a, b] = [nz(-4, 4), nz(-4, 4)], k = wybierz([2, 3, -2, -1]);
+    const A = zloz([[1, "x"], [a, ""]]), B = zloz([[1, "x"], [b, ""]]);
+    const s = `${k === -1 ? "-" : k}(${A})(${B})`;
+    return { tresc: `Wykonaj mnożenie: \\(${tx(s).replace(/\(/g, "\\left(").replace(/\)/g, "\\right)")}\\)`, pola: POLE_W(), odp: [RW(s)],
+      rozw: `<p>Najpierw mnożymy sumy: \\(\\left(${tx(A)}\\right)\\left(${tx(B)}\\right)=${TW(`(${A})(${B})`)}\\).</p><p>Potem mnożymy wynik przez \\(${k}\\): <span class="wynik">\\(${TW(s)}\\)</span></p>` };
+  } },
+
+  /* ---------- 9. wzory skróconego mnożenia ---------- */
+  kwSumy: { nazwa: "kwadrat sumy", f() {
+    const a = wybierz([1, 1, 2, 3]), b = losuj(1, 7), dwie = Math.random() < .3;
+    const A = czl(a, "x", true), B = dwie ? czl(losuj(1, 3), "y", true) : String(b);
+    return zadWzoru(`(${A}+${B})^2`);
+  } },
+  kwRoznicy: { nazwa: "kwadrat różnicy", f() {
+    const a = wybierz([1, 1, 2, 3, 4]), b = losuj(1, 7), dwie = Math.random() < .3;
+    const A = czl(a, wybierz(["x", "a"]), true), B = dwie ? czl(losuj(2, 3), "b", true) : String(b);
+    return zadWzoru(`(${A}-${B})^2`);
+  } },
+  roznKw: { nazwa: "iloczyn sumy i różnicy", f() {
+    const a = wybierz([1, 2, 3, 5]), b = losuj(1, 9), v = wybierz(["x", "a", "y"]);
+    const A = czl(a, v, true);
+    return zadWzoru(Math.random() < .5 ? `(${A}-${b})(${A}+${b})` : `(${A}+${b})(${A}-${b})`);
+  } },
+  zwinKw: { nazwa: "zapisz jako kwadrat", f() {
+    const a = wybierz([1, 1, 2, 3]), b = losuj(1, 6), minus = Math.random() < .5, v = wybierz(["x", "a"]);
+    const s = `(${czl(a, v, true)}${minus ? "-" : "+"}${b})^2`, w = wyr(s), z = zwin(w);
+    return { tresc: `Zapisz w postaci kwadratu dwumianu: \\(${wTeX(w)}\\)`, pola: POLE_W("Postać iloczynowa:"), odp: [{ w, forma: "iloczyn" }],
+      rozw: `<p>Szukamy \\(a\\) i \\(b\\): pierwszy wyraz to \\(a^2\\), więc \\(a=${wTeX(z.a)}\\); ostatni to \\(b^2\\), więc \\(b=${wTeX(z.b)}\\).</p>
+        <p>Sprawdzamy środkowy wyraz: \\(2ab=2\\cdot ${wNaw(z.a)}\\cdot ${wNaw(z.b)}=${wTeX(W.skaluj(W.razy(z.a, z.b), [2, 1]))}\\) – zgadza się (${minus ? "ze znakiem minus, więc kwadrat różnicy" : "kwadrat sumy"}).</p>
+        <p><span class="wynik">\\(${z.wynik}\\)</span></p>` };
+  } },
+  rozkladKw: { nazwa: "rozłóż różnicę kwadratów", f() {
+    const a = wybierz([1, 2, 3, 4, 5]), b = losuj(1, 9), v = wybierz(["x", "a", "y"]);
+    const w = wyr(`(${czl(a, v, true)}-${b})(${czl(a, v, true)}+${b})`), z = zwin(w);
+    return { tresc: `Rozłóż na czynniki: \\(${wTeX(w)}\\)`, pola: POLE_W("Postać iloczynowa:"), odp: [{ w, forma: "iloczyn" }],
+      rozw: `<p>\\(${wTeX(w)}=${wNaw(z.a)}^2-${wNaw(z.b)}^2\\) – różnica kwadratów, \\(a^2-b^2=(a-b)(a+b)\\).</p><p><span class="wynik">\\(${z.wynik}\\)</span></p>` };
+  } },
+  rachunki: { nazwa: "liczenie w pamięci", f() {
+    const r = losuj(0, 2);
+    if (r < 2) {
+      const baza = wybierz([20, 30, 40, 50, 60, 70, 100]), d = losuj(1, 3) * (r ? -1 : 1), n = baza + d;
+      return { tresc: `Oblicz w pamięci, korzystając ze wzoru skróconego mnożenia: \\(${n}^2\\)`, pola: [{ e: "Wynik:", typ: "liczba" }], odp: [n * n],
+        rozw: `<p>\\(${n}^2=(${baza}${sg(d)})^2=${baza}^2${d < 0 ? "-" : "+"}2\\cdot${baza}\\cdot${Math.abs(d)}+${Math.abs(d)}^2=${baza * baza}${d < 0 ? "-" : "+"}${2 * baza * Math.abs(d)}+${d * d}=\\)<span class="wynik"> \\(${n * n}\\)</span></p>` };
+    }
+    const baza = wybierz([20, 30, 50, 100]), d = losuj(1, 4);
+    return { tresc: `Oblicz w pamięci: \\(${baza - d}\\cdot${baza + d}\\)`, pola: [{ e: "Wynik:", typ: "liczba" }], odp: [baza * baza - d * d],
+      rozw: `<p>\\((${baza}-${d})(${baza}+${d})=${baza}^2-${d}^2=${baza * baza}-${d * d}=\\)<span class="wynik"> \\(${baza * baza - d * d}\\)</span></p>` };
+  } },
+  wzoryPierw: { nazwa: "wzory z pierwiastkami", f() {
+    const p = wybierz([2, 3, 5, 6, 7]), q = losuj(1, 5), a = wybierz([1, 1, 2, 3]), typ = losuj(0, 2);
+    const A = (a === 1 ? "" : a) + "√" + p;
+    const s = typ === 0 ? `(${A}+${q})^2` : typ === 1 ? `(${A}-${q})^2` : `(${A}-${q})(${A}+${q})`;
+    return zadWzoru(s, "Wynik (np. 7-4√3):");
+  } },
+
+  /* ---------- 10. zastosowanie przekształceń ---------- */
+  uprosc: { nazwa: "uprość wyrażenie", f() {
+    const a = losuj(1, 6), b = losuj(1, 6), t = losuj(0, 4);
+    const S = [`(x+${a})^2-(x-${a})(x+${a})`, `(x-${a})^2-(x+${b})^2`, `(2x+${a})(2x-${a})-(2x-${a})^2`, `x(x+${a})-(x-${b})^2`, `(a+${b}b)^2-(a-${b}b)^2`][t];
+    const czesci = S.split(/-(?=\(|x\()/).map((c, i) => (i ? "-" : "") + c);
+    return { tresc: `Uprość wyrażenie: \\(${tx(S).replace(/\(/g, "\\left(").replace(/\)/g, "\\right)")}\\)`, pola: POLE_W(), odp: [RW(S)],
+      rozw: `<p>Każdą część rozwijamy osobno (wzory skróconego mnożenia), a część po minusie bierzemy w nawias:</p>
+        <p>${czesci.map((c) => { const neg = c[0] === "-", w = wyr(neg ? c.slice(1) : c); return `\\(${neg ? "-\\left(" + wTeX(w) + "\\right)" : wTeX(w)}\\)`; }).join(" ")}</p>
+        <p>Wynik: <span class="wynik">\\(${TW(S)}\\)</span></p>` };
+  } },
+  wartUprosc: { nazwa: "uprość i oblicz dla ułamka", f() {
+    const a = losuj(1, 5), t = losuj(0, 2);
+    const S = [`(x+${a})^2-(x+${a})(x-${a})`, `(2x-1)^2-4x(x-${a})`, `(x-${a})(x+${a})-(x-${a})^2`][t];
+    const q0 = losUlamek(), w = wyr(S), val = W.wartosc(w, { x: q0 });
+    return { tresc: `Oblicz wartość wyrażenia \\(${tx(S).replace(/\(/g, "\\left(").replace(/\)/g, "\\right)")}\\) dla \\(x=${qTeX(q0)}\\).`, pola: [{ e: "Wartość:", typ: "liczba" }], odp: [val[0] / val[1]],
+      rozw: `<p>Upraszczamy: \\(${wTeX(w)}\\) – kwadraty \\(x^2\\) się redukują.</p><p>Podstawiamy \\(x=${qTeX(q0)}\\): <span class="wynik">\\(${qTeX(val)}\\)</span>.</p>` };
+  } },
+  rownanieKw: { nazwa: "równanie po przekształceniu", f() {
+    let p, q, x0;
+    do { p = nz(-5, 5); q = nz(-6, 6); x0 = losuj(-6, 6); } while (2 * p - q === 0);
+    const r = (2 * p - q) * x0 + p * p;
+    const L = `(x${sg(p)})^2-x(x${sg(q)})`;
+    return { tresc: `Rozwiąż równanie: \\(${tx(L).replace(/\(/g, "\\left(").replace(/\)/g, "\\right)")}=${r}\\)`, pola: [{ e: "x =", typ: "liczba" }], odp: [x0],
+      rozw: `<p>Lewa strona po przekształceniu: \\(${TW(L)}\\) – kwadraty się redukują i zostaje równanie liniowe.</p>
+        <p>\\(${TW(L)}=${r}\\Rightarrow ${tl(2 * p - q)}x=${r - p * p}\\Rightarrow\\) <span class="wynik">\\(x=${x0}\\)</span></p>` };
+  } },
+  kolejne: { nazwa: "kolejne liczby", f() {
+    const t = losuj(0, 3);
+    const [opis, S] = [["Suma kwadratów dwóch kolejnych liczb całkowitych \\(n\\) i \\(n+1\\)", "n^2+(n+1)^2"],
+      ["Różnica kwadratów dwóch kolejnych liczb nieparzystych \\(2n+1\\) i \\(2n-1\\)", "(2n+1)^2-(2n-1)^2"],
+      ["Iloczyn liczb \\(n-1\\) i \\(n+1\\) powiększony o 1", "(n-1)(n+1)+1"],
+      ["Suma kwadratów trzech kolejnych liczb \\(n-1\\), \\(n\\), \\(n+1\\)", "(n-1)^2+n^2+(n+1)^2"]][t];
+    return { tresc: `${opis} – zapisz w najprostszej postaci.`, pola: POLE_W(), odp: [RW(S)],
+      rozw: `<p>\\(${tx(S)}=${TW(S)}\\)</p><p><span class="wynik">\\(${TW(S)}\\)</span>${["", " – wynik jest wielokrotnością 8, więc taka różnica zawsze dzieli się przez 8.", " – to kwadrat liczby \\(n\\).", " – przy dzieleniu przez 3 zawsze daje resztę 2."][t]}</p>` };
+  } },
+
+  /* ---------- 11. wartość bezwzględna ---------- */
+  wbOblicz: { nazwa: "oblicz z wartością bezwzględną", f() {
+    const a = losuj(-9, 9), b = losuj(-6, 6), c = losuj(-6, 9), k = wybierz([2, 3, -2]), d = nz(-8, 8);
+    const w = Math.abs(a) - Math.abs(b - c) + k * Math.abs(d);
+    return { tresc: `Oblicz: \\(|${a}|-|${b}-${tn(c)}|${k < 0 ? "-" : "+"}${Math.abs(k)}\\cdot|${d}|\\)`, pola: [{ e: "Wynik:", typ: "liczba" }], odp: [w],
+      rozw: `<p>\\(|${a}|=${Math.abs(a)}\\), \\(|${b}-${tn(c)}|=|${b - c}|=${Math.abs(b - c)}\\), \\(|${d}|=${Math.abs(d)}\\).</p>
+        <p>\\(${Math.abs(a)}-${Math.abs(b - c)}${k < 0 ? "-" : "+"}${Math.abs(k)}\\cdot${Math.abs(d)}=\\)<span class="wynik"> \\(${w}\\)</span></p>` };
+  } },
+  wbNiewym: { nazwa: "wartość bezwzględna z pierwiastkiem", f() {
+    let p, q; do { p = losuj(2, 40); q = losuj(1, 6); } while (czyKwadrat(p) || upr(p)[0] > 1);
+    const naPrzod = Math.random() < .5, wyrT = naPrzod ? `\\sqrt{${p}}-${q}` : `${q}-\\sqrt{${p}}`;
+    const dod = naPrzod ? Math.sqrt(p) > q : q > Math.sqrt(p);
+    const odp = dod ? (naPrzod ? `√${p}-${q}` : `${q}-√${p}`) : (naPrzod ? `${q}-√${p}` : `√${p}-${q}`);
+    return { tresc: `Zapisz bez symbolu wartości bezwzględnej: \\(\\left|${wyrT}\\right|\\)`, pola: POLE_W("Wynik (np. 3-√5):"), odp: [RW(odp)],
+      rozw: `<p>\\(\\sqrt{${p}}\\approx${txt(+Math.sqrt(p).toFixed(2)).replace(",", "{,}")}\\), więc \\(${wyrT}\\) jest liczbą ${dod ? "dodatnią – zostaje bez zmian" : "ujemną – zmieniamy znak na przeciwny"}.</p>
+        <p><span class="wynik">\\(${tx(odp)}\\)</span></p><p class="tip">Sprawdź znak: porównaj \\(${q}^2=${q * q}\\) z \\(${p}\\).</p>` };
+  } },
+  wbOdl: { nazwa: "odległość na osi liczbowej", f() {
+    const a = losuj(-9, 9), b = losujBez(-9, 9, a);
+    return { tresc: `Oblicz odległość między liczbami \\(${a}\\) i \\(${b}\\) na osi liczbowej.`, pola: [{ e: "Odległość:", typ: "liczba" }], odp: [Math.abs(a - b)],
+      rozw: `<p>Odległość to wartość bezwzględna różnicy: \\(|${a}-${tn(b)}|=|${a - b}|=\\)<span class="wynik"> \\(${Math.abs(a - b)}\\)</span>.</p>` + osZ([["", [{ a: Math.min(a, b), b: Math.max(a, b), lz: true, pz: true }], "c"]]) };
+  } },
+  wbRown: { nazwa: "równanie |x − a| = b", f() {
+    const a = nz(-6, 6), b = wybierz([1, 2, 3, 4, 5, 6, 7, 0, -2]);
+    const lewa = `|x${sg(-a)}|`, odp = b < 0 ? [] : b === 0 ? [a] : [a - b, a + b];
+    const zb = odp.map((v) => ({ a: v, b: v, lz: true, pz: true }));
+    return { tresc: `Rozwiąż równanie \\(${lewa}=${b}\\).`, pola: [{ e: "x =", typ: "liczby" }], odp: [odp],
+      rozw: b < 0 ? `<p>Wartość bezwzględna nie może być ujemna – <span class="wynik">równanie nie ma rozwiązań</span>.</p>`
+        : `<p>\\(${lewa}\\) to odległość liczby \\(x\\) od liczby \\(${a}\\). Szukamy liczb odległych od \\(${a}\\) o \\(${b}\\):</p>
+          <p>${b === 0 ? `tylko \\(x=${a}\\)` : `\\(x=${a}-${b}=${a - b}\\) lub \\(x=${a}+${b}=${a + b}\\)`}. <span class="wynik">${odp.map((v) => `\\(x=${v}\\)`).join(" lub ")}</span></p>` + osZ([["", zb, "c"]]) };
+  } },
+  wbNier: { nazwa: "★ nierówność z wartością bezwzględną", f() {
+    const a = losuj(-5, 5), b = losuj(1, 6), op = wybierz(["<", "<=", ">", ">="]);
+    const zam = op.includes("=");
+    const zb = op[0] === "<" ? [{ a: a - b, b: a + b, lz: zam, pz: zam }] : [{ a: -INF, b: a - b, lz: false, pz: zam }, { a: a + b, b: INF, lz: zam, pz: false }];
+    const lewa = a === 0 ? "|x|" : `|x${sg(-a)}|`;
+    return { tresc: `Rozwiąż nierówność \\(${lewa}${{ "<": "\\lt ", "<=": "\\le ", ">": "\\gt ", ">=": "\\ge " }[op]}${b}\\). Wynik zapisz przedziałem.`, pola: [{ e: "x ∈", typ: "zbior" }], odp: [zb],
+      rozw: `<p>\\(${lewa}\\) to odległość \\(x\\) od \\(${a}\\). Szukamy liczb, które są od \\(${a}\\) ${op[0] === "<" ? "bliżej" : "dalej"} niż \\(${b}\\)${zam ? " (albo dokładnie w odległości " + b + ")" : ""}.</p>
+        <p>Końce: \\(${a}-${b}=${a - b}\\) i \\(${a}+${b}=${a + b}\\). <span class="wynik">\\(x\\in\\) ${zbiorTekst(zb)}</span></p>` + osZ([["", zb, "c"]]) };
+  } },
+
+  /* ---------- 1–5. zbiory, przedziały, nierówności (do powtórki) ---------- */
+  zbSkon: { nazwa: "działania na zbiorach skończonych", f() {
+    const los = () => [...new Set(Array.from({ length: losuj(3, 5) }, () => losuj(1, 9)))].sort((a, b) => a - b);
+    const A = los(), B = los(), op = wybierz(["∪", "∩", "\\"]);
+    const wyn = op === "∪" ? [...new Set([...A, ...B])].sort((a, b) => a - b) : op === "∩" ? A.filter((x) => B.includes(x)) : A.filter((x) => !B.includes(x));
+    const opT = { "∪": "\\cup ", "∩": "\\cap ", "\\": "\\setminus " }[op];
+    return { tresc: `\\(A=\\{${A.join(",\\ ")}\\}\\), \\(B=\\{${B.join(",\\ ")}\\}\\). Wypisz elementy zbioru \\(A${opT}B\\).`, pola: [{ e: `A ${op} B:`, typ: "liczby" }], odp: [wyn],
+      rozw: `<p>${{ "∪": "Suma: elementy należące do A lub do B.", "∩": "Część wspólna: elementy należące jednocześnie do A i do B.", "\\": "Różnica: elementy A, których nie ma w B." }[op]}</p><p><span class="wynik">\\(A${opT}B=${wyn.length ? "\\{" + wyn.join(",\\ ") + "\\}" : "\\emptyset"}\\)</span></p>` };
+  } },
+  nierPrzedz: { nazwa: "nierówność → przedział", f() {
+    const a = losuj(-6, 5), b = a + losuj(1, 6), t = losuj(0, 3);
+    const [tex, zb] = [[`x\\ge${a}`, [{ a, b: INF, lz: true, pz: false }]], [`x\\lt${a}`, [{ a: -INF, b: a, lz: false, pz: false }]],
+      [`${a}\\lt x\\le${b}`, [{ a, b, lz: false, pz: true }]], [`${a}\\le x\\lt${b}`, [{ a, b, lz: true, pz: false }]]][t];
+    return { tresc: `Zapisz w postaci przedziału zbiór liczb spełniających nierówność \\(${tex}\\).`, pola: [{ e: "x ∈", typ: "zbior" }], odp: [zb],
+      rozw: `<p><span class="wynik">${zbiorTekst(zb)}</span> – znak \\(\\le\\) lub \\(\\ge\\) daje nawias domknięty, \\(\\lt\\) lub \\(\\gt\\) – otwarty; przy nieskończoności nawias jest zawsze otwarty.</p>` + osZ([["", zb, "c"]]) };
+  } },
+  dzialPrzedz: { nazwa: "działania na przedziałach", f() {
+    const prz = () => { const a = losuj(-6, 3), b = a + losuj(2, 6), t = losuj(0, 4); return t === 0 ? [{ a: -INF, b, lz: false, pz: Math.random() < .5 }] : t === 1 ? [{ a, b: INF, lz: Math.random() < .5, pz: false }] : [{ a, b, lz: Math.random() < .5, pz: Math.random() < .5 }]; };
+    const A = prz(), B = prz(), op = wybierz(["∪", "∩", "\\"]);
+    const wyn = op === "∪" ? suma(A, B) : op === "∩" ? iloczyn(A, B) : roznica(A, B);
+    const opT = { "∪": "\\cup ", "∩": "\\cap ", "\\": "\\setminus " }[op];
+    return { tresc: `\\(A=\\) ${zbiorTekst(A)}, \\(B=\\) ${zbiorTekst(B)}. Wyznacz \\(A${opT}B\\).`, pola: [{ e: `A ${op} B =`, typ: "zbior" }], odp: [wyn],
+      rozw: `<p>Rysujemy oba przedziały na jednej osi i odczytujemy wynik; każdy koniec sprawdzamy osobno.</p>` + osZ([["A", A, "a"], ["B", B, "b"], ["", wyn, "c"]]) + `<p><span class="wynik">\\(A${opT}B=\\) ${zbiorTekst(wyn)}</span></p>` };
+  } },
+  nierLin: { nazwa: "nierówność liniowa", f() {
+    let a, c, x0, b, d;
+    do { a = nz(-6, 6); c = nz(-4, 4); } while (a === c);
+    x0 = losuj(-5, 5); b = losuj(-9, 9); d = (a - c) * x0 + b;
+    const op = wybierz(["<", "<=", ">", ">="]), znak = { "<": "\\lt ", "<=": "\\le ", ">": "\\gt ", ">=": "\\ge " };
+    const k = a - c, odw = k < 0, opW = odw ? { "<": ">", "<=": ">=", ">": "<", ">=": "<=" }[op] : op, zam = op.includes("=");
+    const zb = opW[0] === "<" ? [{ a: -INF, b: x0, lz: false, pz: zam }] : [{ a: x0, b: INF, lz: zam, pz: false }];
+    return { tresc: `Rozwiąż nierówność \\(${zloz([[a, "x"], [b, ""]])}${znak[op]}${zloz([[c, "x"], [d, ""]])}\\). Wynik zapisz przedziałem.`, pola: [{ e: "x ∈", typ: "zbior" }], odp: [zb],
+      rozw: `<p>\\(${tl(k)}x${znak[op]}${d - b}\\ \\big|:${tn(k)}\\)${odw ? " – dzielimy przez liczbę ujemną, więc zmieniamy zwrot" : ""}.</p><p>\\(x${znak[opW]}${x0}\\), czyli <span class="wynik">\\(x\\in\\) ${zbiorTekst(zb)}</span></p>` + osZ([["", zb, "c"]]) };
+  } },
+};
+function zadIloczynu(s, [A, B]) {
+  const k = krokiSum(wyrazyW(parsujWyr(A)), wyrazyW(parsujWyr(B)));
+  return { tresc: `Wykonaj mnożenie: \\(\\left(${tx(A)}\\right)\\left(${tx(B)}\\right)\\)`, pola: POLE_W(), odp: [RW(s)],
+    rozw: `<p>Każdy wyraz pierwszej sumy mnożymy przez każdy wyraz drugiej:</p>${k.tabela}<p>\\(=${k.lista}\\)</p><p>Po redukcji wyrazów podobnych: <span class="wynik">\\(${k.wynik}\\)</span></p>` };
+}
+function zadWzoru(s, etyk = "Wynik:") {
+  const k = krokiWzoru(parsujWyr(s));
+  return { tresc: `Zastosuj wzór skróconego mnożenia: \\(${dTeX(parsujWyr(s))}\\)`, pola: POLE_W(etyk), odp: [RW(s)],
+    rozw: `<p>To ${k.nazwa}: \\(${k.wzor}\\), gdzie \\(${k.ab}\\).</p><p>\\(${k.podst}=${k.wynik}\\)</p><p>Wynik: <span class="wynik">\\(${TW(s)}\\)</span></p>` };
+}
+const genZ = (...k) => Object.fromEntries(k.map((x) => [x, G[x]]));
+
+/* ===== strona ===== */
+rysujOsie();
+checklista("1a-zastosowania-checklist");
+kalkulator($("#kalk"), {
+  pola: [{ etyk: "Lewa strona:", start: "(2n+1)^2-(2n-1)^2" }, { etyk: "Prawa strona:", start: "8n" }],
+  przyklady: [["(2n+1)^2-(2n-1)^2", "8n"], ["(x+2)^2-(x-1)(x+1)", "4x+5"], ["(a+b)^2", "a^2+b^2"], ["(2x-1)^2-4x(x-1)", "1"]],
+  opis([dL, dP], [L, P]) {
+    const R = W.dodaj(L, W.skaluj(P, [-1, 1]));
+    return `<p>Lewa strona po uproszczeniu: \\(${wTeX(L)}\\)</p><p>Prawa strona po uproszczeniu: \\(${wTeX(P)}\\)</p>` +
+      (R.size === 0 ? `<p class="werdykt">To tożsamość – obie strony są równe dla każdej wartości zmiennych.</p>`
+        : `<p class="werdykt">To nie jest tożsamość.</p><p>Lewa − prawa \\(=${wTeX(R)}\\) – to nie jest zero dla wszystkich wartości zmiennych.</p>`);
+  },
+});
+trening($("#trening-tr"), genZ("uprosc", "wartUprosc", "rownanieKw", "kolejne"));
+
+</script>
+</body>
+</html>

@@ -147,6 +147,40 @@
   .rys-pole text{font:italic 600 15px var(--mat);fill:var(--text);text-anchor:middle}
   .rys-pole text.bok{fill:var(--muted);font-style:italic}
   .dowod{border-left:3px solid var(--line);padding:.2rem 0 .2rem .9rem;margin:.5rem 0}
+  /* ---- pola odpowiedzi przy zadaniach ---- */
+  .zp{margin:.5rem 0 .3rem;padding:.55rem .7rem;border:1px dashed var(--line);border-radius:8px;background:var(--bg)}
+  .zp-pola{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.35rem .6rem;align-items:center}
+  .zp-e,.pk-e{font-weight:600;color:var(--muted)}
+  .zp-pola input,.pk-pola input:not([type=radio]){font:1.02rem var(--mat);padding:.35rem .55rem;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--text);width:100%;min-width:0}
+  .zp-pola input.zle,.pk-pola input.zle{border-color:var(--b)} .zp-pola input.dobre,.pk-pola input.dobre{border-color:var(--ok)}
+  .zp-pola .opcje,.pk-pola .opcje{display:flex;flex-wrap:wrap;gap:.3rem .9rem}
+  .zp-dol{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .8rem;margin-top:.45rem}
+  .zp-dol .btn{padding:.3rem .7rem;font-size:.95rem}
+  .zp-ocena,.pk-ocena{font-weight:600}
+  .zp-ocena.dobrze,.pk-ocena.dobrze{color:var(--ok)} .zp-ocena.zle,.pk-ocena.zle{color:var(--b)}
+  li.zp-ok > .zp{border-style:solid;border-color:var(--ok);background:var(--ok-soft)}
+  button.link{background:none;border:0;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit}
+  /* ---- zadania prowadzone ---- */
+  .pk-tresc{margin:.6rem 0;padding:.6rem .8rem;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:6px}
+  .pk-kroki{list-style:none;margin:.6rem 0;padding:0;counter-reset:none}
+  .pk-krok{margin:.5rem 0;padding:.6rem .8rem;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+  .pk-pyt{margin:0 0 .4rem}
+  .pk-zablok{display:none;color:var(--muted);font-style:italic}
+  .pk-krok.zablok{opacity:.55;background:var(--bg)}
+  .pk-krok.zablok .pk-pyt-t,.pk-krok.zablok .pk-pola,.pk-krok.zablok .pk-przyc,.pk-krok.zablok .pk-ocena{display:none}
+  .pk-krok.zablok .pk-zablok{display:inline}
+  .pk-pola{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.35rem .6rem;align-items:center;max-width:34rem}
+  .pk-przyc{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.45rem}
+  .pk-przyc .btn{padding:.3rem .7rem;font-size:.95rem}
+  .pk-ocena{margin:.4rem 0 0;min-height:1.2em}
+  .pk-hint{margin-top:.4rem;padding:.4rem .6rem;border-radius:6px;background:var(--warn-soft);color:var(--text)}
+  .pk-wyj{margin-top:.4rem;padding:.4rem .6rem;border-radius:6px;background:var(--c-soft)}
+  .pk-krok.zrobiony{border-color:var(--ok)} .pk-krok.zrobiony .pk-pyt strong::after{content:" ✓";color:var(--ok)}
+  .pk-krok.pokazany{border-color:var(--warn)} .pk-krok.pokazany .pk-pyt strong::after{content:" (pokazany)";color:var(--warn);font-weight:400}
+  .pk-koniec{margin:.6rem 0;padding:.6rem .8rem;border:2px solid var(--ok);border-radius:8px;background:var(--ok-soft)}
+  @media (max-width:520px){ .zp-pola,.pk-pola{grid-template-columns:1fr} }
+  .pk-koniec .werdykt{font-weight:700;margin:.2rem 0}
+  .zp-pola .opcje label,.pk-pola .opcje label{font-weight:400;font-style:normal}
 </style>
 </head>
 <body>
@@ -167,6 +201,7 @@
   <a href="#minus">Minus przed nawiasem</a>
   <a href="#wartosc">Wartość wyrażenia</a>
   <a href="#narzedzie">Kalkulator</a>
+  <a href="#krok-po-kroku">Krok po kroku</a>
   <a href="#zadania">Zadania</a>
   <a href="#trening">Trening</a>
 </div></nav>
@@ -249,31 +284,37 @@
   <div id="kalk"></div>
 </section>
 
+<section id="krok-po-kroku" data-nav="Krok po kroku">
+  <h2>7. Zadania krok po kroku</h2>
+  <p class="tip">Rozwiązuj po jednym kroku: wpisz wynik i kliknij <strong>Sprawdź</strong> – następny krok odblokuje się po poprawnej odpowiedzi. Gdy utkniesz, weź <strong>Podpowiedź</strong> albo kliknij <strong>Pokaż ten krok</strong>. Zadania są losowane – ćwicz, aż przejdziesz wszystkie kroki samodzielnie.</p>
+  <div id="prowadzone-pk"></div>
+</section>
+
 <section id="zadania" data-nav="Zadania">
-  <h2>7. Zadania z rozwiązaniami</h2>
+  <h2>8. Zadania z rozwiązaniami</h2>
   <p class="tip">Rozwiąż w zeszycie, dopiero potem rozwiń rozwiązanie.</p>
   <ol class="tasks">
-    <li>Zredukuj wyrazy podobne: a) \(4a-7+2a+3\); b) \(x^2-3x+5x^2+x-2x^2\); c) \(2ab-3a+5ab+a\).
+    <li data-pola='[{&quot;e&quot;:&quot;a)&quot;,&quot;typ&quot;:&quot;wyr&quot;,&quot;odp&quot;:&quot;6a-4&quot;},{&quot;e&quot;:&quot;b)&quot;,&quot;typ&quot;:&quot;wyr&quot;,&quot;odp&quot;:&quot;4x^2-2x&quot;},{&quot;e&quot;:&quot;c)&quot;,&quot;typ&quot;:&quot;wyr&quot;,&quot;odp&quot;:&quot;7ab-2a&quot;}]'>Zredukuj wyrazy podobne: a) \(4a-7+2a+3\); b) \(x^2-3x+5x^2+x-2x^2\); c) \(2ab-3a+5ab+a\).
       <details><summary>Rozwiązanie</summary>
         <p>a) <span class="wynik">\(6a-4\)</span>; b) <span class="wynik">\(4x^2-2x\)</span>; c) <span class="wynik">\(7ab-2a\)</span>.</p>
       </details></li>
-    <li>Oblicz iloczyn: a) \(3x\cdot(-4x^2)\); b) \((-2a^2b)\cdot(-3ab^3)\); c) \(\frac12x\cdot6x^2\).
+    <li data-pola='[{&quot;e&quot;:&quot;a)&quot;,&quot;typ&quot;:&quot;wyr&quot;,&quot;odp&quot;:&quot;-12x^3&quot;},{&quot;e&quot;:&quot;b)&quot;,&quot;typ&quot;:&quot;wyr&quot;,&quot;odp&quot;:&quot;6a^3b^4&quot;},{&quot;e&quot;:&quot;c)&quot;,&quot;typ&quot;:&quot;wyr&quot;,&quot;odp&quot;:&quot;3x^3&quot;}]'>Oblicz iloczyn: a) \(3x\cdot(-4x^2)\); b) \((-2a^2b)\cdot(-3ab^3)\); c) \(\frac12x\cdot6x^2\).
       <details><summary>Rozwiązanie</summary>
         <p>a) <span class="wynik">\(-12x^3\)</span>; b) <span class="wynik">\(6a^3b^4\)</span>; c) <span class="wynik">\(3x^3\)</span>.</p>
       </details></li>
-    <li>Wykonaj mnożenie: a) \(3(2x-5)\); b) \(-4x(x^2-2x+3)\); c) \(2ab(a-3b)\).
+    <li data-pola='[{&quot;e&quot;:&quot;a)&quot;,&quot;typ&quot;:&quot;wyr&quot;,&quot;odp&quot;:&quot;6x-15&quot;},{&quot;e&quot;:&quot;b)&quot;,&quot;typ&quot;:&quot;wyr&quot;,&quot;odp&quot;:&quot;-4x^3+8x^2-12x&quot;},{&quot;e&quot;:&quot;c)&quot;,&quot;typ&quot;:&quot;wyr&quot;,&quot;odp&quot;:&quot;2a^2b-6ab^2&quot;}]'>Wykonaj mnożenie: a) \(3(2x-5)\); b) \(-4x(x^2-2x+3)\); c) \(2ab(a-3b)\).
       <details><summary>Rozwiązanie</summary>
         <p>a) <span class="wynik">\(6x-15\)</span>; b) <span class="wynik">\(-4x^3+8x^2-12x\)</span>; c) <span class="wynik">\(2a^2b-6ab^2\)</span>.</p>
       </details></li>
-    <li>Uprość wyrażenie \(5x(x-1)-3(x^2+2x)\).
+    <li data-pola='[{&quot;e&quot;:&quot;Wynik:&quot;,&quot;typ&quot;:&quot;wyr&quot;,&quot;odp&quot;:&quot;2x^2-11x&quot;}]'>Uprość wyrażenie \(5x(x-1)-3(x^2+2x)\).
       <details><summary>Rozwiązanie</summary>
         <p>\(5x^2-5x-3x^2-6x=\)<span class="wynik"> \(2x^2-11x\)</span>.</p>
       </details></li>
-    <li>Uprość wyrażenie \(4a(a+2)-2(2a^2-a)\) i oblicz jego wartość dla \(a=-\frac12\).
+    <li data-pola='[{&quot;e&quot;:&quot;Po uproszczeniu:&quot;,&quot;typ&quot;:&quot;wyr&quot;,&quot;odp&quot;:&quot;10a&quot;},{&quot;e&quot;:&quot;Wartość:&quot;,&quot;typ&quot;:&quot;liczba&quot;,&quot;odp&quot;:&quot;-5&quot;}]'>Uprość wyrażenie \(4a(a+2)-2(2a^2-a)\) i oblicz jego wartość dla \(a=-\frac12\).
       <details><summary>Rozwiązanie</summary>
         <p>\(4a^2+8a-4a^2+2a=10a\). Dla \(a=-\frac12\): \(10\cdot\left(-\frac12\right)=\)<span class="wynik"> \(-5\)</span>.</p>
       </details></li>
-    <li>Prostokąt ma boki długości \(3x\) i \(2x+5\). Zapisz w najprostszej postaci jego pole i obwód.
+    <li data-pola='[{&quot;e&quot;:&quot;Pole:&quot;,&quot;typ&quot;:&quot;wyr&quot;,&quot;odp&quot;:&quot;6x^2+15x&quot;},{&quot;e&quot;:&quot;Obwód:&quot;,&quot;typ&quot;:&quot;wyr&quot;,&quot;odp&quot;:&quot;10x+10&quot;}]'>Prostokąt ma boki długości \(3x\) i \(2x+5\). Zapisz w najprostszej postaci jego pole i obwód.
       <details><summary>Rozwiązanie</summary>
         <p>Pole: \(3x(2x+5)=\)<span class="wynik"> \(6x^2+15x\)</span>. Obwód: \(2\cdot3x+2(2x+5)=6x+4x+10=\)<span class="wynik"> \(10x+10\)</span>.</p>
       </details></li>
@@ -281,7 +322,7 @@
 </section>
 
 <section id="trening" data-nav="Trening" class="trening">
-  <h2>8. Trening ze sprawdzaniem odpowiedzi</h2>
+  <h2>9. Trening ze sprawdzaniem odpowiedzi</h2>
   <p class="tip">Wynik wpisz w najprostszej postaci, np. <code>-6x^3+15x^2-3x</code>. Potęga: <kbd>^</kbd> albo <kbd>²</kbd>, mnożenie można pominąć (<code>3x</code>) albo zapisać <kbd>*</kbd>. Kolejność wyrazów nie ma znaczenia, ale wyrazy podobne trzeba zredukować.</p>
   <div id="trening-tr"></div>
 </section>
@@ -1490,6 +1531,484 @@ function zadWzoru(s, etyk = "Wynik:") {
 }
 const genZ = (...k) => Object.fromEntries(k.map((x) => [x, G[x]]));
 
+/* ===== Zadania prowadzone krok po kroku — Matematyka 1A, dział 2 ===== */
+// Każdy generator zwraca {tresc, kroki:[{pyt, pola, odp, podp, wyj}], koniec}. Wyniki liczy silnik (alg.js, przedzialy.js).
+const krok = (pyt, pola, odp, podp, wyj) => ({ pyt, pola: Array.isArray(pola) ? pola : [pola], odp: Array.isArray(pola) ? odp : [odp], podp, wyj });
+const KL = (e = "") => ({ e, typ: "liczba" });
+const KLS = (e = "") => ({ e, typ: "liczby", ph: "np. -2; 6 (oddziel średnikiem), albo: brak" });
+const KW = (e = "") => ({ e, typ: "wyr" });
+const KZ = (e = "x ∈") => ({ e, typ: "zbior" });
+const KWB = (e, opcje) => ({ e, typ: "wybor", opcje });
+const ZNK = { "<": "\\lt ", "<=": "\\le ", ">": "\\gt ", ">=": "\\ge " };
+const ZN_ODW = { "<": ">", "<=": ">=", ">": "<", ">=": "<=" };
+const ZN_OPCJE = ["<", "≤", ">", "≥"], ZN_IDX = { "<": 0, "<=": 1, ">": 2, ">=": 3 };
+const zbT = (z) => zbiorTekst(z);                         // ⟨−3; 5) do wyświetlania
+const RWi = (s, g) => ({ w: wyr(s), forma: "iloczyn", ...(g ? { czynnik: wyr(g), dowolnyZnak: true } : {}) });
+const qOdp = (q) => q[0] / q[1];
+function przedzialZ(op, x0) {                             // x op x0 → zbiór
+  const zam = op.includes("=");
+  return op[0] === "<" ? [{ a: -INF, b: x0, lz: false, pz: zam }] : [{ a: x0, b: INF, lz: zam, pz: false }];
+}
+const liczTeX = (x) => { const u = ulamek(x); return u && u[1] !== 1 ? (u[0] < 0 ? "-" : "") + `\\frac{${Math.abs(u[0])}}{${u[1]}}` : String(x); };
+const nawT = (s) => tx(s).replace(/\(/g, "\\left(").replace(/\)/g, "\\right)");
+
+const PK = {
+  /* ---------- 1–4. zbiory i przedziały ---------- */
+  pkZbSkon: { nazwa: "działania na zbiorach skończonych", f() {
+    const pula = [...Array(10).keys()].map((i) => i + 1);
+    const los = (n) => { const t = [...pula]; for (let i = t.length - 1; i > 0; i--) { const j = losuj(0, i); [t[i], t[j]] = [t[j], t[i]]; } return t.slice(0, n).sort((a, b) => a - b); };
+    let A, B; do { A = los(losuj(3, 5)); B = los(losuj(3, 5)); } while (!A.some((x) => B.includes(x)) || A.every((x) => B.includes(x)));
+    const S = [...new Set(A.concat(B))].sort((a, b) => a - b), I = A.filter((x) => B.includes(x)), R = A.filter((x) => !B.includes(x)), R2 = B.filter((x) => !A.includes(x));
+    const T = (z) => (z.length ? `\\{${z.join(",\\ ")}\\}` : "\\emptyset");
+    return { tresc: `\\(A=${T(A)}\\), \\(B=${T(B)}\\). Wyznacz kolejno zbiory.`,
+      kroki: [
+        krok("Wypisz elementy zbioru \\(A\\cap B\\) (część wspólna).", KLS("A ∩ B:"), I, "Elementy, które są <strong>w obu</strong> zbiorach naraz.", `\\(A\\cap B=${T(I)}\\)`),
+        krok("Wypisz elementy zbioru \\(A\\cup B\\) (suma).", KLS("A ∪ B:"), S, "Wszystkie elementy z \\(A\\) i z \\(B\\) – każdy tylko raz.", `\\(A\\cup B=${T(S)}\\)`),
+        krok("Wypisz elementy zbioru \\(A\\setminus B\\) (różnica).", KLS("A \\ B:"), R, "Elementy \\(A\\), których <strong>nie ma</strong> w \\(B\\).", `\\(A\\setminus B=${T(R)}\\)`),
+        krok("Wypisz elementy zbioru \\(B\\setminus A\\).", KLS("B \\ A:"), R2, "Teraz odwrotnie: elementy \\(B\\), których nie ma w \\(A\\).", `\\(B\\setminus A=${T(R2)}\\) – różnica zależy od kolejności!`),
+      ],
+      koniec: `Sprawdzenie: liczba elementów \\(A\\cup B\\) to \\(${A.length}+${B.length}-${I.length}=${S.length}\\) – część wspólną liczymy tylko raz.` };
+  } },
+  pkNierPrz: { nazwa: "od nierówności do przedziału i działań", f() {
+    const a = losuj(-5, 2), b = a + losuj(3, 6), c = losuj(a + 1, b - 1);
+    const [tA, A] = wybierz([[`${a}\\lt x\\le ${b}`, [{ a, b, lz: false, pz: true }]], [`${a}\\le x\\lt ${b}`, [{ a, b, lz: true, pz: false }]], [`${a}\\le x\\le ${b}`, [{ a, b, lz: true, pz: true }]]]);
+    const [tB, B] = wybierz([[`x\\ge ${c}`, [{ a: c, b: INF, lz: true, pz: false }]], [`x\\gt ${c}`, [{ a: c, b: INF, lz: false, pz: false }]], [`x\\lt ${c}`, [{ a: -INF, b: c, lz: false, pz: false }]], [`x\\le ${c}`, [{ a: -INF, b: c, lz: false, pz: true }]]]);
+    const I = iloczyn(A, B), S = suma(A, B), R = roznica(A, B);
+    return { tresc: `Zbiór \\(A\\) to liczby spełniające \\(${tA}\\), a zbiór \\(B\\) – liczby spełniające \\(${tB}\\).`,
+      kroki: [
+        krok("Zapisz zbiór \\(A\\) jako przedział.", KZ("A ="), A, "\\(\\le\\) – nawias domknięty \\(\\langle\\ \\rangle\\) (wpisz &lt; albo &gt;), \\(\\lt\\) – otwarty \\((\\ )\\).", `\\(A=\\) ${zbT(A)}`),
+        krok("Zapisz zbiór \\(B\\) jako przedział.", KZ("B ="), B, "Przy nieskończoności nawias jest zawsze otwarty: wpisz inf albo -inf.", `\\(B=\\) ${zbT(B)}` + osZ([["A", A, "a"], ["B", B, "b"]])),
+        krok("Wyznacz \\(A\\cap B\\).", KZ("A ∩ B ="), I, "Narysuj oba przedziały na jednej osi – część wspólna to miejsce, gdzie są obie kreski.", `\\(A\\cap B=\\) ${zbT(I)}` + osZ([["", I, "c"]])),
+        krok("Wyznacz \\(A\\cup B\\).", KZ("A ∪ B ="), S, "Wszystko, co jest pod którąkolwiek kreską.", `\\(A\\cup B=\\) ${zbT(S)}`),
+        krok("Wyznacz \\(A\\setminus B\\).", KZ("A \\ B ="), R, "Z \\(A\\) usuń to, co należy do \\(B\\). Koniec, który należał do \\(B\\), w wyniku jest otwarty.", `\\(A\\setminus B=\\) ${zbT(R)}` + osZ([["", R, "c"]])),
+      ],
+      koniec: `\\(A\\cap B=\\) ${zbT(I)}, \\(A\\cup B=\\) ${zbT(S)}, \\(A\\setminus B=\\) ${zbT(R)}` };
+  } },
+  pkCalk: { nazwa: "liczby całkowite w przedziale", f() {
+    const a = losuj(-6, 1) + wybierz([0, 0.5, 0, 1 / 3]), b = losuj(3, 7) + wybierz([0, 0.5, 0, 2 / 3]), lz = Math.random() < .5, pz = Math.random() < .5;
+    const Z = [{ a, b, lz, pz }];
+    const calk = []; for (let x = Math.ceil(a); x <= Math.floor(b); x++) if (nalezy(Z, x)) calk.push(x);
+    return { tresc: `Ile liczb całkowitych należy do przedziału ${zbT(Z)}?`,
+      kroki: [
+        krok("Podaj najmniejszą liczbę całkowitą należącą do przedziału.", KL("najmniejsza:"), calk[0], `Lewy koniec to ${liczbaTekst(a)}, nawias ${lz ? "domknięty – koniec należy" : "otwarty – koniec nie należy"} do przedziału.`, `${calk[0]}`),
+        krok("Podaj największą liczbę całkowitą należącą do przedziału.", KL("największa:"), calk[calk.length - 1], `Prawy koniec to ${liczbaTekst(b)}, nawias ${pz ? "domknięty" : "otwarty"}.`, `${calk[calk.length - 1]}`),
+        krok("Ile jest liczb całkowitych w przedziale?", KL("ile:"), calk.length, "Od \\(m\\) do \\(n\\) jest \\(n-m+1\\) liczb całkowitych.", `\\(${calk[calk.length - 1]}-${tn(calk[0])}+1=${calk.length}\\)`),
+      ],
+      koniec: `Liczby całkowite: \\(${calk.join(",\\ ")}\\) – razem ${calk.length}.` };
+  } },
+  pkDopel: { nazwa: "dopełnienie i różnica przedziałów", f() {
+    const a = losuj(-5, 0), b = a + losuj(3, 6), c = losuj(a + 1, b - 1), d = c + losuj(2, 5);
+    const A = [{ a, b, lz: Math.random() < .5, pz: Math.random() < .5 }], B = [{ a: c, b: d, lz: Math.random() < .5, pz: Math.random() < .5 }];
+    const D = dopelnienie(A), R = roznica(A, B), R2 = roznica(B, A);
+    return { tresc: `\\(A=\\) ${zbT(A)}, \\(B=\\) ${zbT(B)}.`,
+      kroki: [
+        krok("Wyznacz dopełnienie \\(A'\\) (wszystkie liczby rzeczywiste spoza \\(A\\)).", KZ("A' ="), D, "To suma dwóch przedziałów: od \\(-\\infty\\) do lewego końca i od prawego końca do \\(+\\infty\\). Nawiasy przy końcach się <strong>odwracają</strong>; sumę wpisz literą u.", `\\(A'=\\) ${zbT(D)}` + osZ([["A", A, "a"], ["A'", D, "c"]])),
+        krok("Wyznacz \\(A\\setminus B\\).", KZ("A \\ B ="), R, "Narysuj \\(A\\) i \\(B\\) na jednej osi i usuń z \\(A\\) część wspólną.", `\\(A\\setminus B=\\) ${zbT(R)}` + osZ([["A", A, "a"], ["B", B, "b"], ["", R, "c"]])),
+        krok("Wyznacz \\(B\\setminus A\\).", KZ("B \\ A ="), R2, "Teraz z \\(B\\) usuń to, co należy do \\(A\\).", `\\(B\\setminus A=\\) ${zbT(R2)}`),
+      ],
+      koniec: `\\(A'=\\) ${zbT(D)}, \\(A\\setminus B=\\) ${zbT(R)}, \\(B\\setminus A=\\) ${zbT(R2)}` };
+  } },
+  /* ---------- 5. nierówności ---------- */
+  pkNierNaw: { nazwa: "nierówność z nawiasami", f() {
+    let a, b, c, d, k, x0, op;
+    do { a = nz(-5, 5); c = nz(-4, 4); b = nz(-5, 5); d = nz(-5, 5); k = a - c; x0 = losuj(-5, 5); } while (k === 0 || Math.abs(a) === 1 && Math.abs(c) === 1);
+    op = wybierz(["<", "<=", ">", ">="]);
+    const L = `${pz(a, true)}(x${sg(-b)})${pz(-c, false)}(x${sg(d)})`, wL = wyr(L), m0 = W.wartosc(wL, { x: [0, 1] })[0];
+    const e = k * x0 + m0, opW = k < 0 ? ZN_ODW[op] : op, Z = przedzialZ(opW, x0);
+    return { tresc: `Rozwiąż nierówność \\(${nawT(L)}${ZNK[op]}${e}\\). Wynik zapisz przedziałem.`,
+      kroki: [
+        krok("Wymnóż nawiasy po lewej stronie i zredukuj wyrazy podobne. Zapisz lewą stronę.", KW("Lewa strona:"), RW(L), "Liczbę przed nawiasem mnożysz przez każdy wyraz w nawiasie; minus przed liczbą zmienia znaki w nawiasie.",
+          `\\(${wTeX(wyr(`${pz(a, true)}(x${sg(-b)})`))}${(() => { const t = wTeX(wyr(`${pz(-c, false)}(x${sg(d)})`)); return t[0] === "-" ? t : "+" + t; })()}${ZNK[op]}${e}\\Rightarrow ${wTeX(wL)}${ZNK[op]}${e}\\)`),
+        krok(`Przenieś liczbę na prawą stronę. Otrzymasz \\(${k}x${ZNK[op]}\\ldots\\) Ile wynosi prawa strona?`, KL("prawa strona ="), e - m0, "Liczba zmienia znak przy przenoszeniu na drugą stronę.", `\\(${k}x${ZNK[op]}${e}${m0 < 0 ? "+" + -m0 : "-" + m0}=${e - m0}\\)`),
+        krok(`Podziel obie strony przez \\(${k}\\). Jaki znak nierówności otrzymasz i jaka liczba stoi po prawej?`, [KWB("x", ZN_OPCJE), KL("liczba:")], [ZN_IDX[opW], x0],
+          k < 0 ? "Dzielisz przez liczbę <strong>ujemną</strong> – zwrot nierówności się zmienia." : "Dzielisz przez liczbę dodatnią – zwrot zostaje.", `\\(x${ZNK[opW]}${x0}\\)${k < 0 ? " – zwrot zmieniony, bo dzieliliśmy przez liczbę ujemną" : ""}`),
+        krok("Zapisz zbiór rozwiązań jako przedział.", KZ(), Z, "Znak z kreską (\\(\\le,\\ \\ge\\)) – nawias domknięty; przy nieskończoności – otwarty.", `\\(x\\in\\) ${zbT(Z)}` + osZ([["", Z, "c"]])),
+      ],
+      koniec: `\\(x\\in\\) ${zbT(Z)}` };
+  } },
+  pkNierUlam: { nazwa: "nierówność z ułamkami", f() {
+    let p, q, a, b, c, op, N, k, rhs;
+    for (;;) {
+      [p, q] = wybierz([[2, 3], [3, 2], [2, 4], [4, 2], [3, 6], [6, 3], [2, 6], [4, 3], [3, 4]]);
+      a = nz(-5, 5); b = nz(-5, 5); c = losuj(-2, 3); op = wybierz(["<", "<=", ">", ">="]);
+      N = p * q / nwd(p, q); k = N / p - N / q; rhs = c * N - (N / p) * a + (N / q) * b;
+      if (k !== 0 && rhs % k === 0 && Math.abs(rhs / k) <= 12) break;
+    }
+    const x0 = rhs / k, opW = k < 0 ? ZN_ODW[op] : op, Z = przedzialZ(opW, x0);
+    const L = `${N / p}(x${sg(a)})-${N / q}(x${sg(b)})`;
+    return { tresc: `Rozwiąż nierówność \\(\\dfrac{x${sg(a)}}{${p}}-\\dfrac{x${sg(b)}}{${q}}${ZNK[op]}${c}\\).`,
+      kroki: [
+        krok("Podaj najmniejszą wspólną wielokrotność mianowników – przez nią pomnożysz obie strony.", KL("NWW ="), N, `Szukasz najmniejszej liczby podzielnej przez ${p} i przez ${q}.`, `NWW(${p}, ${q}) = ${N}`),
+        krok(`Pomnóż obie strony przez ${N}. Licznik mnożysz przez \\(${N}:${p}=${N / p}\\) i przez \\(${N}:${q}=${N / q}\\). Wymnóż nawiasy i zredukuj – zapisz lewą stronę.`, KW("Lewa strona:"), RW(L),
+          `Lewa strona to \\(${nawT(L)}\\). Pamiętaj o minusie przed drugim ułamkiem – zmienia znaki obu wyrazów licznika.`, `\\(${nawT(L)}=${TW(L)}\\)`),
+        krok("Ile wynosi prawa strona po pomnożeniu?", KL("prawa strona ="), c * N, `\\(${c}\\cdot ${N}\\)`, `\\(${c}\\cdot${N}=${c * N}\\)`),
+        krok("Dokończ rozwiązanie i zapisz zbiór rozwiązań.", KZ(), Z, `\\(${TW(L)}${ZNK[op]}${c * N}\\) – przenieś liczbę na prawą stronę i podziel przez współczynnik przy \\(x\\)${k < 0 ? " (ujemny – zmień zwrot!)" : ""}.`,
+          `\\(${k}x${ZNK[op]}${rhs}\\Rightarrow x${ZNK[opW]}${x0}\\), czyli \\(x\\in\\) ${zbT(Z)}`),
+      ],
+      koniec: `\\(x\\in\\) ${zbT(Z)}` };
+  } },
+  pkNierCalk: { nazwa: "nierówność – najmniejsza liczba całkowita", f() {
+    let a, b, c, d, k, x0;
+    do { a = nz(-6, 6); c = nz(-4, 4); k = a - c; b = losuj(-9, 9); } while (k === 0 || Math.abs(k) === 1);
+    const naj = Math.random() < .5;                // pytamy o najmniejszą (x > …) albo największą (x < …)
+    for (;;) { d = losuj(-15, 15); x0 = (d - b) / k; if (!Number.isInteger(x0) && Math.abs(x0) < 8) break; }
+    const op = (k > 0) === naj ? ">" : "<", opW = k < 0 ? ZN_ODW[op] : op, Z = przedzialZ(opW, x0);
+    const odp = opW[0] === ">" ? Math.floor(x0) + 1 : Math.ceil(x0) - 1;
+    return { tresc: `Podaj ${opW[0] === ">" ? "najmniejszą" : "największą"} liczbę całkowitą spełniającą nierówność \\(${zloz([[a, "x"], [b, ""]])}${ZNK[op]}${zloz([[c, "x"], [d - 0, ""]])}\\).`,
+      kroki: [
+        krok("Rozwiąż nierówność i zapisz zbiór rozwiązań.", KZ(), Z, `Wyrazy z \\(x\\) na lewą stronę, liczby na prawą: \\(${k}x${ZNK[op]}${d - b}\\).${k < 0 ? " Dzielisz przez liczbę ujemną – zmień zwrot." : ""} Wynik może być ułamkiem, np. 7/3.`,
+          `\\(${k}x${ZNK[op]}${d - b}\\Rightarrow x${ZNK[opW]}${liczTeX(x0)}\\), czyli \\(x\\in\\) ${zbT(Z)}`),
+        krok(`Podaj ${opW[0] === ">" ? "najmniejszą" : "największą"} liczbę całkowitą z tego przedziału.`, KL("liczba:"), odp, `\\(${liczTeX(x0)}\\approx ${String(Math.round(x0 * 100) / 100).replace(".", ",")}\\) – narysuj to na osi i znajdź najbliższą liczbę całkowitą w przedziale.`, `${odp}`),
+      ],
+      koniec: `Szukana liczba to \\(${odp}\\).` };
+  } },
+  /* ---------- 6. mnożenie przez jednomian ---------- */
+  pkUpr: { nazwa: "uprość i oblicz wartość", f() {
+    let a, b, c, d;
+    do { a = nz(-4, 4); b = nz(-6, 6); c = nz(-4, 4); d = nz(-5, 5); } while (a === c);
+    const e1 = `${pz(a, true)}x(x${sg(b)})`, e2 = `${pz(-c, false)}(x^2${sg(d)}x)`, s = e1 + e2;
+    const x0 = wybierz([[nz(-3, 3), 1], [1, 2], [-1, 2]]), val = W.wartosc(wyr(s), { x: x0 });
+    return { tresc: `Uprość wyrażenie \\(${nawT(s)}\\) i oblicz jego wartość dla \\(x=${qTeX(x0)}\\).`,
+      kroki: [
+        krok(`Wymnóż \\(${nawT(e1)}\\).`, KW("Pierwszy iloczyn:"), RW(e1), "Jednomian przed nawiasem mnożysz przez każdy wyraz w nawiasie; \\(x\\cdot x=x^2\\).", `\\(${nawT(e1)}=${TW(e1)}\\)`),
+        krok(`Wymnóż \\(${nawT(e2)}\\) – razem ze znakiem przed nawiasem.`, KW("Drugi iloczyn:"), RW(e2), "Minus przed nawiasem zmienia znaki wszystkich wyrazów w nawiasie.", `\\(${nawT(e2)}=${TW(e2)}\\)`),
+        krok("Dodaj oba wyniki i zredukuj wyrazy podobne.", KW("Po uproszczeniu:"), RW(s), "Wyrazy podobne: te same litery w tych samych potęgach.", `\\(${TW(e1)}${(() => { const t = TW(e2); return t[0] === "-" ? t : "+" + t; })()}=${TW(s)}\\)`),
+        krok(`Oblicz wartość dla \\(x=${qTeX(x0)}\\).`, KL("Wartość:"), qOdp(val), "Podstaw do wyrażenia <strong>uproszczonego</strong> – liczby ujemne w nawiasach.", `\\(${qTeX(val)}\\)`),
+      ],
+      koniec: `\\(${TW(s)}\\); wartość: \\(${qTeX(val)}\\)` };
+  } },
+  pkJednSuma: { nazwa: "jednomian razy suma", f() {
+    const v = wybierz(["x", "a"]), k = nz(-5, 5), p = losuj(1, 2), wsp = [nz(-4, 4), nz(-6, 6), nz(-7, 7)];
+    const M = czl(k, lit(v, p), true), wyrazy_ = [czl(wsp[0], lit(v, 2), true), czl(wsp[1], v, true), String(wsp[2])], S = zloz(wsp.map((c, i) => [c, lit(v, 2 - i)])), s = `${M}(${S})`;
+    const il = (t) => `(${M})*(${t})`;
+    return { tresc: `Wykonaj mnożenie: \\(${tx(M)}\\left(${tx(S)}\\right)\\).`,
+      kroki: [
+        ...wyrazy_.map((t, i) => krok(`Pomnóż \\(${tx(M)}\\) przez ${["pierwszy", "drugi", "trzeci"][i]} wyraz sumy: \\(${tx(t)}\\).`, KW(`${i + 1}. iloczyn:`), RW(il(t)),
+          i === 0 ? `Współczynniki mnożysz, a wykładniki tej samej litery dodajesz: \\(${v}^{${p}}\\cdot ${v}^2=${v}^{${p + 2}}\\).` : "Uważaj na znak – iloczyn liczb o różnych znakach jest ujemny.", `\\(${TW(il(t))}\\)`)),
+        krok("Zapisz wynik (wszystkie trzy iloczyny ze znakami).", KW("Wynik:"), RW(s), "Zapisz po kolei trzy iloczyny z poprzednich kroków; plus przed dodatnim wyrazem, minus przed ujemnym.", `\\(${TW(s)}\\)`),
+      ],
+      koniec: `\\(${tx(M)}\\left(${tx(S)}\\right)=${TW(s)}\\)` };
+  } },
+  /* ---------- 7. wyłączanie przed nawias ---------- */
+  pkWylacz: { nazwa: "wyłącz największy wspólny czynnik", f() {
+    const v = wybierz(["x", "a", "y"]);
+    let k, p, wsp; do { k = losuj(2, 6); p = losuj(1, 2); wsp = [losuj(1, 5), nz(-6, 6), nz(-7, 7)]; } while (nwd(nwd(wsp[0], wsp[1]), wsp[2]) !== 1);
+    const e = wybierz([[2, 1, 0], [3, 1, 0], [2, 1, 0]]), g = czl(k, lit(v, p), true), inner = zloz(wsp.map((c, i) => [c, lit(v, e[i])]));
+    const w = wyr(`${g}(${inner})`), s = wTeX(w);
+    return { tresc: `Wyłącz przed nawias największy wspólny czynnik: \\(${s}\\).`,
+      kroki: [
+        krok("Podaj największy wspólny dzielnik współczynników (wartości bez znaków).", KL("NWD ="), k, "Największa liczba, przez którą dzielą się wszystkie współczynniki.", `NWD = ${k}`),
+        krok(`Jaka najwyższa potęga \\(${v}\\) występuje we <strong>wszystkich</strong> wyrazach?`, KW(`potęga ${v}:`), RW(lit(v, p)), `Spójrz na wyraz z najmniejszym wykładnikiem przy \\(${v}\\).`, `\\(${tx(lit(v, p))}\\)`),
+        krok("Zapisz wyrażenie w postaci iloczynowej.", KW("Postać iloczynowa:"), RWi(`${g}(${inner})`, g), `Przed nawias: \\(${tx(g)}\\). W nawiasie: każdy wyraz podzielony przez \\(${tx(g)}\\).`, `\\(${tx(g)}\\left(${tx(inner)}\\right)\\)`),
+      ],
+      koniec: `\\(${s}=${tx(g)}\\left(${tx(inner)}\\right)\\). Sprawdzenie: wymnóż – musi wyjść wyrażenie z treści.` };
+  } },
+  pkRownIl: { nazwa: "równanie ax² + bx = 0", f() {
+    const a = nz(-4, 4), r = nz(-6, 6), b = -a * r;              // ax² + bx = x(ax + b) → x = 0 lub x = r
+    const s = zloz([[a, "x^2"], [b, "x"]]);
+    return { tresc: `Rozwiąż równanie \\(${tx(s)}=0\\).`,
+      kroki: [
+        krok("Wyłącz \\(x\\) (albo \\(" + `${Math.abs(a) === 1 ? "" : Math.abs(a)}x` + "\\)) przed nawias – zapisz lewą stronę jako iloczyn.", KW("Iloczyn:"), RWi(`x(${zloz([[a, "x"], [b, ""]])})`), "Oba wyrazy mają czynnik \\(x\\).", `\\(${tx(s)}=x\\left(${tx(zloz([[a, "x"], [b, ""]]))}\\right)\\)`),
+        krok("Iloczyn jest równy 0, gdy któryś czynnik jest równy 0. Podaj oba rozwiązania.", KLS("x ="), [0, r], `\\(x=0\\) lub \\(${tx(zloz([[a, "x"], [b, ""]]))}=0\\).`, `\\(x=0\\) lub \\(x=${r}\\)`),
+      ],
+      koniec: `\\(x=0\\) lub \\(x=${r}\\). Uwaga: nie dziel obu stron przez \\(x\\) – zgubiłbyś rozwiązanie \\(x=0\\).` };
+  } },
+  /* ---------- 8. mnożenie sum ---------- */
+  pkSumy: { nazwa: "mnożenie dwóch sum", f() {
+    const a = nz(-4, 4), b = nz(-7, 7), c = nz(-4, 4), d = nz(-7, 7), A = zloz([[a, "x"], [b, ""]]), B = zloz([[c, "x"], [d, ""]]), s = `(${A})(${B})`;
+    return { tresc: `Wykonaj mnożenie: \\(\\left(${tx(A)}\\right)\\left(${tx(B)}\\right)\\).`,
+      kroki: [
+        krok("Ile iloczynów trzeba obliczyć?", KL("iloczynów:"), 4, "Każdy wyraz pierwszej sumy razy każdy wyraz drugiej.", "2 · 2 = 4"),
+        krok("Pomnóż pierwsze wyrazy obu sum.", KW("pierwszy · pierwszy:"), RW(`(${czl(a, "x", true)})*(${czl(c, "x", true)})`), "Współczynniki mnożysz, a \\(x\\cdot x=x^2\\).", `\\(${tn(a)}x\\cdot${tn(c)}x=${TW(`(${czl(a, "x", true)})*(${czl(c, "x", true)})`)}\\)`),
+        krok("Oblicz sumę dwóch „środkowych” iloczynów: pierwszy wyraz pierwszej sumy razy drugi wyraz drugiej plus drugi wyraz pierwszej razy pierwszy wyraz drugiej.", KW("suma środkowych:"), RW(`(${czl(a, "x", true)})*(${d})+(${b})*(${czl(c, "x", true)})`),
+          `\\(${tn(a)}x\\cdot${tn(d)}\\) oraz \\(${tn(b)}\\cdot${tn(c)}x\\) – to wyrazy podobne, dodaj je.`, `\\(${TW(czl(a * d, "x", true))}${b * c < 0 ? "" : "+"}${TW(czl(b * c, "x", true))}=${a * d + b * c ? TW(czl(a * d + b * c, "x", true)) : "0"}\\)`),
+        krok("Pomnóż drugie wyrazy obu sum.", KL("drugi · drugi:"), b * d, "Uważaj na znaki.", `\\(${tn(b)}\\cdot${tn(d)}=${b * d}\\)`),
+        krok("Zapisz wynik w najprostszej postaci.", KW("Wynik:"), RW(s), "Zapisz po kolei: wynik z kroku 2, sumę środkowych z kroku 3 i liczbę z kroku 4.", `\\(${TW(s)}\\)`),
+      ],
+      koniec: `\\(\\left(${tx(A)}\\right)\\left(${tx(B)}\\right)=${TW(s)}\\)` };
+  } },
+  pkRownSumy: { nazwa: "równanie z iloczynem sum", f() {
+    let a, b, c; do { a = nz(-6, 6); b = nz(-6, 6); c = nz(-6, 6); } while (a + b === c || (a * b) % (c - a - b) !== 0);
+    const L = `(x${sg(a)})(x${sg(b)})`, P = `x(x${sg(c)})`, x0 = (a * b) / (c - a - b);
+    return { tresc: `Rozwiąż równanie \\(${nawT(L)}=${nawT(P)}\\).`,
+      kroki: [
+        krok("Wymnóż lewą stronę.", KW("Lewa strona:"), RW(L), "Każdy przez każdy, potem redukcja.", `\\(${TW(L)}\\)`),
+        krok("Wymnóż prawą stronę.", KW("Prawa strona:"), RW(P), "\\(x\\) mnożysz przez każdy wyraz w nawiasie.", `\\(${TW(P)}\\)`),
+        krok("Odejmij \\(x^2\\) od obu stron – zostanie równanie liniowe. Rozwiąż je.", KL("x ="), x0, `\\(${TW(L)}=${TW(P)}\\) – wyrazy z \\(x\\) na lewo, liczby na prawo.`, `\\(${a + b - c}x=${-a * b}\\Rightarrow x=${x0}\\)`),
+      ],
+      koniec: `\\(x=${x0}\\)` };
+  } },
+  /* ---------- 9. wzory skróconego mnożenia ---------- */
+  pkKwadrat: { nazwa: "kwadrat dwumianu", f() {
+    const a = losuj(1, 5), b = losuj(1, 7), plus = Math.random() < .5, v = wybierz(["x", "a", "y"]);
+    const A = a === 1 ? v : `${a}${v}`, s = `(${A}${plus ? "+" : "-"}${b})^2`;
+    return { tresc: `Rozwiń wyrażenie \\(${nawT(s)}\\) za pomocą wzoru skróconego mnożenia.`,
+      kroki: [
+        krok("Który wzór zastosujesz?", KWB("", ["(a + b)² = a² + 2ab + b²", "(a − b)² = a² − 2ab + b²", "(a − b)(a + b) = a² − b²"]), plus ? 0 : 1, "Patrz na znak w nawiasie i potęgę.", plus ? "kwadrat sumy" : "kwadrat różnicy"),
+        krok(`Oblicz kwadrat pierwszego wyrazu: \\((${tx(A)})^2\\).`, KW("pierwszy²:"), RW(`(${A})^2`), "Do kwadratu podnosisz i liczbę, i literę.", `\\(${TW(`(${A})^2`)}\\)`),
+        krok(`Oblicz podwojony iloczyn (ze znakiem): \\(${plus ? "" : "-"}2\\cdot ${tx(A)}\\cdot ${b}\\).`, KW("2ab:"), RW(`${plus ? "" : "-"}2*${A}*${b}`), "Nie zapomnij o tym wyrazie – to najczęstszy błąd!", `\\(${TW(`${plus ? "" : "-"}2*${A}*${b}`)}\\)`),
+        krok(`Oblicz kwadrat drugiego wyrazu: \\(${b}^2\\).`, KL("drugi²:"), b * b, "Kwadrat liczby to liczba pomnożona przez siebie.", `\\(${b * b}\\)`),
+        krok("Zapisz wynik.", KW("Wynik:"), RW(s), "Zapisz po kolei trzy wyrazy z kroków 2–4.", `\\(${TW(s)}\\)`),
+      ],
+      koniec: `\\(${nawT(s)}=${TW(s)}\\)` };
+  } },
+  pkZwin: { nazwa: "zapisz w postaci iloczynu (wzory)", f() {
+    const a = losuj(1, 4), b = losuj(1, 7), typ = losuj(0, 2), v = "x", A = a === 1 ? v : `${a}${v}`;
+    const iloczynS = typ === 0 ? `(${A}+${b})^2` : typ === 1 ? `(${A}-${b})^2` : `(${A}-${b})(${A}+${b})`, w = wyr(iloczynS), s = wTeX(w);
+    return { tresc: `Zapisz w postaci iloczynu: \\(${s}\\).`,
+      kroki: [
+        krok("Który wzór pasuje?", KWB("", ["kwadrat sumy (a + b)²", "kwadrat różnicy (a − b)²", "różnica kwadratów (a − b)(a + b)"]), typ, "Dwa wyrazy z minusem między nimi – różnica kwadratów. Trzy wyrazy – kwadrat sumy albo różnicy (znak środkowego wyrazu).", ["kwadrat sumy", "kwadrat różnicy", "różnica kwadratów"][typ]),
+        krok("Co podniesiono do kwadratu w pierwszym wyrazie? (to jest \\(a\\) we wzorze)", KW("a ="), RW(A), `\\(${TW(`(${A})^2`)}=(\\ ?\\ )^2\\)`, `\\(a=${tx(A)}\\)`),
+        krok("Co podniesiono do kwadratu w ostatnim wyrazie? (to jest \\(b\\))", KL("b ="), b, `\\(${b * b}=(\\ ?\\ )^2\\)`, `\\(b=${b}\\)` + (typ < 2 ? `; sprawdzenie środkowego wyrazu: \\(2\\cdot ${tx(A)}\\cdot ${b}=${TW(`2*${A}*${b}`)}\\) ✓` : "")),
+        krok("Zapisz postać iloczynową.", KW("Iloczyn:"), RWi(iloczynS), "Dla kwadratu: \\((a\\pm b)^2\\); dla różnicy kwadratów: \\((a-b)(a+b)\\) – wstaw \\(a\\) i \\(b\\) z poprzednich kroków.", `\\(${nawT(iloczynS)}\\)`),
+      ],
+      koniec: `\\(${s}=${nawT(iloczynS)}\\)` };
+  } },
+  /* ---------- 10. zastosowanie przekształceń ---------- */
+  pkRownPrzek: { nazwa: "równanie po przekształceniach", f() {
+    let a, b, c; do { a = nz(-5, 5); b = losuj(1, 5); c = losuj(-10, 20); } while ((c - a * a - b * b) % (-2 * a) !== 0);
+    const e1 = `(x${sg(-a)})^2`, e2 = `(x+${b})(x-${b})`, x0 = (c - a * a - b * b) / (-2 * a), s = `${e1}-${e2}`;
+    return { tresc: `Rozwiąż równanie \\(${nawT(e1)}-${nawT(e2)}=${c}\\).`,
+      kroki: [
+        krok(`Rozwiń \\(${nawT(e1)}\\).`, KW("pierwszy:"), RW(e1), "Kwadrat różnicy albo sumy: \\(a^2\\pm2ab+b^2\\).", `\\(${TW(e1)}\\)`),
+        krok(`Rozwiń \\(${nawT(e2)}\\).`, KW("drugi:"), RW(e2), "Różnica kwadratów.", `\\(${TW(e2)}\\)`),
+        krok("Odejmij drugi wynik od pierwszego (w nawiasie!) i uprość lewą stronę.", KW("Lewa strona:"), RW(s), `\\(${TW(e1)}-\\left(${TW(e2)}\\right)\\) – minus zmienia znaki w nawiasie.`, `\\(${TW(s)}\\)`),
+        krok("Rozwiąż otrzymane równanie liniowe.", KL("x ="), x0, `\\(${TW(s)}=${c}\\)`, `\\(${-2 * a}x=${c - a * a - b * b}\\Rightarrow x=${x0}\\)`),
+      ],
+      koniec: `\\(x=${x0}\\)` };
+  } },
+  pkWart: { nazwa: "najpierw uprość, potem podstaw", f() {
+    const a = losuj(1, 6), x0 = wybierz([[1, 2], [-1, 2], [1, 4], [-1, 4], [3, 2], [1, 3]]), s = `(x+${a})^2-(x-${a})^2`;
+    const val = W.wartosc(wyr(s), { x: x0 });
+    return { tresc: `Oblicz wartość wyrażenia \\(${nawT(s)}\\) dla \\(x=${qTeX(x0)}\\).`,
+      kroki: [
+        krok("Uprość wyrażenie (rozwiń oba kwadraty i odejmij).", KW("Po uproszczeniu:"), RW(s), "Wyrazy \\(x^2\\) i liczby się zredukują.", `\\(${TW(`(x+${a})^2`)}-\\left(${TW(`(x-${a})^2`)}\\right)=${TW(s)}\\)`),
+        krok(`Podstaw \\(x=${qTeX(x0)}\\).`, KL("Wartość:"), qOdp(val), "Ułamek wstaw w nawiasie; mnożenie przez liczbę całkowitą zrób najpierw w liczniku.", `\\(${qTeX(val)}\\)`),
+      ],
+      koniec: `Wartość: \\(${qTeX(val)}\\). Po uproszczeniu liczenie z ułamkiem to jedno mnożenie.` };
+  } },
+  /* ---------- 11. wartość bezwzględna ---------- */
+  pkAbsRown: { nazwa: "równanie |x − a| = b", f() {
+    const a = nz(-6, 6), b = losuj(1, 7), k = wybierz([1, 1, 2]), m = -k * a;
+    const L = k === 1 ? `x${sg(-a)}` : `${k}x${sg(m)}`;
+    const r1 = (b - m) / k, r2 = (-b - m) / k;
+    return { tresc: `Rozwiąż równanie \\(|${tx(L)}|=${b}\\).`,
+      kroki: [
+        krok(`Wyrażenie w module jest równe \\(${b}\\) albo \\(-${b}\\). Rozwiąż \\(${tx(L)}=${b}\\).`, KL("x ="), r1, "Dwie liczby mają wartość bezwzględną równą " + b + ": " + b + " i −" + b + ".", `\\(x=${liczTeX(r1)}\\)`),
+        krok(`Rozwiąż \\(${tx(L)}=-${b}\\).`, KL("x ="), r2, "Tak samo jak w kroku 1, tylko z liczbą ujemną po prawej stronie.", `\\(x=${liczTeX(r2)}\\)`),
+        krok("Podaj wszystkie rozwiązania.", KLS("x ="), [r1, r2], "Oba wyniki z kroków 1 i 2, oddzielone średnikiem.", `\\(x=${liczTeX(r2)}\\) lub \\(x=${liczTeX(r1)}\\)`),
+      ],
+      koniec: k === 1 ? `Na osi: liczby odległe od \\(${a}\\) o \\(${b}\\) – to \\(${a - b}\\) i \\(${a + b}\\).` : `\\(x=${liczTeX(r2)}\\) lub \\(x=${liczTeX(r1)}\\)` };
+  } },
+  pkAbsNier: { nazwa: "★ nierówność z wartością bezwzględną", f() {
+    const a = nz(-5, 5), b = losuj(1, 6), op = wybierz(["<", "<=", ">", ">="]);
+    const zam = op.includes("="), Z = op[0] === "<" ? [{ a: a - b, b: a + b, lz: zam, pz: zam }] : [{ a: -INF, b: a - b, lz: false, pz: zam }, { a: a + b, b: INF, lz: zam, pz: false }];
+    return { tresc: `Rozwiąż nierówność \\(|x${sg(-a)}|${ZNK[op]}${b}\\).`,
+      kroki: [
+        krok(`\\(|x${sg(-a)}|\\) to odległość \\(x\\) od liczby … na osi. Od jakiej?`, KL("od liczby:"), a, `\\(|x-a|\\) to odległość od \\(a\\). Tu \\(x${sg(-a)}=x-(${a})\\).`, `od \\(${a}\\)`),
+        krok("Podaj liczby odległe od niej dokładnie o " + b + " (oddziel średnikiem).", KLS("liczby:"), [a - b, a + b], "Jedna po lewej, jedna po prawej stronie.", `\\(${a - b}\\) i \\(${a + b}\\)`),
+        krok("Zapisz zbiór rozwiązań.", KZ(), Z, op[0] === "<" ? "Odległość mniejsza – liczby <strong>między</strong> tymi punktami." : "Odległość większa – liczby <strong>na zewnątrz</strong>: suma dwóch przedziałów (litera u).",
+          `\\(x\\in\\) ${zbT(Z)}` + osZ([["", Z, "c"]])),
+      ],
+      koniec: `\\(x\\in\\) ${zbT(Z)}` };
+  } },
+};
+const pkZ = (...k) => Object.fromEntries(k.map((x) => [x, PK[x]]));
+
+/* ===== Wpisywanie odpowiedzi przy zadaniach i zadania prowadzone krok po kroku =====
+   Wspólne dla stron mt (1A, 4T). Korzysta z funkcji strony: $, renderTeX, esc, wybierz, sprawdzPole, PODPOWIEDZI
+   oraz – jeśli są – z parserów: wyrazenie, punkt, okrag, wyr, zbiorZTekstu. */
+
+// wynik sprawdzenia pola: {w: true|false|null, uwaga}
+function ocenPole(typ, t, odp) {
+  let w = sprawdzPole(typ, t, odp), uwaga = "";
+  if (w && typeof w === "object") { uwaga = w.uwaga || ""; w = w.ok; }
+  return { w, uwaga };
+}
+
+// odpowiedź zapisana tekstem w data-pola → obiekt, którego oczekuje sprawdzPole
+function odpZTekstu(p) {
+  const s = String(p.odp);
+  switch (p.typ) {
+    case "liczba": return wyrazenie(s);
+    case "liczby": return s.trim() === "" ? [] : s.split(";").map(wyrazenie);
+    case "punkt": return punkt(s);
+    case "punkty": return s.trim() === "" ? [] : s.split(";").map(punkt);
+    case "okrag": return okrag(s);
+    case "uklad": return s === "sprz" || s === "nieozn" ? s : punkt(s);
+    case "wyr": return { w: wyr(s), forma: p.forma || "rozw", ...(p.czynnik ? { czynnik: wyr(p.czynnik), dowolnyZnak: !!p.dowolnyZnak } : {}) };
+    case "zbior": return zbiorZTekstu(s);
+    case "wybor": return Number(p.odp);
+    default: return p.odp;
+  }
+}
+
+let licznikPol = 0;
+function poleHTML(p, i, klasa) {
+  const id = `${klasa}${++licznikPol}`;
+  if (p.typ === "wybor")
+    return `<span class="${klasa}-e">${p.e || ""}</span><span class="opcje" role="radiogroup" data-i="${i}">${p.opcje.map((o, j) =>
+      `<label><input type="radio" name="${id}" value="${j}"> ${o}</label>`).join("")}</span>`;
+  return `<label class="${klasa}-e" for="${id}">${p.e || ""}</label><input id="${id}" data-i="${i}" autocomplete="off" spellcheck="false" placeholder="${p.ph || PODPOWIEDZI[p.typ] || ""}">`;
+}
+// sprawdza wszystkie pola w kontenerze; zwraca {wyn:[true|false|null], uwagi:[]}
+function ocenPola(kont, pola, odp) {
+  const uwagi = [];
+  const wyn = pola.map((p, i) => {
+    if (p.typ === "wybor") {
+      const z = kont.querySelector(`.opcje[data-i="${i}"] input:checked`);
+      return z ? sprawdzPole("wybor", z.value, odp[i]) : null;
+    }
+    const inp = kont.querySelector(`input[data-i="${i}"]`);
+    const { w, uwaga } = ocenPole(p.typ, inp.value, odp[i]);
+    if (uwaga) uwagi.push(uwaga);
+    inp.classList.toggle("zle", w === false); inp.classList.toggle("dobre", w === true);
+    return w;
+  });
+  return { wyn, uwagi };
+}
+const brakFormatu = (pola, wyn) => (pola.length > 1 ? "Uzupełnij wszystkie pola" : "Wpisz odpowiedź") + " w podanym formacie (" +
+  [...new Set(pola.filter((p, i) => wyn[i] === null).map((p) => (p.typ === "wybor" ? "zaznacz odpowiedź" : p.ph || PODPOWIEDZI[p.typ] || "")))].join("; ") + ").";
+
+/* ---------- pola odpowiedzi przy „Zadaniach z rozwiązaniami” ----------
+   <li data-pola='[{"e":"a)","typ":"wyr","odp":"x^2+6x+8"}, …]'> treść … <details>rozwiązanie</details></li> */
+function polaWZadaniach(root = document) {
+  const lista = [...root.querySelectorAll("li[data-pola]")];
+  if (!lista.length) return;
+  const KLUCZ = "mt-zp:" + location.pathname.split("/").pop();
+  let zap = {};
+  try { zap = JSON.parse(localStorage.getItem(KLUCZ)) || {}; } catch (e) { /* bez zapisu */ }
+  const zapisz = () => { try { localStorage.setItem(KLUCZ, JSON.stringify(zap)); } catch (e) { /* bez zapisu */ } };
+  const listy = new Set();
+  lista.forEach((li, nr) => {
+    const id = (li.closest("section") || {}).id + "-" + nr;
+    let pola;
+    try { pola = JSON.parse(li.dataset.pola); } catch (e) { console.warn("data-pola", li, e); return; }
+    let odp;
+    try { odp = pola.map(odpZTekstu); } catch (e) { console.warn("odpowiedź", li, e); return; }
+    const box = document.createElement("div");
+    box.className = "zp";
+    box.innerHTML = `<div class="zp-pola">${pola.map((p, i) => poleHTML(p, i, "zp")).join("")}</div>
+      <div class="zp-dol"><button type="button" class="btn zp-sprawdz">Sprawdź</button><span class="zp-ocena" aria-live="polite"></span></div>`;
+    const det = li.querySelector(":scope > details");
+    li.insertBefore(box, det);
+    const ocena = box.querySelector(".zp-ocena");
+    const oznacz = () => li.classList.add("zp-ok");
+    if (zap[id]) { oznacz(); ocena.textContent = "✓ Rozwiązane wcześniej."; ocena.className = "zp-ocena dobrze"; }
+    const sprawdz = () => {
+      const { wyn, uwagi } = ocenPola(box, pola, odp);
+      if (wyn.some((w) => w === null)) { ocena.className = "zp-ocena zle"; ocena.textContent = brakFormatu(pola, wyn); return; }
+      if (wyn.every(Boolean)) {
+        ocena.className = "zp-ocena dobrze"; ocena.textContent = "✓ Dobrze! " + wybierz(["Świetnie.", "Brawo.", "Tak trzymaj."]);
+        if (!zap[id]) { zap[id] = 1; zapisz(); }
+        oznacz(); licz();
+      } else {
+        ocena.className = "zp-ocena zle";
+        ocena.textContent = (pola.length > 1 ? `Poprawnie: ${wyn.filter(Boolean).length} z ${wyn.length}. ` : "Jeszcze nie. ") + "Sprawdź obliczenia albo rozwiń rozwiązanie.";
+        if (uwagi.length) { ocena.innerHTML = esc(ocena.textContent) + " " + uwagi.join(" "); }
+      }
+      renderTeX(ocena);
+    };
+    box.querySelector(".zp-sprawdz").addEventListener("click", sprawdz);
+    box.addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target.tagName === "INPUT" && e.target.type !== "radio") sprawdz(); });
+    renderTeX(box);
+    listy.add(li.parentElement);
+  });
+  const liczniki = [...listy].map((ol) => {
+    const p = document.createElement("p");
+    p.className = "tip zp-licznik";
+    ol.parentElement.insertBefore(p, ol);
+    return [ol, p];
+  });
+  function licz() {
+    liczniki.forEach(([ol, p]) => {
+      const w = ol.querySelectorAll(":scope > li[data-pola]"), ok = ol.querySelectorAll(":scope > li[data-pola].zp-ok");
+      p.innerHTML = `Wpisz wynik i kliknij <strong>Sprawdź</strong>. Rozwiązane: <strong>${ok.length} z ${w.length}</strong>` +
+        (ok.length ? ` · <button type="button" class="link zp-zeruj">wyczyść postęp</button>` : "");
+      const b = p.querySelector(".zp-zeruj");
+      if (b) b.addEventListener("click", () => {
+        w.forEach((li) => { li.classList.remove("zp-ok"); const o = li.querySelector(".zp-ocena"); o.textContent = ""; o.className = "zp-ocena"; });
+        Object.keys(zap).forEach((k) => delete zap[k]); zapisz(); licz();
+      });
+    });
+  }
+  licz();
+}
+
+/* ---------- zadanie prowadzone krok po kroku ----------
+   gen: {klucz: {nazwa, f() → {tresc, kroki:[{pyt, pola:[{e, typ, opcje, ph}], odp:[…], podp, wyj}], koniec, rys?}}} */
+function prowadzone(el, gen) {
+  const klucze = Object.keys(gen);
+  el.innerHTML = `<div class="gen-controls"><label>Zadanie: <select class="pk-typ">
+      ${klucze.map((k) => `<option value="${k}">${gen[k].nazwa}</option>`).join("")}</select></label>
+      <button type="button" class="btn pk-nowe">Nowe zadanie</button></div>
+    <div class="pk-tresc" aria-live="polite"></div><ol class="pk-kroki"></ol><div class="pk-koniec" hidden></div>
+    <p class="tip pk-licznik"></p>`;
+  const sel = $(".pk-typ", el), tresc = $(".pk-tresc", el), lista = $(".pk-kroki", el), koniec = $(".pk-koniec", el);
+  let z = null, akt = 0, samodz = 0, wszystkie = 0, zadan = 0;
+  function nowe(fokus) {
+    z = gen[sel.value].f(); akt = 0;
+    tresc.innerHTML = `<div>${z.tresc}</div>` + (z.rysZad && typeof ukladSVG === "function" ? `<div class="uklad">${ukladSVG(z.rysZad)}</div>` : "");
+    lista.innerHTML = z.kroki.map((k, i) => `<li class="pk-krok" data-k="${i}">
+        <p class="pk-pyt"><strong>Krok ${i + 1}.</strong> <span class="pk-pyt-t">${k.pyt}</span><span class="pk-zablok">odblokuje się po kroku ${i}</span></p>
+        <div class="pk-pola">${k.pola.map((p, j) => poleHTML(p, j, "pk")).join("")}</div>
+        <div class="pk-przyc"><button type="button" class="btn pk-sprawdz">Sprawdź</button>
+          ${k.podp ? `<button type="button" class="btn sec pk-podp">Podpowiedź</button>` : ""}
+          <button type="button" class="btn sec pk-pokaz">Pokaż ten krok</button></div>
+        <p class="pk-ocena" aria-live="polite"></p><div class="pk-hint" hidden>${k.podp || ""}</div><div class="pk-wyj" hidden>${k.wyj || ""}</div></li>`).join("");
+    koniec.hidden = true; koniec.innerHTML = "";
+    [...lista.children].forEach((li, i) => li.classList.toggle("zablok", i > 0));
+    renderTeX(tresc); renderTeX(lista);
+    if (fokus) fokusuj(0);
+  }
+  function fokusuj(i) { const inp = lista.children[i] && lista.children[i].querySelector("input:not([type=radio])"); if (inp) inp.focus({ preventScroll: true }); }
+  function zalicz(i, sam) {
+    const li = lista.children[i];
+    li.classList.add(sam ? "zrobiony" : "pokazany");
+    li.querySelectorAll("input").forEach((x) => (x.disabled = true));
+    li.querySelectorAll(".pk-przyc button").forEach((b) => (b.disabled = true));
+    li.querySelector(".pk-wyj").hidden = false;
+    wszystkie++; if (sam) samodz++;
+    akt = i + 1;
+    if (akt < z.kroki.length) { lista.children[akt].classList.remove("zablok"); fokusuj(akt); }
+    else {
+      zadan++;
+      koniec.hidden = false;
+      koniec.innerHTML = `<p class="werdykt">${z.koniec || "Gotowe!"}</p>` + (z.rys && typeof ukladSVG === "function" ? `<div class="uklad">${ukladSVG(z.rys)}</div>` : "") +
+        `<p><button type="button" class="btn pk-dalej">Następne zadanie</button></p>`;
+      renderTeX(koniec);
+      koniec.querySelector(".pk-dalej").addEventListener("click", () => { nowe(true); tresc.scrollIntoView({ block: "nearest" }); });
+    }
+    $(".pk-licznik", el).textContent = `Ukończone zadania: ${zadan} · kroki zrobione samodzielnie: ${samodz} z ${wszystkie}`;
+  }
+  lista.addEventListener("click", (e) => {
+    const li = e.target.closest(".pk-krok"); if (!li || !z) return;
+    const i = +li.dataset.k, k = z.kroki[i], ocena = li.querySelector(".pk-ocena");
+    if (e.target.classList.contains("pk-sprawdz")) {
+      const { wyn, uwagi } = ocenPola(li, k.pola, k.odp);
+      if (wyn.some((w) => w === null)) { ocena.className = "pk-ocena zle"; ocena.textContent = brakFormatu(k.pola, wyn); return; }
+      if (wyn.every(Boolean)) { ocena.className = "pk-ocena dobrze"; ocena.textContent = "✓ Dobrze."; zalicz(i, !li.classList.contains("z-podp")); }
+      else {
+        ocena.className = "pk-ocena zle";
+        ocena.textContent = k.pola.length > 1 ? `Poprawnie: ${wyn.filter(Boolean).length} z ${wyn.length}. Spróbuj jeszcze raz albo weź podpowiedź.` : "Jeszcze nie. Spróbuj jeszcze raz albo weź podpowiedź.";
+        if (uwagi.length) ocena.innerHTML = esc(ocena.textContent) + " " + uwagi.join(" ");
+        renderTeX(ocena);
+      }
+    } else if (e.target.classList.contains("pk-podp")) {
+      li.querySelector(".pk-hint").hidden = false; li.classList.add("z-podp"); e.target.disabled = true;
+    } else if (e.target.classList.contains("pk-pokaz")) {
+      ocena.className = "pk-ocena"; ocena.textContent = "Pokazano rozwiązanie tego kroku — przeanalizuj je i przejdź dalej.";
+      zalicz(i, false);
+    }
+  });
+  lista.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && e.target.tagName === "INPUT" && e.target.type !== "radio") { const b = e.target.closest(".pk-krok").querySelector(".pk-sprawdz"); if (!b.disabled) b.click(); }
+  });
+  $(".pk-nowe", el).addEventListener("click", () => nowe(true));
+  sel.addEventListener("change", () => nowe(true));
+  nowe();
+}
+
 /* ===== strona ===== */
 rysujOsie();
 checklista("1a-mnozenie-jednomian-checklist");
@@ -1504,6 +2023,8 @@ kalkulator($("#kalk"), {
   },
 });
 trening($("#trening-tr"), genZ("jednomiany", "redukcja", "jednXsuma", "zRedukcja", "wartosc"));
+prowadzone($("#prowadzone-pk"), pkZ("pkJednSuma", "pkUpr"));
+polaWZadaniach();
 
 </script>
 </body>

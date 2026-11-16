@@ -130,6 +130,40 @@
   footer{max-width:920px;margin:auto;padding:1rem;color:var(--muted);font-size:.9rem;text-align:center}
   @media print{nav,.gen-controls,.trening,.plansza-sekcja,.progress,.tematy-nav{display:none}details{border:none}details>*{display:block}
     section{break-inside:avoid;border:none}header{background:none;color:#000}header a{color:#000}}
+  /* ---- pola odpowiedzi przy zadaniach ---- */
+  .zp{margin:.5rem 0 .3rem;padding:.55rem .7rem;border:1px dashed var(--line);border-radius:8px;background:var(--bg)}
+  .zp-pola{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.35rem .6rem;align-items:center}
+  .zp-e,.pk-e{font-weight:600;color:var(--muted)}
+  .zp-pola input,.pk-pola input:not([type=radio]){font:1.02rem var(--mat);padding:.35rem .55rem;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--text);width:100%;min-width:0}
+  .zp-pola input.zle,.pk-pola input.zle{border-color:var(--b)} .zp-pola input.dobre,.pk-pola input.dobre{border-color:var(--ok)}
+  .zp-pola .opcje,.pk-pola .opcje{display:flex;flex-wrap:wrap;gap:.3rem .9rem}
+  .zp-dol{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .8rem;margin-top:.45rem}
+  .zp-dol .btn{padding:.3rem .7rem;font-size:.95rem}
+  .zp-ocena,.pk-ocena{font-weight:600}
+  .zp-ocena.dobrze,.pk-ocena.dobrze{color:var(--ok)} .zp-ocena.zle,.pk-ocena.zle{color:var(--b)}
+  li.zp-ok > .zp{border-style:solid;border-color:var(--ok);background:var(--ok-soft)}
+  button.link{background:none;border:0;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit}
+  /* ---- zadania prowadzone ---- */
+  .pk-tresc{margin:.6rem 0;padding:.6rem .8rem;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:6px}
+  .pk-kroki{list-style:none;margin:.6rem 0;padding:0;counter-reset:none}
+  .pk-krok{margin:.5rem 0;padding:.6rem .8rem;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+  .pk-pyt{margin:0 0 .4rem}
+  .pk-zablok{display:none;color:var(--muted);font-style:italic}
+  .pk-krok.zablok{opacity:.55;background:var(--bg)}
+  .pk-krok.zablok .pk-pyt-t,.pk-krok.zablok .pk-pola,.pk-krok.zablok .pk-przyc,.pk-krok.zablok .pk-ocena{display:none}
+  .pk-krok.zablok .pk-zablok{display:inline}
+  .pk-pola{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.35rem .6rem;align-items:center;max-width:34rem}
+  .pk-przyc{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.45rem}
+  .pk-przyc .btn{padding:.3rem .7rem;font-size:.95rem}
+  .pk-ocena{margin:.4rem 0 0;min-height:1.2em}
+  .pk-hint{margin-top:.4rem;padding:.4rem .6rem;border-radius:6px;background:var(--warn-soft);color:var(--text)}
+  .pk-wyj{margin-top:.4rem;padding:.4rem .6rem;border-radius:6px;background:var(--c-soft)}
+  .pk-krok.zrobiony{border-color:var(--ok)} .pk-krok.zrobiony .pk-pyt strong::after{content:" ✓";color:var(--ok)}
+  .pk-krok.pokazany{border-color:var(--warn)} .pk-krok.pokazany .pk-pyt strong::after{content:" (pokazany)";color:var(--warn);font-weight:400}
+  .pk-koniec{margin:.6rem 0;padding:.6rem .8rem;border:2px solid var(--ok);border-radius:8px;background:var(--ok-soft)}
+  @media (max-width:520px){ .zp-pola,.pk-pola{grid-template-columns:1fr} }
+  .pk-koniec .werdykt{font-weight:700;margin:.2rem 0}
+  .zp-pola .opcje label,.pk-pola .opcje label{font-weight:400;font-style:normal}
 </style>
 </head>
 <body>
@@ -150,6 +184,7 @@
   <a href="#styczny">Okrąg styczny do osi</a>
   <a href="#punkt">Czy punkt leży na okręgu</a>
   <a href="#narzedzie">Narzędzia</a>
+  <a href="#krok-po-kroku">Krok po kroku</a>
   <a href="#zadania">Zadania</a>
   <a href="#trening">Trening</a>
 </div></nav>
@@ -265,36 +300,42 @@
   </div>
 </section>
 
+<section id="krok-po-kroku" data-nav="Krok po kroku">
+  <h2>7. Zadania krok po kroku</h2>
+  <p class="tip">Rozwiązuj po jednym kroku: wpisz wynik i kliknij <strong>Sprawdź</strong> – następny krok odblokuje się po poprawnej odpowiedzi. Gdy utkniesz, weź <strong>Podpowiedź</strong> albo kliknij <strong>Pokaż ten krok</strong>. Zadania są losowane – ćwicz, aż przejdziesz wszystkie kroki samodzielnie.</p>
+  <div id="prowadzone-pk"></div>
+</section>
+
 <section id="zadania" data-nav="Zadania">
-  <h2>7. Zadania z rozwiązaniami</h2>
+  <h2>8. Zadania z rozwiązaniami</h2>
   <p class="tip">Rozwiąż w zeszycie, dopiero potem rozwiń rozwiązanie.</p>
   <ol class="tasks">
-    <li>Odczytaj środek i promień okręgu: a) \((x-5)^2+(y+1)^2=36\); b) \((x+2)^2+y^2=3\); c) \(x^2+y^2=50\).
+    <li data-pola='[{&quot;e&quot;:&quot;a) S =&quot;,&quot;typ&quot;:&quot;punkt&quot;,&quot;odp&quot;:&quot;(5, -1)&quot;},{&quot;e&quot;:&quot;a) r =&quot;,&quot;typ&quot;:&quot;liczba&quot;,&quot;odp&quot;:&quot;6&quot;},{&quot;e&quot;:&quot;b) S =&quot;,&quot;typ&quot;:&quot;punkt&quot;,&quot;odp&quot;:&quot;(-2, 0)&quot;},{&quot;e&quot;:&quot;b) r =&quot;,&quot;typ&quot;:&quot;liczba&quot;,&quot;odp&quot;:&quot;√3&quot;},{&quot;e&quot;:&quot;c) S =&quot;,&quot;typ&quot;:&quot;punkt&quot;,&quot;odp&quot;:&quot;(0, 0)&quot;},{&quot;e&quot;:&quot;c) r =&quot;,&quot;typ&quot;:&quot;liczba&quot;,&quot;odp&quot;:&quot;5√2&quot;}]'>Odczytaj środek i promień okręgu: a) \((x-5)^2+(y+1)^2=36\); b) \((x+2)^2+y^2=3\); c) \(x^2+y^2=50\).
       <details><summary>Rozwiązanie</summary>
         <p>a) <span class="wynik">\(S=(5,\ -1)\), \(r=6\)</span>. b) <span class="wynik">\(S=(-2,\ 0)\), \(r=\sqrt3\)</span>. c) <span class="wynik">\(S=(0,\ 0)\), \(r=\sqrt{50}=5\sqrt2\)</span>.</p>
       </details></li>
-    <li>Napisz równanie okręgu o środku \(S=(-4,\ -1)\) i promieniu \(r=2\sqrt2\).
+    <li data-pola='[{&quot;e&quot;:&quot;Równanie:&quot;,&quot;typ&quot;:&quot;okrag&quot;,&quot;odp&quot;:&quot;(x+4)^2+(y+1)^2=8&quot;}]'>Napisz równanie okręgu o środku \(S=(-4,\ -1)\) i promieniu \(r=2\sqrt2\).
       <details><summary>Rozwiązanie</summary>
         <p>\(r^2=(2\sqrt2)^2=8\). <span class="wynik">\((x+4)^2+(y+1)^2=8\)</span>.</p>
       </details></li>
-    <li>Napisz równanie okręgu o środku \(S=(3,\ -1)\) przechodzącego przez punkt \(P=(-1,\ 2)\).
+    <li data-pola='[{&quot;e&quot;:&quot;Równanie:&quot;,&quot;typ&quot;:&quot;okrag&quot;,&quot;odp&quot;:&quot;(x-3)^2+(y+1)^2=25&quot;}]'>Napisz równanie okręgu o środku \(S=(3,\ -1)\) przechodzącego przez punkt \(P=(-1,\ 2)\).
       <details><summary>Rozwiązanie</summary>
         <p>\(r^2=(-1-3)^2+(2+1)^2=16+9=25\). <span class="wynik">\((x-3)^2+(y+1)^2=25\)</span>.</p>
       </details></li>
-    <li>Punkty \(A=(-5,\ 0)\) i \(B=(1,\ 8)\) są końcami średnicy okręgu. Napisz jego równanie.
+    <li data-pola='[{&quot;e&quot;:&quot;Równanie:&quot;,&quot;typ&quot;:&quot;okrag&quot;,&quot;odp&quot;:&quot;(x+2)^2+(y-4)^2=25&quot;}]'>Punkty \(A=(-5,\ 0)\) i \(B=(1,\ 8)\) są końcami średnicy okręgu. Napisz jego równanie.
       <details><summary>Rozwiązanie</summary>
         <p>\(S=\left(\frac{-5+1}{2},\ \frac{0+8}{2}\right)=(-2,\ 4)\), \(r^2=|SA|^2=(-3)^2+(-4)^2=25\). <span class="wynik">\((x+2)^2+(y-4)^2=25\)</span>.</p>
       </details></li>
-    <li>Napisz równanie okręgu o środku \(S=(4,\ -3)\) stycznego do osi \(OY\). Ile punktów wspólnych ma ten okrąg z osią \(OX\)?
+    <li data-pola='[{&quot;e&quot;:&quot;Równanie:&quot;,&quot;typ&quot;:&quot;okrag&quot;,&quot;odp&quot;:&quot;(x-4)^2+(y+3)^2=16&quot;},{&quot;e&quot;:&quot;Punkty wspólne z OX:&quot;,&quot;typ&quot;:&quot;wybor&quot;,&quot;opcje&quot;:[&quot;0&quot;,&quot;1&quot;,&quot;2&quot;],&quot;odp&quot;:2}]'>Napisz równanie okręgu o środku \(S=(4,\ -3)\) stycznego do osi \(OY\). Ile punktów wspólnych ma ten okrąg z osią \(OX\)?
       <details><summary>Rozwiązanie</summary>
         <p>\(r=|4|=4\): <span class="wynik">\((x-4)^2+(y+3)^2=16\)</span>.</p>
         <p>Odległość środka od osi \(OX\) to \(3\lt4\), więc okrąg <span class="wynik">przecina oś \(OX\) w dwóch punktach</span>. Dla \(y=0\): \((x-4)^2=7\), czyli \(x=4-\sqrt7\) lub \(x=4+\sqrt7\).</p>
       </details></li>
-    <li>Które z punktów \(A=(1,\ 4)\), \(B=(-3,\ 0)\), \(C=(2,\ 2)\) leżą na okręgu \((x+1)^2+(y-1)^2=13\)?
+    <li data-pola='[{&quot;e&quot;:&quot;Na okręgu leży&quot;,&quot;typ&quot;:&quot;wybor&quot;,&quot;opcje&quot;:[&quot;tylko A&quot;,&quot;tylko B&quot;,&quot;tylko C&quot;,&quot;A i B&quot;,&quot;A i C&quot;,&quot;żaden&quot;],&quot;odp&quot;:0}]'>Które z punktów \(A=(1,\ 4)\), \(B=(-3,\ 0)\), \(C=(2,\ 2)\) leżą na okręgu \((x+1)^2+(y-1)^2=13\)?
       <details><summary>Rozwiązanie</summary>
         <p>\(A\): \(4+9=13\) – leży. \(B\): \(4+1=5\) – nie. \(C\): \(9+1=10\) – nie. <span class="wynik">Tylko \(A\)</span>.</p>
       </details></li>
-    <li>Napisz równanie okręgu o środku w początku układu współrzędnych, przechodzącego przez punkt \(P=(3,\ -4)\).
+    <li data-pola='[{&quot;e&quot;:&quot;Równanie:&quot;,&quot;typ&quot;:&quot;okrag&quot;,&quot;odp&quot;:&quot;x^2+y^2=25&quot;}]'>Napisz równanie okręgu o środku w początku układu współrzędnych, przechodzącego przez punkt \(P=(3,\ -4)\).
       <details><summary>Rozwiązanie</summary>
         <p>\(r^2=3^2+(-4)^2=25\). <span class="wynik">\(x^2+y^2=25\)</span>.</p>
       </details></li>
@@ -302,7 +343,7 @@
 </section>
 
 <section id="trening" data-nav="Trening" class="trening">
-  <h2>8. Trening ze sprawdzaniem odpowiedzi</h2>
+  <h2>9. Trening ze sprawdzaniem odpowiedzi</h2>
   <p class="tip">Równanie wpisz jako <code>(x-2)^2+(y+1)^2=9</code> (kwadrat: <kbd>^2</kbd> albo <kbd>²</kbd>). Gdy środek ma współrzędną 0, napisz po prostu <code>x^2</code> albo <code>y^2</code>. Promień z pierwiastkiem: <code>2√3</code> albo <code>2sqrt3</code>.</p>
   <div id="trening-tr"></div>
 </section>
@@ -1122,6 +1163,500 @@ function narzedzieSymetrii(el, tryby) {
   });
 }
 
+/* ===== Zadania prowadzone krok po kroku — geometria analityczna 4T ===== */
+// Każdy generator zwraca {tresc, kroki:[{pyt, pola, odp, podp, wyj}], koniec, rys?}. Wyniki liczone tutaj.
+const nz = (a, b) => losujBez(a, b, 0);
+const KL = (e = "") => ({ e, typ: "liczba" });
+const KP = (e = "") => ({ e, typ: "punkt" });
+const KO = (e = "Równanie:") => ({ e, typ: "okrag" });
+const krok = (pyt, pola, odp, podp, wyj) => ({ pyt, pola: Array.isArray(pola) ? pola : [pola], odp: Array.isArray(pola) ? odp : [odp], podp, wyj });
+const pierw = (n) => tpierw(n);                         // √n w TeX-u (uproszczony)
+const rTeX = (r2) => (czyKwadrat(r2) ? String(Math.sqrt(r2)) : tpierw(r2));
+function okrLos(zakres = 4) { return [losuj(-zakres, zakres), losuj(-zakres, zakres)]; }
+
+const PK = {
+  /* ---------- 1. odległość ---------- */
+  pkOdl: { nazwa: "długość odcinka", f() {
+    let A, B;
+    if (Math.random() < .6) { const [p, q] = wybierz(PITAGORAS.filter(([p, q]) => p && q)); A = pkt(-5, 3); B = [A[0] + p * wybierz([1, -1]), A[1] + q * wybierz([1, -1])]; }
+    else do { A = pkt(); B = pkt(); } while (A[0] === B[0] || A[1] === B[1]);
+    const dx = B[0] - A[0], dy = B[1] - A[1], n = dx * dx + dy * dy;
+    return { tresc: `Oblicz długość odcinka \\(AB\\), gdy \\(A=${tp(...A)}\\), \\(B=${tp(...B)}\\).`,
+      kroki: [
+        krok("Oblicz różnicę odciętych \\(x_B-x_A\\).", KL("x<sub>B</sub> − x<sub>A</sub> ="), dx, "Od odciętej punktu \\(B\\) odejmij odciętą punktu \\(A\\). Uważaj na minus przed liczbą ujemną.", `\\(x_B-x_A=${tl(B[0])}-${tn(A[0])}=${dx}\\)`),
+        krok("Oblicz różnicę rzędnych \\(y_B-y_A\\).", KL("y<sub>B</sub> − y<sub>A</sub> ="), dy, "Rzędne to drugie współrzędne punktów.", `\\(y_B-y_A=${tl(B[1])}-${tn(A[1])}=${dy}\\)`),
+        krok("Oblicz sumę kwadratów tych różnic: \\((x_B-x_A)^2+(y_B-y_A)^2\\).", KL("suma ="), n, "Kwadrat liczby ujemnej jest dodatni.", `\\(${tn(dx)}^2+${tn(dy)}^2=${dx * dx}+${dy * dy}=${n}\\)`),
+        krok("Podaj \\(|AB|\\) – pierwiastek z tej sumy (uprość go, jeśli się da).", KL("|AB| ="), Math.sqrt(n), `\\(|AB|=\\sqrt{${n}}\\). Szukaj w ${n} czynnika, który jest kwadratem: 4, 9, 16, 25…`, `\\(|AB|=\\sqrt{${n}}${czyKwadrat(n) || pierw(n) === "\\sqrt{" + n + "}" ? "" : "=" + pierw(n)}${czyKwadrat(n) ? "=" + Math.sqrt(n) : ""}\\)`),
+      ],
+      koniec: `\\(|AB|=${rTeX(n)}\\)`,
+      rys: { ...ramka([A, B]), el: [{ t: "o", od: A, do: [B[0], A[1]], k: "m", s: "przer" }, { t: "o", od: [B[0], A[1]], do: B, k: "m", s: "przer" }, { t: "o", od: A, do: B, k: "c" }, P_(A, "A"), P_(B, "B")] } };
+  } },
+  pkObw: { nazwa: "obwód trójkąta", f() {
+    let A, B, C;
+    do { A = pkt(-5, 5); B = pkt(-5, 5); C = pkt(-5, 5); } while (!rozne(A, B) || !rozne(B, C) || !rozne(A, C) || (B[0] - A[0]) * (C[1] - A[1]) === (B[1] - A[1]) * (C[0] - A[0]) || [d2(A, B), d2(B, C), d2(A, C)].filter(czyKwadrat).length < 1);
+    const a = d2(A, B), b = d2(B, C), c = d2(A, C);
+    const k = (X, Y, nx, ny, n) => krok(`Oblicz \\(|${nx}${ny}|\\).`, KL(`|${nx}${ny}| =`), Math.sqrt(n), "Wzór: \\(\\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}\\).", `\\(${odlRozw(X, Y, nx, ny)}\\)`);
+    return { tresc: `Oblicz obwód trójkąta o wierzchołkach \\(A=${tp(...A)}\\), \\(B=${tp(...B)}\\), \\(C=${tp(...C)}\\).`,
+      kroki: [k(A, B, "A", "B", a), k(B, C, "B", "C", b), k(A, C, "A", "C", c),
+        krok("Dodaj długości boków.", KL("Obwód ="), Math.sqrt(a) + Math.sqrt(b) + Math.sqrt(c), "Pierwiastki z tej samej liczby dodajesz jak wyrazy podobne: \\(2\\sqrt5+\\sqrt5=3\\sqrt5\\). Różne pierwiastki zostają osobno.", `\\(${rTeX(a)}+${rTeX(b)}+${rTeX(c)}\\)`)],
+      koniec: "Obwód to suma długości trzech boków.",
+      rys: { ...ramka([A, B, C]), el: [{ t: "w", pkt: [A, B, C], k: "c", wyp: true }, P_(A, "A"), P_(B, "B"), P_(C, "C")] } };
+  } },
+  pkParam: { nazwa: "odległość z parametrem", f() {
+    const [p, q] = wybierz(PITAGORAS.filter(([p, q]) => p && q).concat([[1, 2], [2, 1], [1, 3], [3, 1], [2, 3]]));
+    const B = pkt(-4, 4), y = B[1] - q * wybierz([1, -1]), d2_ = p * p + q * q;
+    return { tresc: `Dla jakich wartości \\(m\\) odległość punktów \\(A=(m,\\ ${tl(y)})\\) i \\(B=${tp(...B)}\\) jest równa \\(${rTeX(d2_)}\\)?`,
+      kroki: [
+        krok("Zapisz kwadrat różnicy rzędnych \\((y_B-y_A)^2\\).", KL("(y<sub>B</sub> − y<sub>A</sub>)² ="), q * q, "Rzędne obu punktów są znane.", `\\((${tl(B[1])}-${tn(y)})^2=${q * q}\\)`),
+        krok(`Z warunku \\(|AB|^2=${d2_}\\) oblicz, ile musi wynosić \\((${tl(B[0])}-m)^2\\).`, KL(`(${B[0]} − m)² =`), p * p, `\\((${tl(B[0])}-m)^2+${q * q}=${d2_}\\)`, `\\((${tl(B[0])}-m)^2=${d2_}-${q * q}=${p * p}\\)`),
+        krok("Podaj wszystkie wartości \\(m\\) (oddziel je średnikiem).", { e: "m =", typ: "liczby" }, [B[0] - p, B[0] + p], `Liczba podniesiona do kwadratu daje ${p * p}, gdy jest równa \\(${p}\\) albo \\(-${p}\\).`, `\\(${tl(B[0])}-m=${p}\\) lub \\(${tl(B[0])}-m=-${p}\\), czyli \\(m=${B[0] - p}\\) lub \\(m=${B[0] + p}\\)`),
+      ],
+      koniec: `\\(m=${B[0] - p}\\) lub \\(m=${B[0] + p}\\) – są dwa takie punkty \\(A\\), po obu stronach \\(B\\).` };
+  } },
+  /* ---------- 2. środek odcinka ---------- */
+  pkSr: { nazwa: "środek odcinka", f() {
+    let A, B; do { A = pkt(); B = pkt(); } while (!rozne(A, B));
+    const S = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
+    return { tresc: `Wyznacz środek \\(S\\) odcinka \\(AB\\), gdy \\(A=${tp(...A)}\\), \\(B=${tp(...B)}\\).`,
+      kroki: [
+        krok("Oblicz \\(x_S=\\dfrac{x_A+x_B}{2}\\).", KL("x<sub>S</sub> ="), S[0], "Dodaj odcięte i podziel przez 2. Wynik może być ułamkiem, np. 5/2.", `\\(x_S=\\dfrac{${tl(A[0])}+${tn(B[0])}}{2}=\\dfrac{${A[0] + B[0]}}{2}=${tl(S[0])}\\)`),
+        krok("Oblicz \\(y_S=\\dfrac{y_A+y_B}{2}\\).", KL("y<sub>S</sub> ="), S[1], "Tak samo z rzędnymi.", `\\(y_S=\\dfrac{${tl(A[1])}+${tn(B[1])}}{2}=\\dfrac{${A[1] + B[1]}}{2}=${tl(S[1])}\\)`),
+        krok("Zapisz punkt \\(S\\).", KP("S ="), S, "Najpierw odcięta, potem rzędna.", `\\(S=${tp(...S)}\\)`),
+      ],
+      koniec: `\\(S=${tp(...S)}\\)`,
+      rys: { ...ramka([A, B]), el: [{ t: "o", od: A, do: B, k: "a" }, P_(A, "A"), P_(B, "B"), P_(S, "S", "c")] } };
+  } },
+  pkKon: { nazwa: "drugi koniec odcinka", f() {
+    let A, B; do { A = pkt(-5, 5); B = pkt(-5, 5); } while (!rozne(A, B) || (A[0] + B[0]) % 2 || (A[1] + B[1]) % 2);
+    const S = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
+    return { tresc: `Punkt \\(S=${tp(...S)}\\) jest środkiem odcinka \\(AB\\), a \\(A=${tp(...A)}\\). Wyznacz \\(B\\).`,
+      kroki: [
+        krok("Ze wzoru \\(x_S=\\dfrac{x_A+x_B}{2}\\) wynika, że \\(x_A+x_B=2x_S\\). Ile wynosi \\(x_A+x_B\\)?", KL("x<sub>A</sub> + x<sub>B</sub> ="), 2 * S[0], "Pomnóż \\(x_S\\) przez 2.", `\\(x_A+x_B=2\\cdot${tn(S[0])}=${2 * S[0]}\\)`),
+        krok("Oblicz \\(x_B\\).", KL("x<sub>B</sub> ="), B[0], "Od sumy odejmij \\(x_A\\).", `\\(x_B=${2 * S[0]}-${tn(A[0])}=${B[0]}\\)`),
+        krok("Tak samo oblicz \\(y_B=2y_S-y_A\\).", KL("y<sub>B</sub> ="), B[1], "\\(y_B=2y_S-y_A\\)", `\\(y_B=2\\cdot${tn(S[1])}-${tn(A[1])}=${B[1]}\\)`),
+        krok("Zapisz punkt \\(B\\).", KP("B ="), B, "Współrzędne z kroków 2 i 3: najpierw \\(x_B\\), potem \\(y_B\\).", `\\(B=${tp(...B)}\\)`),
+      ],
+      koniec: `\\(B=${tp(...B)}\\). Sprawdzenie: środek odcinka od \\(${tp(...A)}\\) do \\(${tp(...B)}\\) to \\(${tp(...S)}\\).`,
+      rys: { ...ramka([A, B]), el: [{ t: "o", od: A, do: B, k: "a" }, P_(A, "A"), P_(B, "B", "b"), P_(S, "S", "c")] } };
+  } },
+  pkRown: { nazwa: "czwarty wierzchołek równoległoboku", f() {
+    let A, B, C, D;
+    do { A = pkt(-5, 3); B = pkt(-3, 5); C = pkt(-3, 5); D = [A[0] + C[0] - B[0], A[1] + C[1] - B[1]]; }
+    while (!rozne(A, B) || !rozne(B, C) || (B[0] - A[0]) * (C[1] - A[1]) === (B[1] - A[1]) * (C[0] - A[0]) || Math.abs(D[0]) > 7 || Math.abs(D[1]) > 7);
+    const S = [(A[0] + C[0]) / 2, (A[1] + C[1]) / 2];
+    return { tresc: `Punkty \\(A=${tp(...A)}\\), \\(B=${tp(...B)}\\), \\(C=${tp(...C)}\\) są kolejnymi wierzchołkami równoległoboku \\(ABCD\\). Wyznacz \\(D\\).`,
+      kroki: [
+        krok("Przekątne równoległoboku dzielą się na połowy. Wyznacz środek \\(S\\) przekątnej \\(AC\\).", KP("S ="), S, "Środek odcinka: średnie współrzędnych \\(A\\) i \\(C\\).", `\\(S=\\left(\\dfrac{${tl(A[0])}+${tn(C[0])}}{2},\\ \\dfrac{${tl(A[1])}+${tn(C[1])}}{2}\\right)=${tp(...S)}\\)`),
+        krok("\\(S\\) jest też środkiem przekątnej \\(BD\\). Oblicz \\(x_D=2x_S-x_B\\).", KL("x<sub>D</sub> ="), D[0], "To ten sam sposób co przy drugim końcu odcinka.", `\\(x_D=2\\cdot${tn(S[0])}-${tn(B[0])}=${D[0]}\\)`),
+        krok("Oblicz \\(y_D=2y_S-y_B\\).", KL("y<sub>D</sub> ="), D[1], "Tak jak w poprzednim kroku, tylko z rzędnymi.", `\\(y_D=2\\cdot${tn(S[1])}-${tn(B[1])}=${D[1]}\\)`),
+      ],
+      koniec: `\\(D=${tp(...D)}\\)`,
+      rys: { ...ramka([A, B, C, D]), el: [{ t: "w", pkt: [A, B, C, D], k: "c", wyp: true }, { t: "o", od: A, do: C, k: "m", s: "przer" }, { t: "o", od: B, do: D, k: "m", s: "przer" }, P_(A, "A"), P_(B, "B"), P_(C, "C"), P_(D, "D", "b"), P_(S, "S", "m")] } };
+  } },
+  pkSrodkowa: { nazwa: "długość środkowej trójkąta", f() {
+    let A, B, C, M;
+    for (;;) {
+      A = pkt(-5, 5); B = pkt(-5, 5); C = pkt(-5, 5);
+      if ((B[0] + C[0]) % 2 || (B[1] + C[1]) % 2 || !rozne(B, C) || (B[0] - A[0]) * (C[1] - A[1]) === (B[1] - A[1]) * (C[0] - A[0])) continue;
+      M = [(B[0] + C[0]) / 2, (B[1] + C[1]) / 2];
+      if (rozne(A, M)) break;
+    }
+    const n = d2(A, M);
+    return { tresc: `Trójkąt ma wierzchołki \\(A=${tp(...A)}\\), \\(B=${tp(...B)}\\), \\(C=${tp(...C)}\\). Oblicz długość środkowej \\(AM\\) poprowadzonej z wierzchołka \\(A\\).`,
+      kroki: [
+        krok("Środkowa łączy wierzchołek ze środkiem przeciwległego boku. Wyznacz środek \\(M\\) boku \\(BC\\).", KP("M ="), M, "Przeciwległy do \\(A\\) jest bok \\(BC\\).", `\\(M=\\left(\\dfrac{${tl(B[0])}+${tn(C[0])}}{2},\\ \\dfrac{${tl(B[1])}+${tn(C[1])}}{2}\\right)=${tp(...M)}\\)`),
+        krok("Oblicz \\(|AM|^2=(x_M-x_A)^2+(y_M-y_A)^2\\).", KL("|AM|² ="), n, "Różnice współrzędnych podnieś do kwadratu i dodaj.", `\\(|AM|^2=${tn(M[0] - A[0])}^2+${tn(M[1] - A[1])}^2=${n}\\)`),
+        krok("Podaj \\(|AM|\\).", KL("|AM| ="), Math.sqrt(n), "Pierwiastek z poprzedniego wyniku, uproszczony.", `\\(|AM|=${czyKwadrat(n) ? Math.sqrt(n) : `\\sqrt{${n}}` + (pierw(n) === `\\sqrt{${n}}` ? "" : "=" + pierw(n))}\\)`),
+      ],
+      koniec: `\\(|AM|=${rTeX(n)}\\)`,
+      rys: { ...ramka([A, B, C]), el: [{ t: "w", pkt: [A, B, C], k: "c", wyp: true }, { t: "o", od: A, do: M, k: "b" }, P_(A, "A"), P_(B, "B"), P_(C, "C"), P_(M, "M", "b")] } };
+  } },
+  /* ---------- 3. równanie okręgu ---------- */
+  pkOkrPunkt: { nazwa: "okrąg o środku S przez punkt P", f() {
+    let S, P; do { S = okrLos(); P = pkt(-6, 6); } while (!rozne(S, P));
+    const r2 = d2(S, P);
+    return { tresc: `Napisz równanie okręgu o środku \\(S=${tp(...S)}\\), który przechodzi przez punkt \\(P=${tp(...P)}\\).`,
+      kroki: [
+        krok("Promień to odległość \\(|SP|\\). Oblicz \\(r^2=(x_P-x_S)^2+(y_P-y_S)^2\\).", KL("r² ="), r2, "Do równania potrzebujesz \\(r^2\\), więc nie musisz wyciągać pierwiastka.", `\\(r^2=${tn(P[0] - S[0])}^2+${tn(P[1] - S[1])}^2=${r2}\\)`),
+        krok("Zapisz równanie okręgu \\((x-a)^2+(y-b)^2=r^2\\).", KO(), { a: S[0], b: S[1], r2 }, `Środek \\(S=(a,\\ b)\\). Przy ujemnej współrzędnej w nawiasie pojawia się plus: \\(x-(-3)=x+3\\).`, `\\(${tokr(S[0], S[1], r2)}\\)`),
+      ],
+      koniec: `\\(${tokr(S[0], S[1], r2)}\\)`,
+      rys: { ...ramka([S, P].concat([[S[0] + Math.sqrt(r2), S[1]], [S[0] - Math.sqrt(r2), S[1]], [S[0], S[1] + Math.sqrt(r2)], [S[0], S[1] - Math.sqrt(r2)]])), el: [{ t: "k", x: S[0], y: S[1], r: Math.sqrt(r2), k: "c" }, { t: "o", od: S, do: P, k: "b" }, P_(S, "S"), P_(P, "P", "b")] } };
+  } },
+  pkOkrSred: { nazwa: "okrąg o średnicy AB", f() {
+    let A, B; do { A = pkt(-5, 5); B = pkt(-5, 5); } while (!rozne(A, B) || (A[0] + B[0]) % 2 || (A[1] + B[1]) % 2);
+    const S = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2], r2 = d2(S, A);
+    return { tresc: `Punkty \\(A=${tp(...A)}\\) i \\(B=${tp(...B)}\\) są końcami średnicy okręgu. Napisz równanie tego okręgu.`,
+      kroki: [
+        krok("Środek okręgu to środek średnicy. Wyznacz \\(S\\).", KP("S ="), S, "Średnie współrzędnych \\(A\\) i \\(B\\).", `\\(S=${tp(...S)}\\)`),
+        krok("Promień to \\(|SA|\\). Oblicz \\(r^2\\).", KL("r² ="), r2, "\\(r^2=(x_A-x_S)^2+(y_A-y_S)^2\\)", `\\(r^2=${tn(A[0] - S[0])}^2+${tn(A[1] - S[1])}^2=${r2}\\)`),
+        krok("Zapisz równanie okręgu.", KO(), { a: S[0], b: S[1], r2 }, "\\((x-x_S)^2+(y-y_S)^2=r^2\\)", `\\(${tokr(S[0], S[1], r2)}\\)`),
+      ],
+      koniec: `\\(${tokr(S[0], S[1], r2)}\\)` };
+  } },
+  pkOkrOdczyt: { nazwa: "środek i promień z równania", f() {
+    const S = okrLos(5), r2 = wybierz([1, 4, 9, 16, 25, 2, 8, 12, 18, 20, 5, 3]);
+    return { tresc: `Odczytaj środek i promień okręgu \\(${tokr(S[0], S[1], r2)}\\).`,
+      kroki: [
+        krok("Odczytaj \\(a\\) z nawiasu z \\(x\\) (pamiętaj: \\(x-a\\)).", KL("a ="), S[0], "\\(x+3=x-(-3)\\), więc \\(a=-3\\). Brak nawiasu (samo \\(x^2\\)) oznacza \\(a=0\\).", `\\(a=${S[0]}\\)`),
+        krok("Odczytaj \\(b\\) z nawiasu z \\(y\\).", KL("b ="), S[1], "Tak samo jak \\(a\\).", `\\(b=${S[1]}\\)`),
+        krok("Podaj promień \\(r\\) (prawa strona to \\(r^2\\)).", KL("r ="), Math.sqrt(r2), `\\(r=\\sqrt{${r2}}\\) – uprość, jeśli się da.`, `\\(r=${rTeX(r2)}\\)`),
+      ],
+      koniec: `\\(S=${tp(...S)}\\), \\(r=${rTeX(r2)}\\)` };
+  } },
+  /* ---------- 4. położenie ---------- */
+  pkPunktOkr: { nazwa: "punkt a okrąg", f() {
+    const S = okrLos(3), r2 = wybierz([5, 10, 13, 17, 20, 25, 8, 18]);
+    const kand = []; for (let x = S[0] - 6; x <= S[0] + 6; x++) for (let y = S[1] - 6; y <= S[1] + 6; y++) { const d = (x - S[0]) ** 2 + (y - S[1]) ** 2; if (Math.abs(d - r2) <= 6) kand.push([x, y, d]); }
+    const typ = losuj(0, 2), pul = kand.filter(([, , d]) => (typ === 0 ? d === r2 : typ === 1 ? d < r2 : d > r2));
+    const [x, y, d] = wybierz(pul.length ? pul : kand), kl = d === r2 ? 0 : d < r2 ? 1 : 2;
+    return { tresc: `Określ położenie punktu \\(P=${tp(x, y)}\\) względem okręgu \\(${tokr(S[0], S[1], r2)}\\).`,
+      kroki: [
+        krok("Oblicz \\(|SP|^2\\), podstawiając współrzędne \\(P\\) do lewej strony równania.", KL("|SP|² ="), d, `\\(S=${tp(...S)}\\)`, `\\(${tn(x - S[0])}^2+${tn(y - S[1])}^2=${d}\\)`),
+        krok("Ile wynosi \\(r^2\\)?", KL("r² ="), r2, "To prawa strona równania okręgu.", `\\(r^2=${r2}\\)`),
+        krok("Porównaj i wybierz położenie punktu.", { e: "P leży", typ: "wybor", opcje: ["na okręgu", "wewnątrz koła", "na zewnątrz koła"] }, kl, "\\(|SP|^2=r^2\\) – na okręgu; mniejsze – wewnątrz; większe – na zewnątrz.", `\\(${d}${d === r2 ? "=" : d < r2 ? "\\lt" : "\\gt"}${r2}\\)`),
+      ],
+      koniec: `Punkt \\(P\\) leży ${["na okręgu", "wewnątrz koła (wewnątrz okręgu)", "na zewnątrz okręgu"][kl]}.` };
+  } },
+  pkDwaOkr: { nazwa: "wzajemne położenie dwóch okręgów", f() {
+    const [p, q, d] = wybierz([[3, 4, 5], [6, 8, 10], [4, 3, 5], [0, 5, 5], [5, 0, 5], [0, 6, 6], [8, 6, 10]]);
+    const S1 = okrLos(3), S2 = [S1[0] + p * wybierz([1, -1]), S1[1] + q * wybierz([1, -1])];
+    const typ = losuj(0, 4); let r1, r2;
+    for (;;) {
+      r1 = losuj(1, 6); r2 = losuj(1, 7); if (klasaOkregow(d * d, r1, r2) === typ) break;
+      if (Math.random() < .02) break;
+    }
+    const kl = klasaOkregow(d * d, r1, r2);
+    return { tresc: `Określ wzajemne położenie okręgów \\(${tokr(S1[0], S1[1], r1 * r1)}\\) i \\(${tokr(S2[0], S2[1], r2 * r2)}\\).`,
+      kroki: [
+        krok("Oblicz odległość środków \\(|S_1S_2|\\).", KL("|S₁S₂| ="), d, `\\(S_1=${tp(...S1)}\\), \\(S_2=${tp(...S2)}\\)`, `\\(|S_1S_2|=\\sqrt{${tn(S2[0] - S1[0])}^2+${tn(S2[1] - S1[1])}^2}=${d}\\)`),
+        krok("Oblicz sumę promieni \\(r_1+r_2\\).", KL("r₁ + r₂ ="), r1 + r2, "Promienie to pierwiastki z prawych stron równań.", `\\(${r1}+${r2}=${r1 + r2}\\)`),
+        krok("Oblicz \\(|r_1-r_2|\\).", KL("|r₁ − r₂| ="), Math.abs(r1 - r2), "Różnica większego i mniejszego promienia.", `\\(|${r1}-${r2}|=${Math.abs(r1 - r2)}\\)`),
+        krok("Porównaj \\(d\\) z tymi liczbami i wybierz położenie.", { e: "Okręgi są", typ: "wybor", opcje: dwaOkregi }, kl,
+          "\\(d\\gt r_1+r_2\\) – rozłączne zewnętrznie; \\(d=r_1+r_2\\) – styczne zewnętrznie; \\(|r_1-r_2|\\lt d\\lt r_1+r_2\\) – przecinają się; \\(d=|r_1-r_2|\\) – styczne wewnętrznie; \\(d\\lt|r_1-r_2|\\) – jeden wewnątrz drugiego.", dwaOkregi[kl]),
+      ],
+      koniec: `Okręgi są ${dwaOkregi[kl]}.`,
+      rys: { ...ramka([S1, S2].concat([[S1[0] - r1, S1[1] - r1], [S1[0] + r1, S1[1] + r1], [S2[0] - r2, S2[1] - r2], [S2[0] + r2, S2[1] + r2]])), el: [{ t: "k", x: S1[0], y: S1[1], r: r1, k: "a" }, { t: "k", x: S2[0], y: S2[1], r: r2, k: "b" }, P_(S1, "S₁", "a"), P_(S2, "S₂", "b")] } };
+  } },
+  /* ---------- 5. układy równań ---------- */
+  pkPodst: { nazwa: "układ – metoda podstawiania", f() {
+    let x, y, b1, a2, b2, c1, c2;
+    do { x = losuj(-5, 5); y = losuj(-5, 5); b1 = nz(-4, 4); a2 = nz(-5, 5); b2 = nz(-5, 5); } while (b2 - a2 * b1 === 0);
+    c1 = x + b1 * y; c2 = a2 * x + b2 * y;
+    const r1 = `x${b1 < 0 ? "-" : "+"}${Math.abs(b1) === 1 ? "" : Math.abs(b1)}y=${c1}`;
+    const r2 = `${a2 === 1 ? "" : a2 === -1 ? "-" : a2}x${b2 < 0 ? "-" : "+"}${Math.abs(b2) === 1 ? "" : Math.abs(b2)}y=${c2}`;
+    const xy = `${c1}${b1 < 0 ? "+" : "-"}${Math.abs(b1) === 1 ? "" : Math.abs(b1)}y`;
+    const wsp = b2 - a2 * b1, praw = c2 - a2 * c1;
+    return { tresc: `Rozwiąż metodą podstawiania: \\(\\begin{cases}${r1}\\\\ ${r2}\\end{cases}\\)`,
+      kroki: [
+        krok(`Z pierwszego równania \\(x=${xy}\\). Podstaw to do drugiego i uporządkuj: otrzymasz \\(${wsp}y=\\ldots\\) Ile wynosi prawa strona?`, KL(`${wsp}y =`), praw,
+          `\\(${a2}(${xy})${b2 < 0 ? "" : "+"}${b2}y=${c2}\\). Wymnóż nawias, przenieś liczbę na prawą stronę.`, `\\(${a2 * c1}${-a2 * b1 < 0 ? "" : "+"}${-a2 * b1}y${b2 < 0 ? "" : "+"}${b2}y=${c2}\\Rightarrow ${wsp}y=${praw}\\)`),
+        krok("Oblicz \\(y\\).", KL("y ="), y, `Podziel obie strony przez \\(${wsp}\\).`, `\\(y=${praw}:${tn(wsp)}=${y}\\)`),
+        krok("Oblicz \\(x\\) z pierwszego równania.", KL("x ="), x, `\\(x=${xy}\\), podstaw \\(y=${y}\\).`, `\\(x=${c1}${b1 < 0 ? "+" : "-"}${Math.abs(b1)}\\cdot${tn(y)}=${x}\\)`),
+      ],
+      koniec: `\\(\\begin{cases}x=${x}\\\\ y=${y}\\end{cases}\\) – sprawdź w drugim równaniu: \\(${a2}\\cdot${tn(x)}${b2 < 0 ? "" : "+"}${b2}\\cdot${tn(y)}=${c2}\\) ✓` };
+  } },
+  pkPrzec: { nazwa: "punkt przecięcia prostych y = ax + b", f() {
+    let a1, a2, x, y;
+    do { a1 = nz(-4, 4); a2 = nz(-4, 4); x = losuj(-4, 4); y = losuj(-5, 5); } while (a1 === a2);
+    const b1 = y - a1 * x, b2 = y - a2 * x;
+    const pr = (a, b) => `y=${a === 1 ? "" : a === -1 ? "-" : a}x${b ? (b < 0 ? b : "+" + b) : ""}`;
+    return { tresc: `Wyznacz punkt przecięcia prostych \\(${pr(a1, b1)}\\) i \\(${pr(a2, b2)}\\).`,
+      kroki: [
+        krok("W punkcie przecięcia \\(y\\) jest takie samo, więc prawe strony są równe. Rozwiąż to równanie: \\(x=\\ ?\\)", KL("x ="), x,
+          `\\(${pr(a1, b1).slice(2)}=${pr(a2, b2).slice(2)}\\) – przenieś \\(x\\) na lewą stronę, liczby na prawą.`, `\\(${a1 - a2}x=${b2 - b1}\\Rightarrow x=${x}\\)`),
+        krok("Oblicz \\(y\\) (podstaw \\(x\\) do dowolnej prostej).", KL("y ="), y, "Podstaw obliczone \\(x\\) do równania pierwszej prostej.", `\\(y=${a1}\\cdot${tn(x)}${b1 < 0 ? "" : "+"}${b1}=${y}\\)`),
+        krok("Zapisz punkt przecięcia.", KP("P ="), [x, y], "Najpierw \\(x\\), potem \\(y\\).", `\\(P=${tp(x, y)}\\)`),
+      ],
+      koniec: `Proste przecinają się w punkcie \\(${tp(x, y)}\\).`,
+      rys: { x: [-8, 8], y: [-8, 8], el: [{ t: "l", a: -a1, b: 1, c: b1, k: "a" }, { t: "l", a: -a2, b: 1, c: b2, k: "b" }, P_([x, y], "P", "c")] } };
+  } },
+  pkPrzeciwne: { nazwa: "układ – przeciwne współczynniki", f() {
+    let a1, b1, a2, b2, x, y, k;
+    do { x = losuj(-4, 4); y = losuj(-4, 4); a1 = nz(-5, 5); a2 = nz(-5, 5); b1 = nz(-3, 3); k = wybierz([2, 3, -2, -3]); b2 = -k * b1; } while (a1 + k * a2 === 0 || Math.abs(b2) > 9);
+    const c1 = a1 * x + b1 * y, c2 = a2 * x + b2 * y;
+    const rw = (a, b, c) => `${a === 1 ? "" : a === -1 ? "-" : a}x${b < 0 ? "-" : "+"}${Math.abs(b) === 1 ? "" : Math.abs(b)}y=${c}`;
+    return { tresc: `Rozwiąż metodą przeciwnych współczynników: \\(\\begin{cases}${rw(a1, b1, c1)}\\\\ ${rw(a2, b2, c2)}\\end{cases}\\)`,
+      kroki: [
+        krok("Przez jaką liczbę trzeba pomnożyć <strong>pierwsze</strong> równanie, żeby współczynniki przy \\(y\\) były liczbami przeciwnymi?", KL("mnożnik ="), k,
+          `Współczynniki przy \\(y\\): \\(${b1}\\) i \\(${b2}\\). Szukasz liczby \\(k\\), dla której \\(${b1}k=${-b2}\\).`, `\\(${b1}\\cdot${tn(k)}=${b1 * k}\\) i \\(${b2}\\) – suma równa 0`),
+        krok(`Po pomnożeniu: \\(${rw(k * a1, k * b1, k * c1)}\\). Dodaj równania stronami i oblicz \\(x\\).`, KL("x ="), x,
+          "Wyrazy z \\(y\\) się redukują – zostaje równanie z samym \\(x\\).", `\\(${k * a1 + a2}x=${k * c1 + c2}\\Rightarrow x=${x}\\)`),
+        krok("Podstaw \\(x\\) do pierwszego równania i oblicz \\(y\\).", KL("y ="), y, "Po podstawieniu zostaje równanie z jedną niewiadomą \\(y\\).", `\\(${a1}\\cdot${tn(x)}${b1 < 0 ? "" : "+"}${b1}y=${c1}\\Rightarrow y=${y}\\)`),
+      ],
+      koniec: `\\(x=${x},\\ y=${y}\\)` };
+  } },
+  /* ---------- 6. symetria osiowa ---------- */
+  pkSymOsPkt: { nazwa: "obraz punktu względem osi", f() {
+    let P; do { P = pkt(); } while (!P[0] || !P[1]);
+    return { tresc: `Dany jest punkt \\(P=${tp(...P)}\\). Wyznacz jego obrazy w symetriach względem osi układu.`,
+      kroki: [
+        krok("Obraz \\(P'\\) w symetrii względem osi \\(OX\\).", KP("P' ="), [P[0], -P[1]], "Względem \\(OX\\): \\((x,\\ y)\\to(x,\\ -y)\\) – zmienia się znak rzędnej.", `\\(P'=${tp(P[0], -P[1])}\\)`),
+        krok("Obraz \\(P''\\) w symetrii względem osi \\(OY\\).", KP("P'' ="), [-P[0], P[1]], "Względem \\(OY\\): \\((x,\\ y)\\to(-x,\\ y)\\) – zmienia się znak odciętej.", `\\(P''=${tp(-P[0], P[1])}\\)`),
+        krok("Punkt \\(P'\\) odbij jeszcze względem osi \\(OY\\). Jaki punkt otrzymasz?", KP("Q ="), [-P[0], -P[1]], "Zastosuj wzór dla \\(OY\\) do punktu \\(P'\\).", `\\(Q=${tp(-P[0], -P[1])}\\) – obie współrzędne zmieniły znak: to symetria względem początku układu.`),
+      ],
+      koniec: "Dwie symetrie względem prostopadłych osi dają razem symetrię względem punktu ich przecięcia.",
+      rys: { x: [-7, 7], y: [-7, 7], el: [P_(P, "P"), P_([P[0], -P[1]], "P'", "b"), P_([-P[0], P[1]], "P''", "c"), P_([-P[0], -P[1]], "Q", "m")] } };
+  } },
+  pkSymOsOkr: { nazwa: "obraz okręgu względem osi", f() {
+    let S; do { S = okrLos(5); } while (!S[0] || !S[1]);
+    const r2 = wybierz([1, 4, 9, 16, 2, 5, 8, 10]), os = wybierz(["OX", "OY"]), S2 = os === "OX" ? [S[0], -S[1]] : [-S[0], S[1]];
+    return { tresc: `Napisz równanie obrazu okręgu \\(${tokr(S[0], S[1], r2)}\\) w symetrii względem osi \\(${os}\\).`,
+      kroki: [
+        krok("Odczytaj środek okręgu.", KP("S ="), S, "\\((x-a)^2+(y-b)^2=r^2\\) – środek \\((a,\\ b)\\); uważaj na znaki.", `\\(S=${tp(...S)}\\)`),
+        krok(`Wyznacz obraz środka w symetrii względem osi \\(${os}\\).`, KP("S' ="), S2, os === "OX" ? "Zmienia się znak rzędnej." : "Zmienia się znak odciętej.", `\\(S'=${tp(...S2)}\\)`),
+        krok("Symetria nie zmienia promienia. Ile wynosi \\(r^2\\) obrazu?", KL("r² ="), r2, "Prawa strona równania się nie zmienia.", `\\(r^2=${r2}\\)`),
+        krok("Zapisz równanie obrazu.", KO(), { a: S2[0], b: S2[1], r2 }, "\\((x-a)^2+(y-b)^2=r^2\\), gdzie \\((a,\\ b)\\) to obraz środka.", `\\(${tokr(S2[0], S2[1], r2)}\\)`),
+      ],
+      koniec: `\\(${tokr(S2[0], S2[1], r2)}\\)` };
+  } },
+  pkSymOsParam: { nazwa: "punkty symetryczne względem osi – parametry", f() {
+    const os = wybierz(["OX", "OY"]), m = nz(-5, 5), n = nz(-5, 5), p = losuj(-3, 3), k = wybierz([1, 2, 3]);
+    // A=(m+p, k·n), B=(xB, yB) symetryczny do A
+    const xA = m + p, yA = k * n;
+    const yB = os === "OX" ? -yA : yA, xB = os === "OX" ? xA : -xA;
+    const ze = (s, c) => (c ? `${s}${c < 0 ? c : "+" + c}` : s);
+    return { tresc: `Punkty \\(A=(${ze("m", p)},\\ ${k === 1 ? "" : k}n)\\) i \\(B=(${xB},\\ ${tl(yB)})\\) są symetryczne względem osi \\(${os}\\). Oblicz \\(m\\) i \\(n\\).`,
+      kroki: [
+        krok(`Co wiesz o współrzędnych punktów symetrycznych względem osi \\(${os}\\)?`, { e: "", typ: "wybor", opcje: ["odcięte równe, rzędne przeciwne", "odcięte przeciwne, rzędne równe", "obie współrzędne przeciwne"] }, os === "OX" ? 0 : 1,
+          "Pomyśl o odbiciu w lustrze leżącym na osi: która współrzędna się nie zmienia?", os === "OX" ? "Względem \\(OX\\): \\(x_A=x_B\\), \\(y_A=-y_B\\)." : "Względem \\(OY\\): \\(x_A=-x_B\\), \\(y_A=y_B\\)."),
+        krok("Oblicz \\(m\\).", KL("m ="), m, os === "OX" ? `\\(${ze("m", p)}=${xB}\\)` : `\\(${ze("m", p)}=-(${xB})\\)`, `\\(m=${m}\\)`),
+        krok("Oblicz \\(n\\).", KL("n ="), n, os === "OX" ? `\\(${k === 1 ? "" : k}n=-(${tl(yB)})\\)` : `\\(${k === 1 ? "" : k}n=${tl(yB)}\\)`, `\\(n=${n}\\)`),
+      ],
+      koniec: `\\(m=${m},\\ n=${n}\\): \\(A=${tp(xA, yA)}\\), \\(B=${tp(xB, yB)}\\).` };
+  } },
+  /* ---------- 7. symetria środkowa ---------- */
+  pkSymOOkr: { nazwa: "obraz okręgu względem O", f() {
+    let S; do { S = okrLos(5); } while (!S[0] && !S[1]);
+    const r2 = wybierz([1, 4, 9, 16, 3, 5, 10, 12]);
+    return { tresc: `Napisz równanie obrazu okręgu \\(${tokr(S[0], S[1], r2)}\\) w symetrii względem początku układu współrzędnych.`,
+      kroki: [
+        krok("Odczytaj środek okręgu.", KP("S ="), S, "Uważaj na znaki w nawiasach.", `\\(S=${tp(...S)}\\)`),
+        krok("Wyznacz obraz środka w symetrii względem \\(O\\).", KP("S' ="), [-S[0], -S[1]], "Względem \\(O\\): \\((x,\\ y)\\to(-x,\\ -y)\\).", `\\(S'=${tp(-S[0], -S[1])}\\)`),
+        krok("Zapisz równanie obrazu (promień się nie zmienia).", KO(), { a: -S[0], b: -S[1], r2 }, "\\((x-a)^2+(y-b)^2=r^2\\), gdzie \\((a,\\ b)\\) to obraz środka.", `\\(${tokr(-S[0], -S[1], r2)}\\)`),
+      ],
+      koniec: `\\(${tokr(-S[0], -S[1], r2)}\\)` };
+  } },
+  pkSymS: { nazwa: "★ obraz punktu względem punktu S", f() {
+    let A, S; do { A = pkt(-5, 5); S = pkt(-3, 3); } while (!rozne(A, S));
+    const B = [2 * S[0] - A[0], 2 * S[1] - A[1]];
+    return { tresc: `Wyznacz obraz \\(A'\\) punktu \\(A=${tp(...A)}\\) w symetrii względem punktu \\(S=${tp(...S)}\\).`,
+      kroki: [
+        krok("Punkt \\(S\\) jest środkiem odcinka \\(AA'\\). Ile wynosi \\(x_A+x_{A'}\\)?", KL("x<sub>A</sub> + x<sub>A'</sub> ="), 2 * S[0], "\\(x_S=\\dfrac{x_A+x_{A'}}{2}\\)", `\\(2x_S=${2 * S[0]}\\)`),
+        krok("Oblicz \\(x_{A'}\\).", KL("x<sub>A'</sub> ="), B[0], "\\(x_{A'}=2x_S-x_A\\)", `\\(x_{A'}=${2 * S[0]}-${tn(A[0])}=${B[0]}\\)`),
+        krok("Oblicz \\(y_{A'}=2y_S-y_A\\).", KL("y<sub>A'</sub> ="), B[1], "Tak samo jak dla odciętej.", `\\(y_{A'}=${2 * S[1]}-${tn(A[1])}=${B[1]}\\)`),
+      ],
+      koniec: `\\(A'=${tp(...B)}\\)`,
+      rys: { ...ramka([A, S, B]), el: [{ t: "o", od: A, do: B, k: "m", s: "przer" }, P_(A, "A"), P_(S, "S", "c"), P_(B, "A'", "b")] } };
+  } },
+  pkSymOParam: { nazwa: "punkty symetryczne względem O – parametry", f() {
+    const m = nz(-5, 5), n = nz(-5, 5), k = wybierz([1, 2, 3]), p = losuj(-3, 3);
+    const xA = k * m, yA = n + p, B = [-xA, -yA];
+    return { tresc: `Punkty \\(A=(${k === 1 ? "" : k}m,\\ n${p ? (p < 0 ? p : "+" + p) : ""})\\) i \\(B=${tp(...B)}\\) są symetryczne względem początku układu. Oblicz \\(m\\) i \\(n\\).`,
+      kroki: [
+        krok("Jaka jest odcięta punktu \\(A\\) (liczba przeciwna do odciętej \\(B\\))?", KL("x<sub>A</sub> ="), xA, "Względem \\(O\\) obie współrzędne zmieniają znak.", `\\(x_A=${xA}\\)`),
+        krok("Oblicz \\(m\\).", KL("m ="), m, `\\(${k === 1 ? "" : k}m=${xA}\\)`, `\\(m=${m}\\)`),
+        krok("Oblicz \\(n\\).", KL("n ="), n, `\\(n${p ? (p < 0 ? p : "+" + p) : ""}=${yA}\\)`, `\\(n=${n}\\)`),
+      ],
+      koniec: `\\(m=${m},\\ n=${n}\\)` };
+  } },
+};
+const pkZ = (...k) => Object.fromEntries(k.map((x) => [x, PK[x]]));
+
+/* ===== Wpisywanie odpowiedzi przy zadaniach i zadania prowadzone krok po kroku =====
+   Wspólne dla stron mt (1A, 4T). Korzysta z funkcji strony: $, renderTeX, esc, wybierz, sprawdzPole, PODPOWIEDZI
+   oraz – jeśli są – z parserów: wyrazenie, punkt, okrag, wyr, zbiorZTekstu. */
+
+// wynik sprawdzenia pola: {w: true|false|null, uwaga}
+function ocenPole(typ, t, odp) {
+  let w = sprawdzPole(typ, t, odp), uwaga = "";
+  if (w && typeof w === "object") { uwaga = w.uwaga || ""; w = w.ok; }
+  return { w, uwaga };
+}
+
+// odpowiedź zapisana tekstem w data-pola → obiekt, którego oczekuje sprawdzPole
+function odpZTekstu(p) {
+  const s = String(p.odp);
+  switch (p.typ) {
+    case "liczba": return wyrazenie(s);
+    case "liczby": return s.trim() === "" ? [] : s.split(";").map(wyrazenie);
+    case "punkt": return punkt(s);
+    case "punkty": return s.trim() === "" ? [] : s.split(";").map(punkt);
+    case "okrag": return okrag(s);
+    case "uklad": return s === "sprz" || s === "nieozn" ? s : punkt(s);
+    case "wyr": return { w: wyr(s), forma: p.forma || "rozw", ...(p.czynnik ? { czynnik: wyr(p.czynnik), dowolnyZnak: !!p.dowolnyZnak } : {}) };
+    case "zbior": return zbiorZTekstu(s);
+    case "wybor": return Number(p.odp);
+    default: return p.odp;
+  }
+}
+
+let licznikPol = 0;
+function poleHTML(p, i, klasa) {
+  const id = `${klasa}${++licznikPol}`;
+  if (p.typ === "wybor")
+    return `<span class="${klasa}-e">${p.e || ""}</span><span class="opcje" role="radiogroup" data-i="${i}">${p.opcje.map((o, j) =>
+      `<label><input type="radio" name="${id}" value="${j}"> ${o}</label>`).join("")}</span>`;
+  return `<label class="${klasa}-e" for="${id}">${p.e || ""}</label><input id="${id}" data-i="${i}" autocomplete="off" spellcheck="false" placeholder="${p.ph || PODPOWIEDZI[p.typ] || ""}">`;
+}
+// sprawdza wszystkie pola w kontenerze; zwraca {wyn:[true|false|null], uwagi:[]}
+function ocenPola(kont, pola, odp) {
+  const uwagi = [];
+  const wyn = pola.map((p, i) => {
+    if (p.typ === "wybor") {
+      const z = kont.querySelector(`.opcje[data-i="${i}"] input:checked`);
+      return z ? sprawdzPole("wybor", z.value, odp[i]) : null;
+    }
+    const inp = kont.querySelector(`input[data-i="${i}"]`);
+    const { w, uwaga } = ocenPole(p.typ, inp.value, odp[i]);
+    if (uwaga) uwagi.push(uwaga);
+    inp.classList.toggle("zle", w === false); inp.classList.toggle("dobre", w === true);
+    return w;
+  });
+  return { wyn, uwagi };
+}
+const brakFormatu = (pola, wyn) => (pola.length > 1 ? "Uzupełnij wszystkie pola" : "Wpisz odpowiedź") + " w podanym formacie (" +
+  [...new Set(pola.filter((p, i) => wyn[i] === null).map((p) => (p.typ === "wybor" ? "zaznacz odpowiedź" : p.ph || PODPOWIEDZI[p.typ] || "")))].join("; ") + ").";
+
+/* ---------- pola odpowiedzi przy „Zadaniach z rozwiązaniami” ----------
+   <li data-pola='[{"e":"a)","typ":"wyr","odp":"x^2+6x+8"}, …]'> treść … <details>rozwiązanie</details></li> */
+function polaWZadaniach(root = document) {
+  const lista = [...root.querySelectorAll("li[data-pola]")];
+  if (!lista.length) return;
+  const KLUCZ = "mt-zp:" + location.pathname.split("/").pop();
+  let zap = {};
+  try { zap = JSON.parse(localStorage.getItem(KLUCZ)) || {}; } catch (e) { /* bez zapisu */ }
+  const zapisz = () => { try { localStorage.setItem(KLUCZ, JSON.stringify(zap)); } catch (e) { /* bez zapisu */ } };
+  const listy = new Set();
+  lista.forEach((li, nr) => {
+    const id = (li.closest("section") || {}).id + "-" + nr;
+    let pola;
+    try { pola = JSON.parse(li.dataset.pola); } catch (e) { console.warn("data-pola", li, e); return; }
+    let odp;
+    try { odp = pola.map(odpZTekstu); } catch (e) { console.warn("odpowiedź", li, e); return; }
+    const box = document.createElement("div");
+    box.className = "zp";
+    box.innerHTML = `<div class="zp-pola">${pola.map((p, i) => poleHTML(p, i, "zp")).join("")}</div>
+      <div class="zp-dol"><button type="button" class="btn zp-sprawdz">Sprawdź</button><span class="zp-ocena" aria-live="polite"></span></div>`;
+    const det = li.querySelector(":scope > details");
+    li.insertBefore(box, det);
+    const ocena = box.querySelector(".zp-ocena");
+    const oznacz = () => li.classList.add("zp-ok");
+    if (zap[id]) { oznacz(); ocena.textContent = "✓ Rozwiązane wcześniej."; ocena.className = "zp-ocena dobrze"; }
+    const sprawdz = () => {
+      const { wyn, uwagi } = ocenPola(box, pola, odp);
+      if (wyn.some((w) => w === null)) { ocena.className = "zp-ocena zle"; ocena.textContent = brakFormatu(pola, wyn); return; }
+      if (wyn.every(Boolean)) {
+        ocena.className = "zp-ocena dobrze"; ocena.textContent = "✓ Dobrze! " + wybierz(["Świetnie.", "Brawo.", "Tak trzymaj."]);
+        if (!zap[id]) { zap[id] = 1; zapisz(); }
+        oznacz(); licz();
+      } else {
+        ocena.className = "zp-ocena zle";
+        ocena.textContent = (pola.length > 1 ? `Poprawnie: ${wyn.filter(Boolean).length} z ${wyn.length}. ` : "Jeszcze nie. ") + "Sprawdź obliczenia albo rozwiń rozwiązanie.";
+        if (uwagi.length) { ocena.innerHTML = esc(ocena.textContent) + " " + uwagi.join(" "); }
+      }
+      renderTeX(ocena);
+    };
+    box.querySelector(".zp-sprawdz").addEventListener("click", sprawdz);
+    box.addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target.tagName === "INPUT" && e.target.type !== "radio") sprawdz(); });
+    renderTeX(box);
+    listy.add(li.parentElement);
+  });
+  const liczniki = [...listy].map((ol) => {
+    const p = document.createElement("p");
+    p.className = "tip zp-licznik";
+    ol.parentElement.insertBefore(p, ol);
+    return [ol, p];
+  });
+  function licz() {
+    liczniki.forEach(([ol, p]) => {
+      const w = ol.querySelectorAll(":scope > li[data-pola]"), ok = ol.querySelectorAll(":scope > li[data-pola].zp-ok");
+      p.innerHTML = `Wpisz wynik i kliknij <strong>Sprawdź</strong>. Rozwiązane: <strong>${ok.length} z ${w.length}</strong>` +
+        (ok.length ? ` · <button type="button" class="link zp-zeruj">wyczyść postęp</button>` : "");
+      const b = p.querySelector(".zp-zeruj");
+      if (b) b.addEventListener("click", () => {
+        w.forEach((li) => { li.classList.remove("zp-ok"); const o = li.querySelector(".zp-ocena"); o.textContent = ""; o.className = "zp-ocena"; });
+        Object.keys(zap).forEach((k) => delete zap[k]); zapisz(); licz();
+      });
+    });
+  }
+  licz();
+}
+
+/* ---------- zadanie prowadzone krok po kroku ----------
+   gen: {klucz: {nazwa, f() → {tresc, kroki:[{pyt, pola:[{e, typ, opcje, ph}], odp:[…], podp, wyj}], koniec, rys?}}} */
+function prowadzone(el, gen) {
+  const klucze = Object.keys(gen);
+  el.innerHTML = `<div class="gen-controls"><label>Zadanie: <select class="pk-typ">
+      ${klucze.map((k) => `<option value="${k}">${gen[k].nazwa}</option>`).join("")}</select></label>
+      <button type="button" class="btn pk-nowe">Nowe zadanie</button></div>
+    <div class="pk-tresc" aria-live="polite"></div><ol class="pk-kroki"></ol><div class="pk-koniec" hidden></div>
+    <p class="tip pk-licznik"></p>`;
+  const sel = $(".pk-typ", el), tresc = $(".pk-tresc", el), lista = $(".pk-kroki", el), koniec = $(".pk-koniec", el);
+  let z = null, akt = 0, samodz = 0, wszystkie = 0, zadan = 0;
+  function nowe(fokus) {
+    z = gen[sel.value].f(); akt = 0;
+    tresc.innerHTML = `<div>${z.tresc}</div>` + (z.rysZad && typeof ukladSVG === "function" ? `<div class="uklad">${ukladSVG(z.rysZad)}</div>` : "");
+    lista.innerHTML = z.kroki.map((k, i) => `<li class="pk-krok" data-k="${i}">
+        <p class="pk-pyt"><strong>Krok ${i + 1}.</strong> <span class="pk-pyt-t">${k.pyt}</span><span class="pk-zablok">odblokuje się po kroku ${i}</span></p>
+        <div class="pk-pola">${k.pola.map((p, j) => poleHTML(p, j, "pk")).join("")}</div>
+        <div class="pk-przyc"><button type="button" class="btn pk-sprawdz">Sprawdź</button>
+          ${k.podp ? `<button type="button" class="btn sec pk-podp">Podpowiedź</button>` : ""}
+          <button type="button" class="btn sec pk-pokaz">Pokaż ten krok</button></div>
+        <p class="pk-ocena" aria-live="polite"></p><div class="pk-hint" hidden>${k.podp || ""}</div><div class="pk-wyj" hidden>${k.wyj || ""}</div></li>`).join("");
+    koniec.hidden = true; koniec.innerHTML = "";
+    [...lista.children].forEach((li, i) => li.classList.toggle("zablok", i > 0));
+    renderTeX(tresc); renderTeX(lista);
+    if (fokus) fokusuj(0);
+  }
+  function fokusuj(i) { const inp = lista.children[i] && lista.children[i].querySelector("input:not([type=radio])"); if (inp) inp.focus({ preventScroll: true }); }
+  function zalicz(i, sam) {
+    const li = lista.children[i];
+    li.classList.add(sam ? "zrobiony" : "pokazany");
+    li.querySelectorAll("input").forEach((x) => (x.disabled = true));
+    li.querySelectorAll(".pk-przyc button").forEach((b) => (b.disabled = true));
+    li.querySelector(".pk-wyj").hidden = false;
+    wszystkie++; if (sam) samodz++;
+    akt = i + 1;
+    if (akt < z.kroki.length) { lista.children[akt].classList.remove("zablok"); fokusuj(akt); }
+    else {
+      zadan++;
+      koniec.hidden = false;
+      koniec.innerHTML = `<p class="werdykt">${z.koniec || "Gotowe!"}</p>` + (z.rys && typeof ukladSVG === "function" ? `<div class="uklad">${ukladSVG(z.rys)}</div>` : "") +
+        `<p><button type="button" class="btn pk-dalej">Następne zadanie</button></p>`;
+      renderTeX(koniec);
+      koniec.querySelector(".pk-dalej").addEventListener("click", () => { nowe(true); tresc.scrollIntoView({ block: "nearest" }); });
+    }
+    $(".pk-licznik", el).textContent = `Ukończone zadania: ${zadan} · kroki zrobione samodzielnie: ${samodz} z ${wszystkie}`;
+  }
+  lista.addEventListener("click", (e) => {
+    const li = e.target.closest(".pk-krok"); if (!li || !z) return;
+    const i = +li.dataset.k, k = z.kroki[i], ocena = li.querySelector(".pk-ocena");
+    if (e.target.classList.contains("pk-sprawdz")) {
+      const { wyn, uwagi } = ocenPola(li, k.pola, k.odp);
+      if (wyn.some((w) => w === null)) { ocena.className = "pk-ocena zle"; ocena.textContent = brakFormatu(k.pola, wyn); return; }
+      if (wyn.every(Boolean)) { ocena.className = "pk-ocena dobrze"; ocena.textContent = "✓ Dobrze."; zalicz(i, !li.classList.contains("z-podp")); }
+      else {
+        ocena.className = "pk-ocena zle";
+        ocena.textContent = k.pola.length > 1 ? `Poprawnie: ${wyn.filter(Boolean).length} z ${wyn.length}. Spróbuj jeszcze raz albo weź podpowiedź.` : "Jeszcze nie. Spróbuj jeszcze raz albo weź podpowiedź.";
+        if (uwagi.length) ocena.innerHTML = esc(ocena.textContent) + " " + uwagi.join(" ");
+        renderTeX(ocena);
+      }
+    } else if (e.target.classList.contains("pk-podp")) {
+      li.querySelector(".pk-hint").hidden = false; li.classList.add("z-podp"); e.target.disabled = true;
+    } else if (e.target.classList.contains("pk-pokaz")) {
+      ocena.className = "pk-ocena"; ocena.textContent = "Pokazano rozwiązanie tego kroku — przeanalizuj je i przejdź dalej.";
+      zalicz(i, false);
+    }
+  });
+  lista.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && e.target.tagName === "INPUT" && e.target.type !== "radio") { const b = e.target.closest(".pk-krok").querySelector(".pk-sprawdz"); if (!b.disabled) b.click(); }
+  });
+  $(".pk-nowe", el).addEventListener("click", () => nowe(true));
+  sel.addEventListener("change", () => nowe(true));
+  nowe();
+}
+
 /* ===== strona ===== */
 rysujStatyczne();
 checklista("4t-okrag1-checklist");
@@ -1167,6 +1702,8 @@ plansza($("#narzedzie-okrag"), {
   odswiez();
 })();
 trening($("#trening-tr"), genZ("okrOdczyt", "okrZapis", "okrPunkt", "okrSrednica", "okrStyczny"));
+prowadzone($("#prowadzone-pk"), pkZ("pkOkrOdczyt", "pkOkrPunkt", "pkOkrSred"));
+polaWZadaniach();
 
 </script>
 </body>

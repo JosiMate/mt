@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Matematyka 1A: działania na przedziałach — suma, iloczyn, różnica i dopełnienie, grupy A i B z odpowiedziami na osi liczbowej.">
-<title>Przedziały — grupy A i B</title>
+<meta name="description" content="Matematyka 1A: działania na przedziałach — suma, iloczyn, różnica i dopełnienie, grupy A, B, C i D z odpowiedziami na osi liczbowej.">
+<title>Przedziały — grupy A, B, C i D</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap">
 <style>
@@ -86,9 +86,14 @@ button:focus-visible{outline:3px solid var(--akcent);outline-offset:2px}
   <div class="pasek">
     <h1>Działania na przedziałach<small>Wyznacz: A ∪ B, A ∩ B, A \ B, B \ A, A′, B′</small></h1>
     <div class="segment" role="group" aria-label="Która grupa">
-      <button type="button" id="pokaz-obie" data-widok="obie" aria-pressed="true">Obie grupy</button>
-      <button type="button" id="pokaz-a" data-widok="A" aria-pressed="false">Grupa A</button>
-      <button type="button" id="pokaz-b" data-widok="B" aria-pressed="false">Grupa B</button>
+      <button type="button" id="pokaz-ab" data-widok="AB" aria-pressed="true">Grupy A i B</button>
+      <button type="button" id="pokaz-cd" data-widok="CD" aria-pressed="false">Grupy C i D</button>
+    </div>
+    <div class="segment" role="group" aria-label="Jedna grupa na cały ekran">
+      <button type="button" id="pokaz-a" data-widok="A" aria-pressed="false">A</button>
+      <button type="button" id="pokaz-b" data-widok="B" aria-pressed="false">B</button>
+      <button type="button" id="pokaz-c" data-widok="C" aria-pressed="false">C</button>
+      <button type="button" id="pokaz-d" data-widok="D" aria-pressed="false">D</button>
     </div>
     <button type="button" class="przel" id="przel-os" aria-pressed="false">Oś liczbowa</button>
     <button type="button" class="przel" id="przel-odp" aria-pressed="false">Pokaż wszystkie odpowiedzi</button>
@@ -142,6 +147,24 @@ const GRUPY = [
       "B \\ A": [[-6, -3, true, true]],
       "A′": [[-I, -3, false, true]],
       "B′": [[-I, -6, false, false], [1, I, true, false]],
+    } },
+  { nazwa: "C", A: [[-I, 4, false, true]], B: [[-3, 8, true, false]], od: -5, do: 10,
+    odp: {
+      "A ∪ B": [[-I, 8, false, false]],
+      "A ∩ B": [[-3, 4, true, true]],
+      "A \\ B": [[-I, -3, false, false]],
+      "B \\ A": [[4, 8, false, false]],
+      "A′": [[4, I, false, false]],
+      "B′": [[-I, -3, false, false], [8, I, true, false]],
+    } },
+  { nazwa: "D", A: [[-I, -1, false, false]], B: [[-5, 3, false, true]], od: -7, do: 5,
+    odp: {
+      "A ∪ B": [[-I, 3, false, true]],
+      "A ∩ B": [[-5, -1, false, false]],
+      "A \\ B": [[-I, -5, false, true]],
+      "B \\ A": [[-1, 3, true, true]],
+      "A′": [[-1, I, true, false]],
+      "B′": [[-I, -5, false, true], [3, I, false, false]],
     } },
 ];
 const KOLEJNOSC = ["A ∪ B", "A ∩ B", "A \\ B", "B \\ A", "A′", "B′"];
@@ -222,10 +245,11 @@ przelOs.addEventListener("click", () => {
 document.querySelectorAll("[data-widok]").forEach((b) => b.addEventListener("click", () => {
   const w = b.dataset.widok;
   document.querySelectorAll("[data-widok]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-  document.querySelectorAll(".karta").forEach((k) => { k.hidden = w !== "obie" && k.dataset.grupa !== w; });
-  host.classList.toggle("jedna", w !== "obie");
+  document.querySelectorAll(".karta").forEach((k) => { k.hidden = !w.includes(k.dataset.grupa); });
+  host.classList.toggle("jedna", w.length === 1);
   odswiezPrzelacznik();
 }));
+document.querySelectorAll(".karta").forEach((k) => { k.hidden = !"AB".includes(k.dataset.grupa); });
 </script>
 </body>
 </html>
